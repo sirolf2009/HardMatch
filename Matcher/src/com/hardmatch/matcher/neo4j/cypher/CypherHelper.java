@@ -68,17 +68,25 @@ public abstract class CypherHelper {
 			}
 		}
 
+		return GetNodesFromResult(result);
+	}
+	
+	public static List<Node> GetAllNodes(ExecutionEngine engine) {
+		return GetNodesFromResult(Cypher(engine, "MATCH(result) return result"));
+	}
+
+	public static ExecutionResult Cypher(ExecutionEngine engine, String cypher) {
+		log.log(Level.INFO, "Sending Cypher: "+cypher);
+		return engine.execute(cypher);
+	}
+	
+	public static List<Node> GetNodesFromResult(ExecutionResult result) {
 		List<Node> nodes = new ArrayList<Node>();
 		Iterator<Node> columnResult = result.columnAs("result");
 		for (Node node : IteratorUtil.asIterable(columnResult)) {
 			nodes.add(node);
 		}
 		return nodes;
-	}
-
-	public static ExecutionResult Cypher(ExecutionEngine engine, String cypher) {
-		log.log(Level.INFO, "Sending Cypher: "+cypher);
-		return engine.execute(cypher);
 	}
 
 }

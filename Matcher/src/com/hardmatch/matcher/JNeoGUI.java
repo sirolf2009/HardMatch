@@ -12,32 +12,38 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 
+import com.hardmatch.matcher.neo4j.cypher.CypherHelper;
 import com.hardmatch.matcher.neo4j.label.LabelSimple;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JTextPane;
 
 public class JNeoGUI {
 
 	public JFrame frame;
 	private JTextField textField;
-	private GraphDatabaseService graphDb;
+	private GraphDatabaseService graph;
 	private JEditorPane editorPane;
 	private JTextArea textArea;
+	private JTextField textField_1;
+	private ExecutionEngine engine;
 
 	/**
 	 * Create the application.
-	 * @param graphDb 
+	 * @param graph 
 	 */
-	public JNeoGUI(GraphDatabaseService graphDb) {
-		this.graphDb = graphDb;
+	public JNeoGUI(GraphDatabaseService graph) {
+		this.graph = graph;
+		engine = new ExecutionEngine(graph);
 		initialize();
 	}
 
@@ -50,22 +56,30 @@ public class JNeoGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
+			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		frame.addWindowListener(new CloseDatabase());
 
 		JLabel lblCreateNewNode = new JLabel("Create new node");
@@ -98,15 +112,30 @@ public class JNeoGUI {
 		JButton btnCreate = new JButton("Create!");
 		btnCreate.addActionListener(new AppendNode());
 		frame.getContentPane().add(btnCreate, "2, 8");
+		
+		JLabel lblSendCypher = new JLabel("Send Cypher");
+		frame.getContentPane().add(lblSendCypher, "2, 12");
+		
+		textField_1 = new JTextField();
+		frame.getContentPane().add(textField_1, "2, 14, fill, default");
+		textField_1.setColumns(10);
+		
+		JButton btnSend = new JButton("Send");
+		btnSend.addActionListener(new SendCypher());
+		frame.getContentPane().add(btnSend, "4, 14");
+		
+		JTextPane textPane = new JTextPane();
+		frame.getContentPane().add(textPane, "2, 16, fill, fill");
 	}
 
 	class ReparseDatabase implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Transaction trans = graphDb.beginTx();
+			Transaction trans = graph.beginTx();
 			editorPane.setText("");
-			for(Node node : graphDb.getAllNodes()) {
+			ExecutionEngine engine = new ExecutionEngine(graph);
+			for(Node node : CypherHelper.GetAllNodes(engine)) {
 				editorPane.setText(editorPane.getText()+"Node ID: "+node.getId()+"\n");
 				for(Label label : node.getLabels()) {
 					editorPane.setText(editorPane.getText()+"Label: "+label.name()+"\n");
@@ -130,8 +159,8 @@ public class JNeoGUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String name = textField.getText();
-			try(Transaction trans = graphDb.beginTx()) {
-				Node node = graphDb.createNode(new LabelSimple(name));
+			try(Transaction trans = graph.beginTx()) {
+				Node node = graph.createNode(new LabelSimple(name));
 				for(String line : textArea.getText().split("\n")) {
 					if(line.isEmpty()) {
 						continue;
@@ -164,7 +193,7 @@ public class JNeoGUI {
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				@Override
 				public void run() {
-					graphDb.shutdown();
+					graph.shutdown();
 				}
 			});
 		}
@@ -185,6 +214,16 @@ public class JNeoGUI {
 		public void windowOpened(WindowEvent e) {
 		}
 
+	}
+	
+	class SendCypher implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cypher = textField_1.getText();
+			CypherHelper.Cypher(engine, cypher);
+		}
+		
 	}
 
 }
