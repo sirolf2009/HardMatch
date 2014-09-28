@@ -4,7 +4,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 
-import com.hardmatch.matcher.neo4j.relation.RelationType;
+import com.hardmatch.neo4j.relation.RelationType;
 
 public class Util {
 

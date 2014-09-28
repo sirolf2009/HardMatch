@@ -1,4 +1,4 @@
-package com.hardmatch.matcher.neo4j.relation;
+package com.hardmatch.neo4j.relation;
 
 import org.neo4j.graphdb.RelationshipType;
 

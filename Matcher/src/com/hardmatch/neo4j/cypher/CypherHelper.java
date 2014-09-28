@@ -1,4 +1,4 @@
-package com.hardmatch.matcher.neo4j.cypher;
+package com.hardmatch.neo4j.cypher;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -77,7 +77,9 @@ public abstract class CypherHelper {
 
 	public static ExecutionResult Cypher(ExecutionEngine engine, String cypher) {
 		log.log(Level.INFO, "Sending Cypher: "+cypher);
-		return engine.execute(cypher);
+		ExecutionResult result = engine.execute(cypher);
+		//TODO send result.getQueryStatistics() to analyzer
+		return result;
 	}
 	
 	public static List<Node> GetNodesFromResult(ExecutionResult result) {

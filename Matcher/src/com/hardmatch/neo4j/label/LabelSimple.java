@@ -1,4 +1,4 @@
-package com.hardmatch.matcher.neo4j.label;
+package com.hardmatch.neo4j.label;
 
 import org.neo4j.graphdb.Label;
 

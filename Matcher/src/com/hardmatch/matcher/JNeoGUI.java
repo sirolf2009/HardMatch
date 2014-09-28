@@ -19,12 +19,13 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 
-import com.hardmatch.matcher.neo4j.cypher.CypherHelper;
-import com.hardmatch.matcher.neo4j.label.LabelSimple;
+import com.hardmatch.neo4j.cypher.CypherHelper;
+import com.hardmatch.neo4j.label.LabelSimple;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
 import javax.swing.JTextPane;
 
 public class JNeoGUI {

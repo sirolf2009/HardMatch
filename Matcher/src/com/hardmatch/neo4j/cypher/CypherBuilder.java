@@ -1,4 +1,4 @@
-package com.hardmatch.matcher.neo4j.cypher;
+package com.hardmatch.neo4j.cypher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,11 +48,11 @@ public class CypherBuilder {
 		private String relatedTo;
 		private String relatedType;
 		private int relatedDirection;
-		private Map<String, String> props;
+		private Map<String, Object> props;
 		private CypherBuilder builder;
 
 		public Match(CypherBuilder builder) {
-			props = new HashMap<String, String>();
+			props = new HashMap<String, Object>();
 			varName = "";
 			relatedTo = "";
 			relatedType = "";
@@ -65,7 +65,8 @@ public class CypherBuilder {
 			for(String key : props.keySet()) {
 				propsString+=firstRun?"":" ,";
 				firstRun = false;
-				propsString+=key+":"+props.get(key);
+				String value = props.get(key) instanceof String ? "\""+props.get(key).toString()+"\"" : props.get(key).toString();
+				propsString+=key+":"+value;
 			}
 
 			return "MATCH ("+(varName.isEmpty()?"":(varName+":"))+label+" {"+propsString+"})"+relations()+"\n";
@@ -87,14 +88,14 @@ public class CypherBuilder {
 				if(relatedDirection == 2) {
 					relations+="-";
 				} else if(relatedDirection == 1) {
-					relations+=">";
+					relations+="->";
 				}
 				relations+="("+relatedTo+")";
 			}
 			return relations;
 		}
 
-		public Match byProperty(String key, String value) {
+		public Match byProperty(String key, Object value) {
 			props.put(key, value);
 			return this;
 		}
