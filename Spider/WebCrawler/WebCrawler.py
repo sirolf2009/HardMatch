@@ -1,6 +1,7 @@
 #WebCrawler Prototype
 #Rene van der Horst
 
+#Language: English
 #Indentation: 4 spaces
 #Variable naming: skeleton case
 
