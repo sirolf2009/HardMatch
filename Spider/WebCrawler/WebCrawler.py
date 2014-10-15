@@ -1,7 +1,7 @@
 #WebCrawler Prototype
 
 __author__ = "Rene van der Horst, Basit Hussain"
-__copyright__ = "Copyright 2007, The Cogent Project"
+__copyright__ = "Copyright 2014, HardMatch Project"
 __license__ = "GPL"
 __version__ = "0.1"
 __status__ = "Development"
@@ -12,7 +12,6 @@ __status__ = "Development"
 #This program picks up data from alternate.nl
 
 # 1. 2 websites
-# 2. Strings parsen
 # 3. py2neo importeren
 
 import requests
@@ -25,25 +24,32 @@ alternate_source_code = requests.get(alternate_url)
 alternate_plain_text = alternate_source_code.text
 alternate_soup = BeautifulSoup(alternate_plain_text)
 
-for processor in alternate_soup.findAll('a', {'class': 'h1x1'}):
-    processor_manufacturer = processor.find_next('span', {'class': 'manufacturerName'})
-    processor_name = processor.find_next('span', {'class': 'name'})
-    processor_price = processor.find_next('span', {'class': 'price'})
 
-    print(processor_manufacturer.text)
-    print(processor_name.text)
-    print(processor_price.text)
-    print("")
+def get_processor_links():
+    link_list = []
+    for processor in alternate_soup.findAll('a', {'class': 'h1x1'}):
+        link = processor.get('href')
+        full_link = 'https://www.alternate.nl' + link
+        link_list.append(full_link)
+    return link_list
 
-#mediamarkt.nl
-mediamarkt_graphicscards_url = 'http://www.mediamarkt.nl/mcs/productlist/Videokaarten,10259,482720.html?langId=-11'
-mediamarkt_graphicscards_source_code = requests.get(mediamarkt_graphicscards_url)
 
-mediamarkt_graphicscards_plain_text = mediamarkt_graphicscards_source_code.text
-mediamarkt_soup = BeautifulSoup(mediamarkt_graphicscards_plain_text)
+def get_processor_data(link_list):
+    number = 0
+    for link_url in link_list:
+        url_source_code = requests.get(link_url)
+        url_plain_text = url_source_code.text
+        url_soup = BeautifulSoup(url_plain_text)
 
-for link2 in mediamarkt_soup.findAll('div', {'class': 'product-wrapper'}):
-    href2 = link2.get('href')
-    href2 = str(href2)
-    print('href2:' + href2)
+        processor_brand = url_soup.find_all('span', {'itemprop': 'brand'})
+        processor_name = url_soup.find_all('meta', {'itemprop': 'name'})
+        processor_price = url_soup.find_all('span', {'itemprop': 'price'})
+        print('Item number: ' + str(number))
+        print(processor_brand[0].text)
+        print(processor_name[0].get('content'))
+        print(processor_price[0].text)
+        number += 1
 
+
+one = get_processor_links()
+get_processor_data(one)
