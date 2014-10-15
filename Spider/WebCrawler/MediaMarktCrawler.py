@@ -26,9 +26,6 @@ def detailSpider(detailadress):
     source_code = requests.get(detailadress)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
-    prijs_string = ''
-    first_digit = soup.find('span',{'class','p-3'})
-
     naam_raw = soup.find('h1',{'itemprop':'name'})
     artnmr_raw = soup.find('dd',{'itemprop':'sku'})
     naam_clean = naam_raw.string
@@ -38,6 +35,14 @@ def detailSpider(detailadress):
     Videokaart.setartnnmr(v,artnmr_clean)
     Videokaart.displayvideokaart(v)
 
+def prijs_parser(detailadress):
+    source_code = requests.get(detailadress)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    prijs_string = ''
+    first_digit = soup.find('span',{'class':'p-5'})
+    '''test = first_digit.text'''
+    print(first_digit)
 
 
 class Videokaart():
@@ -55,3 +60,4 @@ class Videokaart():
         self.artikelnummer = artnmr
 
 mediaMarkt_spider()
+prijs_parser('http://www.mediamarkt.nl/mcs/product/PNY-GeForce-GT610-1GB-Videokaart,10259,482720,521033.html?langId=-11')
