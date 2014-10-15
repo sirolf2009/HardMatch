@@ -1,0 +1,51 @@
+[
+  {
+  "name":"Intel Core i7-4790K Boxed",
+  "filename":"Intel-Core-i7-4790K-Boxed",
+  "category":"processor",
+  "price":"€294,90",
+  "description":"Socket 1150 CPU van 4GHz",
+  "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."
+  },
+  {
+  "name":"Intel Core i5-4590 Boxed",
+  "filename":"Intel-Core-i5-4590-Boxed",
+  "category":"processor",
+  "price":"€169,89",
+  "description":"Socket 1150 CPU van 3,3GHz",
+  "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."  
+  },
+  {
+  "name":"AMD FX-8350 Black Edition",
+  "filename":"AMD-FX-8350-Black-Edition",
+  "category":"processor",
+  "price":"€152,45",
+  "description":"Socket AM3+ CPU van 4GHz",
+  "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."
+  },
+  {
+  "name":"MSI GeForce GTX 970 GAMING 4G",
+  "filename":"MSI-GeForce-GTX-970-GAMING-4G",
+  "category":"videokaart",
+  "price":"€342,00",
+  "description":"GeForce GTX 970 op 1,14GHz met 4GB GDDR5",
+  "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."
+  },
+  {
+  "name":"EVGA GeForce GTX 980 4GB",
+  "filename":"EVGA-GeForce-GTX-980-4GB",
+  "category":"videokaart",
+  "price":"€532,32",
+  "description":"GeForce GTX 980 op 1,126GHz met 4GB GDDR5",
+  "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."
+  },
+  {
+  "name":"Asus STRIX-GTX970-DC2OC-4GD5",
+  "filename":"Asus-STRIX-GTX970-DC2OC-4GD5",
+  "category":"videokaart",
+  "price":"€379,95",
+  "description":"GeForce GTX 970 op 1,114GHz met 4GB GDDR5",
+  "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."
+  }
+]
+
