@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -19,8 +20,8 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 
-import com.hardmatch.neo4j.cypher.CypherHelper;
-import com.hardmatch.neo4j.label.LabelSimple;
+import com.sirolf2009.util.neo4j.cypher.CypherHelper;
+import com.sirolf2009.util.neo4j.label.LabelSimple;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -64,7 +65,7 @@ public class JNeoGUI {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
+				new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -113,18 +114,18 @@ public class JNeoGUI {
 		JButton btnCreate = new JButton("Create!");
 		btnCreate.addActionListener(new AppendNode());
 		frame.getContentPane().add(btnCreate, "2, 8");
-		
+
 		JLabel lblSendCypher = new JLabel("Send Cypher");
 		frame.getContentPane().add(lblSendCypher, "2, 12");
-		
+
 		textField_1 = new JTextField();
 		frame.getContentPane().add(textField_1, "2, 14, fill, default");
 		textField_1.setColumns(10);
-		
+
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(new SendCypher());
 		frame.getContentPane().add(btnSend, "4, 14");
-		
+
 		JTextPane textPane = new JTextPane();
 		frame.getContentPane().add(textPane, "2, 16, fill, fill");
 	}
@@ -136,19 +137,21 @@ public class JNeoGUI {
 			Transaction trans = graph.beginTx();
 			editorPane.setText("");
 			ExecutionEngine engine = new ExecutionEngine(graph);
-			for(Node node : CypherHelper.GetAllNodes(engine)) {
-				editorPane.setText(editorPane.getText()+"Node ID: "+node.getId()+"\n");
-				for(Label label : node.getLabels()) {
-					editorPane.setText(editorPane.getText()+"Label: "+label.name()+"\n");
+			for(List<Node> nodeColumn : CypherHelper.GetAllNodes(engine)) {
+				for(Node node : nodeColumn) {
+					editorPane.setText(editorPane.getText()+"Node ID: "+node.getId()+"\n");
+					for(Label label : node.getLabels()) {
+						editorPane.setText(editorPane.getText()+"Label: "+label.name()+"\n");
+					}
+					for(String key: node.getPropertyKeys()) {
+						editorPane.setText(editorPane.getText()+"Property("+key+"): "+node.getProperty(key)+"\n");
+					}
+					for(Relationship relation : node.getRelationships()) {
+						editorPane.setText(editorPane.getText()+"Relation: "+relation.getId()+"\n");
+						editorPane.setText(editorPane.getText()+"Relation Type: "+relation.getType()+"\n");
+					}
+					editorPane.setText(editorPane.getText()+"\n");
 				}
-				for(String key: node.getPropertyKeys()) {
-					editorPane.setText(editorPane.getText()+"Property("+key+"): "+node.getProperty(key)+"\n");
-				}
-				for(Relationship relation : node.getRelationships()) {
-					editorPane.setText(editorPane.getText()+"Relation: "+relation.getId()+"\n");
-					editorPane.setText(editorPane.getText()+"Relation Type: "+relation.getType()+"\n");
-				}
-				editorPane.setText(editorPane.getText()+"\n");
 			}
 			trans.close();
 		}
@@ -216,7 +219,7 @@ public class JNeoGUI {
 		}
 
 	}
-	
+
 	class SendCypher implements ActionListener {
 
 		@Override
@@ -224,7 +227,7 @@ public class JNeoGUI {
 			String cypher = textField_1.getText();
 			CypherHelper.Cypher(engine, cypher);
 		}
-		
+
 	}
 
 }

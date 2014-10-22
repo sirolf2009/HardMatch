@@ -12,8 +12,7 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 import com.hardmatch.matcher.component.Component;
 import com.hardmatch.matcher.component.ComponentMotherboard;
-import com.hardmatch.neo4j.cypher.CypherBuilder;
-import com.hardmatch.neo4j.cypher.CypherHelper;
+import com.sirolf2009.util.neo4j.cypher.CypherHelper;
 
 public class Matcher {
 	
@@ -34,14 +33,6 @@ public class Matcher {
     }
     
     public void getCheapestStoreForComponent(Component componentToBuy) {
-    	/*
-+-----------------------------------------------------------------------------------+
-| component                       | price              | store                      |
-+-----------------------------------------------------------------------------------+
-| Node[1]{name:"MSI motherboard"} | Node[2]{value:500} | Node[3]{name:"mediamarkt"} |
-| Node[1]{name:"MSI motherboard"} | Node[4]{value:400} | Node[5]{name:"Saturn"}     |
-+-----------------------------------------------------------------------------------+
-    	 */
     	String cypher = "MATCH (component:Component {name:\"MSI motherboard\"})-[:SellsFor]->(price)-[:At]->(store) RETURN component, price, store ORDER BY price.value";
     	ExecutionResult result = CypherHelper.Cypher(engine, cypher);
     	Iterator<Map<String, Object>> itr = result.iterator();
