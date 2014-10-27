@@ -1,6 +1,9 @@
 __author__ = 'Cassandra'
 import requests
 from bs4 import BeautifulSoup
+from py2neo import neo4j, node, rel
+
+graph_db = neo4j.GraphDatabaseService("http://localhost:7474/db/data/")
 
 # Zoek naar links van detailpagina's en geef deze door aan de factory
 def mediaMarkt_spider():
@@ -15,13 +18,13 @@ def mediaMarkt_spider():
         if title is not None:
             if substring1 in title:
                 href = 'http://www.mediamarkt.nl' + tekst.get('href')
-                videokaartFactory(href)
+                videoKaartFactory(href)
             elif substring2 in title:
                 href = 'http://www.mediamarkt.nl' + tekst.get('href')
-                videokaartFactory(href)
+                videoKaartFactory(href)
 
 
-#Experimenteel,probeer de prijs te parsen
+# Experimenteel,probeer de prijs te parsen
 def prijs_parser(detailadress):
     source_code = requests.get(detailadress)
     plain_text = source_code.text
@@ -94,6 +97,28 @@ def videokaartFactory(detailadress):
     Videokaart.displayvideokaart(v)
 
 
+def videoKaartFactory(detailadress):
+    source_code = requests.get(detailadress)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    v = VideoKaart()
+
+    for omschrijving in soup.findAll('dt'):
+        key = omschrijving.string
+        if key is not None:
+            raw_value = omschrijving.findNextSibling('dd')
+            value = raw_value.string
+            VideoKaart.addGegeven(v, key, value)
+
+    naam_raw = soup.find('h1', {'itemprop': 'name'})
+    artnmr_raw = soup.find('dd', {'itemprop': 'sku'})
+    naam_clean = naam_raw.string
+    artnmr_clean = artnmr_raw.string
+    VideoKaart.addGegeven(v, 'Naam', naam_clean)
+    VideoKaart.addGegeven(v, 'Artikelnummer', artnmr_clean)
+    VideoKaart.printGegevens(v)
+
+
 class Videokaart():
     naam = ''
     artikelnummer = ''
@@ -154,6 +179,21 @@ class Videokaart():
 
     def setaansluitingen(self, aansluitingen):
         self.aansluitingen = aansluitingen
+
+
+class VideoKaart():
+    gegevens = {}
+
+    def addGegeven(self, key, value):
+        self.gegevens[key] = value
+
+    def printGegevens(self):
+        for x in self.gegevens:
+            print(x)
+            print(self.gegevens[x])
+
+    def saveVideoKaart(self):
+
 
 
 mediaMarkt_spider()
