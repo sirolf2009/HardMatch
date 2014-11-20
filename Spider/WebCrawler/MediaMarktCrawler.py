@@ -1,3 +1,5 @@
+
+
 __author__ = 'Cassandra'
 import requests
 from bs4 import BeautifulSoup
@@ -192,7 +194,7 @@ class VideoKaart():
             print(x)
             print(self.gegevens[x])
 
-    def saveVideoKaart(self):
+   # def saveVideoKaart(self):
 
 
 
