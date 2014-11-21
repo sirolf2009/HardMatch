@@ -16,15 +16,10 @@ from bs4 import BeautifulSoup
 from py2neo import neo4j, node, rel
 from eve import Eve
 
-app = Eve()
-app.run()
+#app = Eve()
+#app.run()
 
 neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
-db = neo4j_db.create(
-    node("Component", "CPU"),
-    node("Store"),
-    rel(0, "SOLD_AT", 1)
-)
 
 #alternate.nl
 alternate_url = 'https://www.alternate.nl/html/highlights/page.html?hgid=286&tgid=963&tk=7&lk=9463'
@@ -54,19 +49,15 @@ def get_processor_data(link_list):
         processor_name = url_soup.find_all('meta', {'itemprop': 'name'})
         processor_price = url_soup.find_all('span', {'itemprop': 'price'})
 
-        neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
-        db = neo4j_db.create(
-            node("Component", "CPU"),
-            node("Store"),
-            rel(0, "SOLD_AT", 1)
+        processor_name_string = str(processor_name)
+        processor_price_string = str(processor_price)
+        
+        neo4j_db.create(
+            node("Component", "CPU", {"name": processor_name_string}),
+            node("Store", {"name": "alternate.nl"}),
+            rel(0, "SOLD_AT", 1, {"price": processor_price_string})
         )
 
-        '''
-        print('Item number: ' + str(number))
-        print(processor_brand[0].text)
-        print(processor_name[0].get('content'))
-        print(processor_price[0].text)
-        '''
         number += 1
 
 one = get_processor_links()
