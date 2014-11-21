@@ -13,13 +13,11 @@ __status__ = "Development"
 
 import requests
 from bs4 import BeautifulSoup
-from py2neo import neo4j, node, rel
-from eve import Eve
-
-#app = Eve()
-#app.run()
+from py2neo import neo4j, node, rel, Node, Relationship
 
 neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
+store = Node(type='Store', Naam='alternate.nl')
+neo4j_db.create(store)
 
 #alternate.nl
 alternate_url = 'https://www.alternate.nl/html/highlights/page.html?hgid=286&tgid=963&tk=7&lk=9463'
@@ -48,12 +46,18 @@ def get_processor_data(link_list):
         processor_brand = url_soup.find_all('span', {'itemprop': 'brand'})
         processor_name = url_soup.find_all('meta', {'itemprop': 'name'})
         processor_price = url_soup.find_all('span', {'itemprop': 'price'})
+        processor_socket_type = url_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
 
-        processor_name_string = str(processor_name)
-        processor_price_string = str(processor_price)
-        
+        processor_name_string = processor_name[0].get('content')
+        processor_price_string = processor_price[0].text
+        processor_socket_type_string = processor_socket_type[0].get('content')
+
+        print(processor_name_string)
+        print(processor_price_string)
+        print(processor_socket_type_string)
+
         neo4j_db.create(
-            node("Component", "CPU", {"name": processor_name_string}),
+            node("Component", "CPU", {"name": processor_name_string}, {"Socket Type": processor_socket_type_string}),
             node("Store", {"name": "alternate.nl"}),
             rel(0, "SOLD_AT", 1, {"price": processor_price_string})
         )
@@ -62,3 +66,32 @@ def get_processor_data(link_list):
 
 one = get_processor_links()
 get_processor_data(one)
+
+
+class ComponentAndRelationship():
+
+    properties = {}  # Dictionary
+
+    def add_property(self, key, value):
+        self.properties[key] = value
+
+    def print_property(self):
+        for x in self.properties:
+            print(x)
+            print(self.properties[x])
+
+    def save_component(self):
+        component = Node(naam=self.properties['Naam'])
+        neo4j_db.pull()
+        for i in self.properties:
+            component.properties[i] = self.properties[i]
+        neo4j_db.create(component)
+
+        relationship = Relationship(self, 'SOLD_AT', store, price=self.properties['price'])
+        neo4j_db.create(relationship)
+
+    '''
+    def save_relationship(self, store):
+        relationship = Relationship(self, 'SOLD_AT', store, price=self.properties['price'])
+        neo4j_db.create(relationship)
+    '''
