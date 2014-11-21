@@ -2,103 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0250f8f4-83b3-4a71-927f-964e50ef1896" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/builder/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/batch/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/calendar/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/geoff/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/gremlin/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/neobox/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/ogm/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/spatial/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/spatial/scripts/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/legacy/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/packages/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/packages/urimagic/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/jsonstream/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/tart/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/__main__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/geoff/__main__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/neobox/__main__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/__main__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/builder/_html5lib.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/builder/_htmlparser.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/builder/_lxml.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/admin.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/legacy/batch.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/core.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/batch/core.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/core.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/core.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/neobox/core.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/legacy/core.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/create.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/dammit.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/delete.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/deprecated.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/diagnose.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/element.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/env.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/error.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/spatial/exceptions.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/general.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/calendar/gregorian.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/http.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/legacy/index.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/jsonencoder.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/jsonstream/jsonencoder.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/packages/urimagic/kvlist.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/lang.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/lang.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/spatial/scripts/load_data.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/geoff/loader.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/neo4j.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/network.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/numbers.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/spatial/plugin.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/batch/pull.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/batch/push.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/jsonstream/pyjsonstream.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/batch/read.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/request.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/packages/urimagic/rfc3986.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/packages/urimagic/rfc6570.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/schema.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/schema.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/server.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/statement.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/store.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/ogm/store.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/tart/tables.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/tardis.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/test_builder_registry.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/test_docs.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/test_html5lib.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/test_htmlparser.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/test_lxml.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/test_soup.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/tests/test_tree.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/bs4/testing.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/cypher/error/transaction.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/types.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/util.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/spatial/util.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/packages/urimagic/util.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/packages/httpstream/watch.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/batch/write.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/geoff/writer.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Spider/WebCrawler/lib/py2neo/ext/geoff/xmlutil.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Spider/WebCrawler/MediaMarktCrawler.py" afterPath="$PROJECT_DIR$/Spider/WebCrawler/MediaMarktCrawler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Spider/WebCrawler/WebCrawler.py" afterPath="$PROJECT_DIR$/Spider/WebCrawler/WebCrawler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -126,11 +29,9 @@
       <file leaf-file-name="MediaMarktCrawler.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Spider/WebCrawler/MediaMarktCrawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3502">
+            <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="3502">
               <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding>
-                <element signature="e#27#42#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -138,8 +39,8 @@
       <file leaf-file-name="WebCrawler.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Spider/WebCrawler/WebCrawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19474836" vertical-offset="234" max-vertical-offset="1343">
-              <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.47921225" vertical-offset="682" max-vertical-offset="1190">
+              <caret line="53" column="8" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
               <folding>
                 <element signature="e#280#295#0" expanded="true" />
               </folding>
@@ -197,7 +98,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -348,6 +248,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -569,11 +470,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -600,11 +501,27 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Spider/WebCrawler/MediaMarktCrawler.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="3502">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Spider/WebCrawler/WebCrawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="1343">
+          <caret line="33" column="52" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
+          <folding>
+            <element signature="e#280#295#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Spider/WebCrawler/MediaMarktCrawler.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3502">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -622,9 +539,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="3468">
           <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -642,9 +557,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="2788">
           <caret line="16" column="69" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -662,9 +575,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2788">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -682,9 +593,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="2788">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -702,9 +611,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="2771">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -722,9 +629,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1054" max-vertical-offset="1156">
           <caret line="62" column="35" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -742,9 +647,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1156">
           <caret line="62" column="35" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -762,9 +665,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1054" max-vertical-offset="1156">
           <caret line="62" column="35" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -796,27 +697,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Analyser/src/com/hardmatch/analyser/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8832237" vertical-offset="1145" max-vertical-offset="2465">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Spider/WebCrawler/MediaMarktCrawler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3502">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Spider/WebCrawler/WebCrawler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19474836" vertical-offset="234" max-vertical-offset="1343">
-          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.47921225" vertical-offset="682" max-vertical-offset="1190">
+          <caret line="53" column="8" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
           <folding>
             <element signature="e#280#295#0" expanded="true" />
           </folding>
