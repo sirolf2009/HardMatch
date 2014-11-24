@@ -1,5 +1,4 @@
-#WebCrawler Prototype
-
+#WebCrawler.py
 __author__ = "Rene van der Horst"
 __copyright__ = "Copyright 2014, HardMatch Project"
 __license__ = "GPL"
@@ -13,62 +12,92 @@ __status__ = "Development"
 
 import requests
 from bs4 import BeautifulSoup
-from py2neo import neo4j, node, rel, Node, Relationship
-
-neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
-store = Node(type='Store', Naam='alternate.nl')
-neo4j_db.create(store)
-
-#alternate.nl
-alternate_url = 'https://www.alternate.nl/html/highlights/page.html?hgid=286&tgid=963&tk=7&lk=9463'
-alternate_source_code = requests.get(alternate_url)
-
-alternate_plain_text = alternate_source_code.text
-alternate_soup = BeautifulSoup(alternate_plain_text)
+from py2neo import neo4j, Node, Relationship
 
 
-def get_processor_links():
-    link_list = []
-    for processor in alternate_soup.findAll('a', {'class': 'h1x1'}):
-        link = processor.get('href')
-        full_link = 'https://www.alternate.nl' + link
-        link_list.append(full_link)
-    return link_list
+def get_page_soup(url):
+    source_code = requests.get(url)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    return soup
 
 
-def get_processor_data(link_list):
-    number = 0
-    for link_url in link_list:
-        url_source_code = requests.get(link_url)
+def get_hardware_page_url(url):
+    source_code = requests.get(url)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    hardware_page_url = 'none'
+    for tab in soup.findAll('a', {'class': 'tab'}):
+        if tab.text == 'Hardware':
+            hardware_page_path = tab.get('href')
+            hardware_page_url = url + hardware_page_path
+    return hardware_page_url
+
+
+def get_component_page_url(hardware_page_url, url):
+    source_code = requests.get(hardware_page_url)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    component_page_url = "none"
+    for anchor in soup.findAll('a', {'target': '_self'}):
+        if anchor.text == 'Processoren':
+            component_page_path = anchor.get('href')
+            component_page_url = url + component_page_path
+    return component_page_url
+
+
+def get_component_links(component_page_url, url):
+    source_code = requests.get(component_page_url)
+    plain_text = source_code.text
+    component_page_soup = BeautifulSoup(plain_text)
+    component_links = []
+    for component in component_page_soup.findAll('a', {'class': 'h1x1'}):
+        link = component.get('href')
+        full_link = url + link
+        component_links.append(full_link)
+    return component_links
+
+
+def get_component_object(component_links):
+    component_mhz = "none"
+    for component_link in component_links:
+        url_source_code = requests.get(component_link)
         url_plain_text = url_source_code.text
-        url_soup = BeautifulSoup(url_plain_text)
+        component_soup = BeautifulSoup(url_plain_text)
 
-        processor_brand = url_soup.find_all('span', {'itemprop': 'brand'})
-        processor_name = url_soup.find_all('meta', {'itemprop': 'name'})
-        processor_price = url_soup.find_all('span', {'itemprop': 'price'})
-        processor_socket_type = url_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
+        component_brand = component_soup.find_all('span', {'itemprop': 'brand'})
+        component_name = component_soup.find_all('meta', {'itemprop': 'name'})
+        component_price = component_soup.find_all('span', {'itemprop': 'price'})
+        for component in component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'}):
+            if 'MHz' in str(component):
+                component_mhz = component.text
+                break
 
-        processor_name_string = processor_name[0].get('content')
-        processor_price_string = processor_price[0].text
-        processor_socket_type_string = processor_socket_type[0].get('content')
+        #component_socket_type = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
+        #component_clock_speed = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
 
-        print(processor_name_string)
-        print(processor_price_string)
-        print(processor_socket_type_string)
+        component_brand_string = component_brand[0].text
+        component_name_string = component_name[0].get('content')
+        component_price_string = component_price[0].text
+        #component_socket_type_string = component_socket_type[0].get('content')
+        #component_clock_speed_string = component_clock_speed[0].get('content')
+        #print(component_name_string)
+        #print(component_price_string)
+        #print(component_socket_type_string)
 
-        neo4j_db.create(
-            node("Component", "CPU", {"name": processor_name_string}, {"Socket Type": processor_socket_type_string}),
-            node("Store", {"name": "alternate.nl"}),
-            rel(0, "SOLD_AT", 1, {"price": processor_price_string})
-        )
-
-        number += 1
-
-one = get_processor_links()
-get_processor_data(one)
+        component = Component()
+        Component.add_property(component, 'brand', component_brand_string)
+        Component.add_property(component, 'name', component_name_string)
+        Component.add_property(component, 'price', component_price_string)
+        Component.add_property(component, 'MHz', component_mhz)
+        Component.save_component_with_relationships(component)
 
 
-class ComponentAndRelationship():
+#one = get_processor_links()
+#get_processor_data(one)
+
+
+class Component():
 
     properties = {}  # Dictionary
 
@@ -80,18 +109,27 @@ class ComponentAndRelationship():
             print(x)
             print(self.properties[x])
 
-    def save_component(self):
-        component = Node(naam=self.properties['Naam'])
-        neo4j_db.pull()
+    def save_component_with_relationships(self):
+        component = Node(brand=self.properties['brand'],
+                         name=self.properties['name'],
+                         price=self.properties['price'],
+                         mhz=self.properties['MHz']
+                         )
+        store.pull()
         for i in self.properties:
             component.properties[i] = self.properties[i]
+
+        relationship = Relationship(self, 'SOLD_AT', store, price=self.properties['price'])
         neo4j_db.create(component)
-
-        relationship = Relationship(self, 'SOLD_AT', store, price=self.properties['price'])
         neo4j_db.create(relationship)
 
-    '''
-    def save_relationship(self, store):
-        relationship = Relationship(self, 'SOLD_AT', store, price=self.properties['price'])
-        neo4j_db.create(relationship)
-    '''
+
+neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
+store = Node(type='Store', Name='alternate.nl')
+neo4j_db.create(store)
+
+url = "http://www.alternate.nl"
+hardware = get_hardware_page_url(url)
+components = get_component_page_url(hardware, url)
+links = get_component_links(components, url)
+get_component_object(links)
