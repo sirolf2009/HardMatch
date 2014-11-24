@@ -20,7 +20,7 @@ def getCategories():
     categories = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10]
     return categories
 
-def determineProductType(subcat):
+'''def determineProductType(subcat):
     if subcat == 'Controllers':
         type = 'Controller'
     if subcat == 'PC Behuizing'
@@ -49,7 +49,7 @@ def determineProductType(subcat):
         type = 'Processor cooler'
     if 'DDR' in subcat:
         type = 'RAM'
-    if
+    if'''
 
 def topLevelSpider(url, categories):
     source_code = requests.get(url)
