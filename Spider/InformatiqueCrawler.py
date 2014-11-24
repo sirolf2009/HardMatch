@@ -20,7 +20,7 @@ def getCategories():
     categories = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10]
     return categories
 
-'''def determineProductType(subcat):
+def determineProductType(subcat):
     if subcat == 'Controllers':
         type = 'Controller'
     if subcat == 'PC Behuizing'
@@ -34,8 +34,22 @@ def getCategories():
     if subcat == 'Intel Desktop' or 'AMD Desktop'
         type == 'Processor'
     if subcat == 'Videokaarten'
-        type == 'Graphics'
-'''
+        type == 'Graphics card'
+    if 'Geluidskaart' in subcat:
+        type = 'Sound card'
+    if 'Grills' in subcat:
+        type = 'Fan guard'
+    if 'Grafische kaart Koelers' in subcat:
+        type = 'Graphic card cooler'
+    if 'Waterkoeling' in subcat:
+        type = 'Water cooling'
+    if 'Fancontrollers' in subcat:
+        type = 'Fan controller'
+    if 'Processor Koelers' in subcat:
+        type = 'Processor cooler'
+    if 'DDR' in subcat:
+        type = 'RAM'
+    if
 
 def topLevelSpider(url, categories):
     source_code = requests.get(url)
@@ -49,7 +63,7 @@ def topLevelSpider(url, categories):
                 midLevelSpider(link, categories[i].getSubs())
 
 
-def midLevelSpider(url, subs,categories):
+def midLevelSpider(url, subs):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
