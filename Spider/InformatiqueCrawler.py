@@ -11,7 +11,7 @@ def getCategories():
     c2 = Category('Behuizingen', ['PC Behuizing', 'Voeding', 'Ventilatoren'])
     c3 = Category('Moederbord', ['Intel', 'AMD', 'CPU'])
     c4 = Category('Processor', ['Intel Desktop', 'AMD Desktop'])
-    c5 = Category('Video', ['kaarten'])
+    c5 = Category('Video', ['Videokaarten'])
     c6 = Category('Geluid', ['Geluidskaart (intern)', 'Geluidskaarten (extern)'])
     c7 = Category('Koeling', ['Grills','Grafische kaart Koelers', 'Waterkoeling', 'Fancontrollers','Processor Koelers'])
     c8 = Category('Geheugenmodules', ['DDR'])
@@ -20,12 +20,22 @@ def getCategories():
     categories = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10]
     return categories
 
-def determineProductType(subcat):
+'''def determineProductType(subcat):
     if subcat == 'Controllers':
         type = 'Controller'
     if subcat == 'PC Behuizing'
-        type == 'Behuizing'
-
+        type == 'Case'
+    if subcat == 'Voeding'
+        type == 'Power Supply'
+    if subcat == 'Ventilatoren'
+        type == 'Fans'
+    if subcat == 'Intel' or subcat == 'AMD' or subcat == 'CPU'
+        type == 'Motherboard'
+    if subcat == 'Intel Desktop' or 'AMD Desktop'
+        type == 'Processor'
+    if subcat == 'Videokaarten'
+        type == 'Graphics'
+'''
 
 def topLevelSpider(url, categories):
     source_code = requests.get(url)
