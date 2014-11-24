@@ -2,6 +2,8 @@ __author__ = 'Basit'
 import requests
 from bs4 import BeautifulSoup
 from py2neo import neo4j,Node, Relationship,Graph
+from pymongo import MongoClient
+import time
 
 
 def getCategories():
@@ -18,6 +20,12 @@ def getCategories():
     categories = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10]
     return categories
 
+def determineProductType(subcat):
+    if subcat == 'Controllers':
+        type = 'Controller'
+    if subcat == 'PC Behuizing'
+        type == 'Behuizing'
+
 
 def topLevelSpider(url, categories):
     source_code = requests.get(url)
@@ -31,7 +39,7 @@ def topLevelSpider(url, categories):
                 midLevelSpider(link, categories[i].getSubs())
 
 
-def midLevelSpider(url, subs):
+def midLevelSpider(url, subs,categories):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
@@ -81,7 +89,7 @@ def componentFactory(detailadress):
                 raw_value = omschrijving.findNextSibling('td')
                 value = raw_value.string
                 Component.addGegeven(c, key, value)
-    #Component.printGegevens(c)
+    Component.saveMetaData(c)
     Component.saveComponent(c)
 
 
@@ -119,13 +127,22 @@ class Component():
         for i in self.gegevens:
             cn.properties[i]=self.gegevens[i]
         graph = Graph("http://localhost:7474/db/data/")
-        rel = Relationship(cn,'Verkocht bij',winkel,prijs=self.gegevens['Prijs'])
+        rel = Relationship(cn,'Sold at',winkel,prijs=self.gegevens['Prijs'])
         graph.create(cn)
         graph.create(rel)
 
-
-
-
+    def saveMetaData(self):
+        client = MongoClient()
+        db = client.productdatabase
+        collection = db.informatiquemeta
+        millis = int(round(time.time() * 1000))
+        metadata = {
+            'Naam': self.gegevens['Naam'],
+            'Prijs': self.gegevens['Prijs'],
+            'Website': 'Informatique.nl',
+            'Tijd&Datum': millis
+    }
+        collection.insert(metadata)
 
 class Category():
     name = ''
@@ -161,12 +178,9 @@ for i in range(len(categories)):
 '''graph = Graph("http://localhost:7474/db/data/")
 cn = Node('testing',message = 'Hello World')
 graph.create(cn)'''
+#componentFactory('http://www.informatique.nl/543088/msi-x99s-sli-plus.html')
 graph = Graph("http://localhost:7474/db/data/")
 winkel = Node(type='Winkel', Naam='informatique.nl')
 graph.create(winkel)
-#componentFactory('http://www.informatique.nl/543088/msi-x99s-sli-plus.html')
 topLevelSpider('http://www.informatique.nl/componenten/', getCategories())
 #lowLevelSpider('http://www.informatique.nl/?M=ART&G=024')
-
-
-
