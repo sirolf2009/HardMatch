@@ -2,129 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0250f8f4-83b3-4a71-927f-964e50ef1896" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/scripts/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Crawler/setup.py" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\MediaMarktCrawler.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\.name" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\WebCrawler.iml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\scopes\scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\.idea\workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\InformatiqueCrawler.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\__init__.py" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\.name" afterPath="$PROJECT_DIR$/Crawler/.idea/.name" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\Spider.iml" afterPath="$PROJECT_DIR$/Crawler/.idea/Spider.iml" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\encodings.xml" afterPath="$PROJECT_DIR$/Crawler/.idea/encodings.xml" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\misc.xml" afterPath="$PROJECT_DIR$/Crawler/.idea/misc.xml" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\modules.xml" afterPath="$PROJECT_DIR$/Crawler/.idea/modules.xml" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\scopes\scope_settings.xml" afterPath="$PROJECT_DIR$/Crawler/.idea/scopes/scope_settings.xml" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\vcs.xml" afterPath="$PROJECT_DIR$/Crawler/.idea/vcs.xml" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\.idea\workspace.xml" afterPath="$PROJECT_DIR$/Crawler/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\ConradCrawler.py" afterPath="$PROJECT_DIR$/Crawler/ConradCrawler.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\GenericCrawlerExperiment.py" afterPath="$PROJECT_DIR$/Crawler/GenericCrawlerExperiment.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\InformatiqueCrawler.py" afterPath="$PROJECT_DIR$/Crawler/InformatiqueCrawler.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\MediaMarktCrawler.py" afterPath="$PROJECT_DIR$/Crawler/MediaMarktCrawler.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\WebCrawler.py" afterPath="$PROJECT_DIR$/Crawler/AlternateCrawler.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\__init__.py" afterPath="$PROJECT_DIR$/Crawler/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\builder\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/builder/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\builder\_html5lib.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/builder/_html5lib.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\builder\_htmlparser.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/builder/_htmlparser.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\builder\_lxml.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/builder/_lxml.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\dammit.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/dammit.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\diagnose.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/diagnose.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\element.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/element.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\testing.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/testing.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\test_builder_registry.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_builder_registry.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\test_docs.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_docs.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\test_html5lib.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_html5lib.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\test_htmlparser.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_htmlparser.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\test_lxml.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_lxml.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\test_soup.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_soup.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\bs4\tests\test_tree.py" afterPath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_tree.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\admin.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/admin.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\batch\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\batch\core.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/core.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\batch\pull.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/pull.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\batch\push.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/push.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\batch\read.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/read.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\batch\write.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/write.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\core.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/core.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\__main__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/__main__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\core.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/core.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\create.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/create.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\delete.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/delete.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\core.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/core.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\general.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/general.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\network.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/network.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\request.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/request.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\schema.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/schema.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\statement.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/statement.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\error\transaction.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/transaction.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\cypher\lang.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/lang.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\deprecated.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/deprecated.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\env.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/env.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\error.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/error.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\calendar\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/calendar/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\calendar\gregorian.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/calendar/gregorian.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\geoff\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\geoff\__main__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/__main__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\geoff\loader.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/loader.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\geoff\writer.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/writer.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\geoff\xmlutil.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/xmlutil.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\gremlin\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/gremlin/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\neobox\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/neobox/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\neobox\__main__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/neobox/__main__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\neobox\core.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/neobox/core.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\ogm\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/ogm/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\ogm\store.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/ogm/store.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\spatial\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\spatial\exceptions.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/exceptions.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\spatial\plugin.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/plugin.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\spatial\scripts\__init__.py" afterPath="$PROJECT_DIR$/Crawler/README.md" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\spatial\scripts\load_data.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/scripts/load_data.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\spatial\util.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/util.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\lang.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/lang.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\legacy\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\legacy\batch.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/batch.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\legacy\core.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/core.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\legacy\index.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/index.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\neo4j.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/neo4j.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\__main__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/__main__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\http.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/http.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\jsonencoder.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/jsonencoder.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\numbers.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/numbers.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\packages\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\packages\urimagic\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\packages\urimagic\kvlist.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/kvlist.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\packages\urimagic\rfc3986.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/rfc3986.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\packages\urimagic\rfc6570.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/rfc6570.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\packages\urimagic\util.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/util.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\tardis.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/tardis.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\httpstream\watch.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/watch.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\jsonstream\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/jsonstream/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\jsonstream\jsonencoder.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/jsonstream/jsonencoder.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\jsonstream\pyjsonstream.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/jsonstream/pyjsonstream.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\tart\__init__.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/tart/__init__.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\packages\tart\tables.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/tart/tables.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\schema.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/schema.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\server.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/server.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\store.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/store.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\types.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/types.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\util.py" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/util.py" />
-      <change type="MOVED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\dummy.txt" afterPath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/scripts/__init__.py" />
+      <change type="DELETED" beforePath="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler\lib\py2neo\ext\spatial\scripts\__init__.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Crawler/AlternateCrawler.py" afterPath="$PROJECT_DIR$/Crawler/AlternateCrawler.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HardMatch.iws" />
@@ -147,7 +26,30 @@
     <favorites_list name="HardMatch" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="AlternateCrawler.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Crawler/AlternateCrawler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.8241379" vertical-offset="1562" max-vertical-offset="2142">
+              <caret line="120" column="57" selection-start-line="120" selection-start-column="57" selection-end-line="120" selection-end-column="57" />
+              <folding>
+                <element signature="e#169#184#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InformatiqueCrawler.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Crawler/InformatiqueCrawler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.60714287" vertical-offset="51" max-vertical-offset="4097">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -167,6 +69,8 @@
         <option value="$PROJECT_DIR$/Spider/WebCrawler/requirements.txt" />
         <option value="$PROJECT_DIR$/Spider/setup.py" />
         <option value="$PROJECT_DIR$/Crawler/README.md" />
+        <option value="$PROJECT_DIR$/Crawler/InformatiqueCrawler.py" />
+        <option value="$PROJECT_DIR$/Crawler/AlternateCrawler.py" />
       </list>
     </option>
   </component>
@@ -314,7 +218,7 @@
       <recent name="C:\Users\Rene\Documents\GitHub\HardMatch\Spider\WebCrawler" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.MediaMarktCrawler (1)">
+  <component name="RunManager" selected="Python.AlternateCrawler">
     <configuration default="false" name="WebCrawler" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -535,9 +439,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.MediaMarktCrawler (1)" />
+        <item index="0" class="java.lang.String" itemvalue="Python.AlternateCrawler" />
         <item index="1" class="java.lang.String" itemvalue="Python.InformatiqueCrawler" />
-        <item index="2" class="java.lang.String" itemvalue="Python.AlternateCrawler" />
+        <item index="2" class="java.lang.String" itemvalue="Python.MediaMarktCrawler (1)" />
         <item index="3" class="java.lang.String" itemvalue="Python.setup" />
         <item index="4" class="java.lang.String" itemvalue="Python.WebCrawler" />
       </list>
@@ -556,18 +460,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2672035" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2672035" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.331761" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -635,7 +539,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1228" max-vertical-offset="2380">
           <caret line="130" column="31" selection-start-line="130" selection-start-column="31" selection-end-line="130" selection-end-column="31" />
-          <folding />
+          <folding>
+            <element signature="e#169#184#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -801,25 +707,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Crawler/AlternateCrawler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6171285" vertical-offset="1534" max-vertical-offset="2346">
-          <caret line="130" column="31" selection-start-line="130" selection-start-column="31" selection-end-line="130" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Crawler/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="608">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Crawler/InformatiqueCrawler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.64231735" vertical-offset="255" max-vertical-offset="4029">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -830,6 +720,24 @@
         <state vertical-scroll-proportion="0.25692695" vertical-offset="0" max-vertical-offset="397">
           <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Crawler/InformatiqueCrawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.60714287" vertical-offset="51" max-vertical-offset="4097">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Crawler/AlternateCrawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8241379" vertical-offset="1562" max-vertical-offset="2142">
+          <caret line="120" column="57" selection-start-line="120" selection-start-column="57" selection-end-line="120" selection-end-column="57" />
+          <folding>
+            <element signature="e#169#184#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
