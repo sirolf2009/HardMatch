@@ -7,7 +7,7 @@ from bs4.element import (
     whitespace_re
     )
 
-from Spider.WebCrawler.lib.bs4.builder import _html5lib, _lxml, _htmlparser
+from Crawler.lib.bs4.builder import _html5lib, _lxml, _htmlparser
 
 
 __all__ = [

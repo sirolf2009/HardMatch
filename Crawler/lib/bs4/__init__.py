@@ -26,7 +26,7 @@ __all__ = ['BeautifulSoup']
 import os
 import warnings
 
-from .builder import builder_registry, ParserRejectedMarkup
+from .Crawler.lib.bs4.builder import builder_registry, ParserRejectedMarkup
 from .element import (
     CData,
     Comment,
@@ -40,6 +40,7 @@ from .element import (
     SoupStrainer,
     Tag,
     )
+
 
 
 # The very first thing we do is give a useful error if someone is
