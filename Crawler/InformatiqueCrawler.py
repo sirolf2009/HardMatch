@@ -1,9 +1,10 @@
 __author__ = 'Basit'
+import time
+
 import requests
 from bs4 import BeautifulSoup
-from py2neo import neo4j,Node, Relationship,Graph
+from py2neo import neo4j, Node, Relationship, Graph
 from pymongo import MongoClient
-import time
 
 
 def getCategories():
@@ -13,53 +14,60 @@ def getCategories():
     c4 = Category('Processor', ['Intel Desktop', 'AMD Desktop'])
     c5 = Category('Video', ['Videokaarten'])
     c6 = Category('Geluid', ['Geluidskaart (intern)', 'Geluidskaarten (extern)'])
-    c7 = Category('Koeling', ['Grills','Grafische kaart Koelers', 'Waterkoeling', 'Fancontrollers','Processor Koelers'])
+    c7 = Category('Koeling',
+                  ['Grills', 'Grafische kaart Koelers', 'Waterkoeling', 'Fancontrollers', 'Processor Koelers'])
     c8 = Category('Geheugenmodules', ['DDR'])
     c9 = Category('Harddisks', ['Harddisks', 'Solid State Drive'])
     c10 = Category('CD', ['intern', 'extern'])
     categories = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10]
     return categories
 
+
 def determineProductType(subcat):
     if subcat in 'Controllers':
         type = 'Controller'
-    if subcat in 'PC Behuizing':
+    elif subcat in 'PC Behuizing':
         type = 'Case'
-    if subcat in 'Voeding':
+    elif subcat in 'Voeding':
         type = 'Power Supply'
-    if subcat in 'Ventilatoren':
+    elif subcat in 'Ventilatoren':
         type = 'Fans'
-    if subcat in 'Intel' or subcat in 'AMD' or subcat in 'CPU':
+    elif subcat in 'Intel' or subcat in 'AMD' or subcat in 'CPU':
         type = 'Motherboard'
-    if subcat in 'Intel Desktop' or subcat in 'AMD Desktop':
+    elif subcat in 'Intel Desktop' or subcat in 'AMD Desktop':
         type = 'Processor'
-    if subcat in 'Videokaarten':
+    elif subcat in 'Videokaarten':
         type = 'Graphics card'
-    if 'Geluidskaart' in subcat:
+    elif 'Geluidskaart' in subcat:
         type = 'Sound card'
-    if 'Grills' in subcat:
+    elif 'Grills' in subcat:
         type = 'Fan guard'
-    if 'Grafische kaart Koelers' in subcat:
+    elif 'Grafische kaart Koelers' in subcat:
         type = 'Graphic card cooler'
-    if 'Waterkoeling' in subcat:
+    elif 'Waterkoeling' in subcat:
         type = 'Water cooling'
-    if 'Fancontrollers' in subcat:
+    elif 'Fancontrollers' in subcat:
         type = 'Fan controller'
-    if 'Processor Koelers' in subcat:
+    elif 'Processor Koelers' in subcat:
         type = 'Processor cooler'
-    if 'DDR' in subcat:
+    elif 'DDR' in subcat:
         type = 'RAM'
-    if 'Harddisks' in subcat or 'Solid State Drive' in subcat:
+    elif 'Harddisks' in subcat or 'Solid State Drive' in subcat:
         type = 'HDD'
-    if 'intern' in subcat or 'extern' in subcat:
+    elif 'intern' in subcat or 'extern' in subcat:
         type = 'Optical drive'
     return type
 
 
-def topLevelSpider(url, categories):
+def getHTML(url):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
+    return soup
+
+
+def topLevelSpider(url, categories):
+    soup = getHTML(url)
     for td in soup.findAll('td', {'class': 'kopsf'}):
         content = td.find('a').contents[0]
         for i in range(len(categories)):
@@ -68,40 +76,54 @@ def topLevelSpider(url, categories):
                 midLevelSpider(link, categories[i].getSubs())
 
 
-def midLevelSpider(url, subs):
+'''def navSpider(url, categories):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
+    for td in soup.findAll('td', {'class': 'kopsf'}):
+        content = td.find('a').contents[0]
+        for i in range(len(categories)):
+            if categories[i].getName() in content:
+                link = 'http://www.informatique.nl' + (td.find('a')['href'])
+                print(categories[i].getName())
+                navSpider(link, categories)
+            else:
+                subs = categories[i].getSubs()
+                for i in range(len(subs)):
+                    if subs[i] in content:
+                        #link = 'http://www.informatique.nl' + (td.find('a')['href'])
+                        label = determineProductType(subs[i])
+                        print(subs[i])
+                        #lowLevelSpider(link,label)'''
+
+
+def midLevelSpider(url, subs):
+    soup = getHTML(url)
     for td in soup.findAll('td', {'class': 'kopsf'}):
         content = td.find('a').contents[0]
         for i in range(len(subs)):
             if subs[i] in content:
                 link = 'http://www.informatique.nl' + (td.find('a')['href'])
                 label = determineProductType(subs[i])
-                lowLevelSpider(link,label)
+                lowLevelSpider(link, label)
 
 
-
-def lowLevelSpider(url,label):
-    source_code = requests.get(url)
-    plain_text = source_code.text
-    soup = BeautifulSoup(plain_text)
+def lowLevelSpider(url, label):
+    soup = getHTML(url)
     for section in soup.findAll('a', {'class': 'product_overlay'}):
         # print(section.get('href'))
-        componentFactory(section.get('href'),label)
+        componentFactory(section.get('href'), label)
     if getNextPage(url) is not None:
-        lowLevelSpider(getNextPage(url),label)
+        lowLevelSpider(getNextPage(url), label)
 
 
-def componentFactory(detailadress,label):
-    source_code = requests.get(detailadress)
-    plain_text = source_code.text
-    soup = BeautifulSoup(plain_text)
+def componentFactory(detailadress, label):
+    soup = getHTML(detailadress)
     naam_raw = soup.find('h1')
     naam_clean = naam_raw.string
     prijs_raw = soup.find('p', {'class': 'verkoopprijs'})
     prijs_clean = prijs_raw.string
-    prijs_tussen = prijs_clean.replace(',','.')
+    prijs_tussen = prijs_clean.replace(',', '.')
     prijs_final = float(prijs_tussen[2:])
     merk_raw = soup.find('span', {'itemprop': 'brand'})
     merk_clean = merk_raw.string
@@ -109,6 +131,7 @@ def componentFactory(detailadress,label):
     Component.addGegeven(c, 'Naam', naam_clean)
     Component.addGegeven(c, 'Prijs', prijs_final)
     Component.addGegeven(c, 'Merk', merk_clean)
+    voorraadChecker(detailadress,c)
     algemeen = soup.find('table', {'id': 'details'})
     specs = soup.find('table', {'class': 'specs left'})
     if algemeen is not None:
@@ -126,13 +149,22 @@ def componentFactory(detailadress,label):
                 value = raw_value.string
                 Component.addGegeven(c, key, value)
     Component.saveMetaData(c)
-    Component.saveComponent(c,label)
+    Component.saveComponent(c, label)
+
+def voorraadChecker(url,c):
+    source_code = requests.get(url)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    substring = 'Online op voorraad'
+    for x in soup.find('td', {'style':'padding:5px 4px 5px 4px;line-height:2'}):
+        if x is not None:
+                if substring in x.text:
+                    voorraad = 1
+                    Component.addGegeven(c,'voorraadstatus',voorraad)
 
 
 def getNextPage(link):
-    source_code = requests.get(link)
-    plain_text = source_code.text
-    soup = BeautifulSoup(plain_text)
+    soup = getHTML(link)
     currentPage = soup.find('a', {'id': 'active'})
     if currentPage is not None:
         currentPageNumber = int(currentPage.string)
@@ -146,6 +178,7 @@ def getNextPage(link):
                     return url
     return None
 
+
 class Component():
     gegevens = {}
 
@@ -157,13 +190,13 @@ class Component():
             print(x)
             print(self.gegevens[x])
 
-    def saveComponent(self,label):
+    def saveComponent(self, label):
         cn = Node(label)
         winkel.pull()
         for i in self.gegevens:
-            cn.properties[i]=self.gegevens[i]
+            cn.properties[i] = self.gegevens[i]
         graph = Graph("http://localhost:7474/db/data/")
-        rel = Relationship(cn,'Sold at',winkel,prijs=self.gegevens['Prijs'])
+        rel = Relationship(cn, 'Sold at', winkel, prijs=self.gegevens['Prijs'])
         graph.create(cn)
         graph.create(rel)
 
@@ -177,8 +210,9 @@ class Component():
             'Prijs': self.gegevens['Prijs'],
             'Website': 'Informatique.nl',
             'Tijd&Datum': millis
-    }
+        }
         collection.insert(metadata)
+
 
 class Category():
     name = ''
@@ -205,31 +239,9 @@ class Category():
         for i in range(len(self.subs)):
             print(self.subs[i])
 
-def merkPakker(link):
-    source_code = requests.get(link)
-    plain_text = source_code.text
-    soup = BeautifulSoup(plain_text)
-    merk = soup.find('span', {'itemprop': 'brand'})
-    print(merk.string)
 
-
-# lowLevelSpider('http://www.informatique.nl/?M=USL&G=004')
-#componentFactory('http://www.informatique.nl/445263/conceptronic-csata600exi-2xsata-2xesata.html')
-'''categories = getCategories()
-for i in range(len(categories)):
-    Category.printCategory(categories[i])'''
-#lowLevelSpider('http://www.informatique.nl/?M=USL&G=004')
-'''graph = Graph("http://localhost:7474/db/data/")
-cn = Node('testing',message = 'Hello World')
-graph.create(cn)'''
-#componentFactory('http://www.informatique.nl/543088/msi-x99s-sli-plus.html')
 graph = Graph("http://localhost:7474/db/data/")
 winkel = Node('Store', Naam='informatique.nl')
 graph.create(winkel)
 topLevelSpider('http://www.informatique.nl/componenten/', getCategories())
-#lowLevelSpider('http://www.informatique.nl/?M=ART&G=024')
-'''label =determineProductType('Controller')
-print(label)'''
-#componentFactory('http://www.informatique.nl/539941/intel-core-i5-4460-3-2ghz-6mb-s1150.html','Processor')
-#merkPakker('http://www.informatique.nl/539941/intel-core-i5-4460-3-2ghz-6mb-s1150.html')
 
