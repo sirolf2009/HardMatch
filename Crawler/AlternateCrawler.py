@@ -17,6 +17,12 @@ def get_page_soup(url):
     return soup
 
 
+def source_code_to_soup(source_code):
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    return soup
+
+
 def get_hardware_page_url(url):
     source_code = requests.get(url)
     plain_text = source_code.text
