@@ -15,16 +15,3 @@ This is the crawler module of the HardMatch system.
     <li></li>
     <li></li>
 </ol>
-
-<h4>Component attributes being crawled are</h4>
-<ol>
-    <li>Type</li>
-    <li>Brand</li>
-    <li>Price</li>
-    <li>Socket</li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-</ol>
