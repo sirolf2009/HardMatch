@@ -55,5 +55,10 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sirolf2009.neo4j</groupId>
+			<artifactId>NeoUtil</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
