@@ -1,51 +1,38 @@
 package com.hardmatch.matcher;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.net.URISyntaxException;
 
-import org.neo4j.cypher.javacompat.ExecutionEngine;
-import org.neo4j.cypher.javacompat.ExecutionResult;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.json.simple.JSONObject;
 
-import com.hardmatch.matcher.component.Component;
-import com.hardmatch.matcher.component.ComponentMotherboard;
-import com.sirolf2009.util.neo4j.cypher.CypherHelper;
+import com.sirolf2009.util.neo4j.rest.RestAPI;
 
 public class Matcher {
 	
-	private GraphDatabaseService graph;
-	private ExecutionEngine engine;
-	private final String DB_PATH = "C:/Users/Floris/Documents/Neo4j/hardmatch.graphdb";
+	private RestAPI rest;
 
-	public Matcher() {
+	public Matcher() throws URISyntaxException {
 		createDB();
-		ComponentMotherboard board = new ComponentMotherboard();
-		board.setName("MSI motherboard");
-		getCheapestStoreForComponent(board);
 	}
 	
-    public void createDB() {
-        this.graph = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH);
-        engine = new ExecutionEngine(graph);
+    public void createDB() throws URISyntaxException {
+    	rest = new RestAPI("http://localhost:7474/db/data");
     }
     
-    public void getCheapestStoreForComponent(Component componentToBuy) {
-    	String cypher = "MATCH (component:Component {name:\"MSI motherboard\"})-[:SellsFor]->(price)-[:At]->(store) RETURN component, price, store ORDER BY price.value";
-    	ExecutionResult result = CypherHelper.Cypher(engine, cypher);
-    	Iterator<Map<String, Object>> itr = result.iterator();
-    	if(itr.hasNext()) {
-    		Map<String, Object> row = itr.next();
-    		Node component = (Node) row.get("component");
-    		Node price = (Node) row.get("price");
-    		Node store = (Node) row.get("store");
-    		System.out.println("Cheapest store for "+component.getProperty("name")+" is "+store.getProperty("name")+" for a price of "+price.getProperty("value"));
-    	}
+    public Store getCheapestStoreForComponent(Component componentToBuy) {
+    	String cypher = "MATCH (component:Component {name:\""+componentToBuy.name+"\"})-[relation:SOLD_AT]->(store) RETURN store ORDER BY relation.price";
+    	JSONObject rows = rest.sendCypher(cypher);
+    	JSONObject firstRow = (JSONObject) rows.get(0);
+    	JSONObject store = (JSONObject) firstRow.get(0);
+    	System.out.println(store);
+    	return new Store(store.toJSONString());
     }
     
     public static void main(String[] args){
-        new Matcher();
+        try {
+			new Matcher();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
     }
 
 }

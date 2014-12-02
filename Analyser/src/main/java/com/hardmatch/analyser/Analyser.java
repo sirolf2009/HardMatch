@@ -29,6 +29,7 @@ public class Analyser {
 	public static String MONGODB_METANAME_CRAWLER = "MetadataRawCrawler";
 	public static String MONGODB_METANAME_WEBSITE = "MetadataRawWebsite";
 	public static String MONGODB_METANAME_ANALYSED = "MetadataAnalysed";
+	public static int sleepTime = 60000;
 	
 	public static Logger log = Logger.getLogger(Analyser.class.getName());
 	
@@ -45,11 +46,11 @@ public class Analyser {
 		try {
 			handleCLI(options, args);
 			connectToDB();
-			//while(true) {
+			while(true) {
 				retrieveRawMetadata();
 				analyseRawMetadata();
 				storeAnalysedMetadata();
-			//}
+			}
 		} catch (UnknownHostException e) {
 			log.severe("Could not make a connection to "+MONGODB_HOST+":"+MONGODB_PORT);
 			e.printStackTrace();
@@ -58,19 +59,18 @@ public class Analyser {
 
 	public void storeAnalysedMetadata() {
 		DBObject root = new BasicDBObject();
-		//metadataAnalysed.insert(matcher.getAnalysedData());
-		//metadataAnalysed.insert(crawler.getAnalysedData());
-		//metadataAnalysed.insert(website.getAnalysedData());
+		matcher.finalize(root);
 		crawler.finalize(root);
+		website.finalize(root);
 		metadataAnalysed.insert(root);
 	}
 
 	public void analyseRawMetadata() {
 		log.finer("Analysing matcher data");
 		matcher = new Matcher();
-		/*for(DBObject object : metadataMatcher.getIndexInfo()) {
+		for(DBObject object : metadataMatcher.getIndexInfo()) {
 			matcher.handleMetaDataObject(object);
-		}*/
+		}
 		log.finer("Analysing crawler data");
 		crawler = new Crawler();
 		for(DBObject object : metadataCrawler.find()) {
@@ -78,9 +78,9 @@ public class Analyser {
 		}
 		log.finer("Analysing website data");
 		website = new Website();
-		/*for(DBObject object : metadataWebsite.getIndexInfo()) {
+		for(DBObject object : metadataWebsite.getIndexInfo()) {
 			website.handleMetaDataObject(object);
-		}*/
+		}
 	}
 
 	public void retrieveRawMetadata() {
@@ -123,7 +123,9 @@ public class Analyser {
 			if(cmd.hasOption("cw")) {
 				MONGODB_METANAME_WEBSITE = cmd.getOptionValue("cw");
 			}
-			//TODO sleep time
+			if(cmd.hasOption("s")) {
+				sleepTime = Integer.parseInt(cmd.getOptionValue("s"));
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
