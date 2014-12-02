@@ -21,7 +21,7 @@ standard library HTTP client with a convenient resource-based interface
 and also provides support for incremental JSON document retrieval and
 RFC 6570 URI Templates.
 """
-from Spider.WebCrawler.lib.py2neo.packages.httpstream import watch
+from Crawler.lib.py2neo.packages.httpstream import watch
 
 
 __author__ = "Nigel Small"

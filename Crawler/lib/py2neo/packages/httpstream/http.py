@@ -21,7 +21,7 @@ from datetime import datetime
 from email.utils import formatdate, parsedate_tz, mktime_tz
 import errno
 
-from .tardis import timezone, datetime_to_timestamp
+from .Crawler.lib.py2neo.packages.httpstream.tardis import timezone, datetime_to_timestamp
 
 
 try:
