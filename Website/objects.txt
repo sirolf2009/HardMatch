@@ -1,5 +1,6 @@
-[
-  {
+{
+  "data": [
+    {
   "name":"Intel Core i7-4790K Boxed",
   "filename":"Intel-Core-i7-4790K-Boxed",
   "category":"processor",
@@ -47,5 +48,5 @@
   "description":"GeForce GTX 970 op 1,114GHz met 4GB GDDR5",
   "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."
   }
-]
-
+  ]
+}

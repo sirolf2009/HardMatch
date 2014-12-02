@@ -5,22 +5,39 @@
   <title>HardMatch - PC-Builder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-1.11.1.min.js"></script>
   <script src="js/jquery.dataTables.min.js"></script>
 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <script src="http://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/dataTables.bootstrap.js"></script>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css">
+
+  <link href="css/styles.css" rel="stylesheet">
 
   <script type="text/javascript">
 
-    $(document).ready(function() {
-    $('#itemTable').DataTable({
+  $(document).ready(function() {
+    $('#processors').DataTable({
       "language": {
-            "url": "dutch.json"
-        }
+        "url": "dutch.json"
+      },
+      "columnDefs": [ {
+        "targets": [1,5],
+        "orderable": false,
+        "class":'details-control'
+      } ]
+    });
+    $('#videokaarten').DataTable({
+      "language": {
+        "url": "dutch.json"
+      },
+      "columnDefs": [ {
+        "targets": [1,5],
+        "orderable": false,
+        "class":'details-control'
+      } ]
     });
   } );
 
@@ -29,8 +46,16 @@
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <![endif]-->
-      <link href="css/styles.css" rel="stylesheet">
     </head>
+
+    <?php
+    require('vendor/autoload.php');
+
+    $client = new Everyman\Neo4j\Client('localhost', 7474);
+    $client->getTransport()
+    ->setAuth('username', 'password');
+    ?>
+
     <body>
       <nav class="navbar navbar-static">
        <div class="container">
@@ -47,14 +72,6 @@
           </ul>
           <ul class="nav navbar-right navbar-nav">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
-              <ul class="dropdown-menu" style="padding:12px;">
-                <form class="form-inline">
-                  <button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button><input type="text" class="form-control pull-left" placeholder="Search">
-                </form>
-              </ul>
-            </li>
-            <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
               <ul class="dropdown-menu">
                 <li><a href="#">Login</a></li>
@@ -68,148 +85,250 @@
       </div>
     </nav><!-- /.navbar -->
 
-    <header class="masthead">
-      <div class="container">
-        <div class="row">
-          <div class="col col-sm-3">
-            <div class="well">Processor      
-            </div>
-          </div>
-          <div class="col col-sm-3">
-            <div class="well">Videokaart      
-            </div>
-          </div>
-          <div class="col col-sm-3">
-            <div class="well">Moederbord      
-            </div>
-          </div>
-          <div class="col col-sm-3">
-            <div class="well">Geheugen
-            </div>
-          </div>
+    <div id="alerts">
+    </div>
 
-          <div class="col col-sm-12">
-            <div class="progress">
+    <!-- Begin Body -->
+    <div class="container">
 
-              <div class="progress">
-                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                </div>
-              </div>
+      <!-- Modal -->
+      <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Vergelijken</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Sluit</button>
             </div>
           </div>
         </div>
       </div>
-    </header>
+      <!-- End Modal -->
 
-    <!-- Begin Body -->
-    <div class="container">
-     <div class="row">
-  			<!-- <div class="col col-sm-3">
-              	<div id="sidebar">
-      			<ul class="nav nav-stacked">
-                    <li><h3 class="highlight">Instellingen <i class="glyphicon glyphicon-cog pull-right"></i></h3></li>
-                    <li><input class="form-control" type="text" placeholder="Verfijn zoekresultaten"></li>
-                  	<li><a href="#">Link</a></li>
-          			<li><a href="#">Link</a></li>
-				</ul>
-                <div class="accordion" id="accordion2">
-                    <div class="accordion-group">
-                        <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                                Accordion
-                            </a>
-                        </div>
-                        <div id="collapseOne" class="accordion-body collapse in">
-                            <div class="accordion-inner">
-                              <p>There is a lot to be said about RWD.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                                    Accordion
-                                </a>
-                            </div>
-                            <div id="collapseTwo" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                  <p>Use @media queries or utility classes to customize responsiveness.</p>
-                                </div>
-                            </div>
-                        </div>
-               	</div>
-               </div>
-             </div>  --> 
-             <div class="col col-sm-12">
-              <div class="panel">
-                <h1>Artikelen</h1>
-                
-                <hr>
+      <section>
+        <div class="board">
+          <div class="board-inner">
+            <ul class="nav nav-tabs" id="myTab">
+              <div class="liner"></div>
+              <li class="active">
+               <a href="#home" data-toggle="tab" title="Home" id="homeTab">
+                <span class="round-tabs one">
+                  <i class="glyphicon glyphicon-home"></i>
+                </span> 
+              </a></li>
 
-                <div class="main">
+              <li><a href="#overzicht" data-toggle="tab" title="Overzicht" id="overzichtTab" class="disabledTab">
+               <span class="round-tabs two">
+                 <i class="glyphicon glyphicon-list"></i>
+               </span> 
+             </a>
+           </li>
+           <li><a href="#uitkomst" data-toggle="tab" title="Goedkoopste winkel" id="uitkomstTab" class="disabledTab">
+             <span class="round-tabs three">
+              <i class="glyphicon glyphicon-tag"></i>
+            </span> </a>
+          </li>
 
-                  <table id="itemTable" class="table table-bordered">
+          <li><a href="#afronding" data-toggle="tab" title="Afronden" id="afrondingTab" class="disabledTab">
+           <span class="round-tabs five">
+            <i class="glyphicon glyphicon-ok"></i>
+          </span> </a>
+        </li>
+
+      </ul></div>
+
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="home">
+
+          <h3 class="head text-center">Selecteer uw componenten</h3>
+          <p class="narrow text-center">
+            Hier misschien nog wat tekst met uitleg etc.
+          </p>
+
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Processor
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <table id="processors" class="table table-bordered">
                     <thead>
                       <tr>
-                        <th></th>
+                        <th class="hidden">id</th>
+                        <th style="width: 1px"><button type="button" class="btn btn-default vergelijkButton">Vergelijk</button></th>
                         <th>Naam</th>
                         <th>Beschrijving</th>
                         <th>Gemiddelde Prijs</th>
-                        <th>Acties</th>
+                        <th style="width: 70px">Acties</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <!-- <tr>
-                        <td><img class="list-img center-block" ng-src="images/{{item.filename}}.jpg"></td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.description }}</td>
-                        <td>{{ item.price }}</td>
-                        <td>Prijs</td>
-                        <td><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-list-alt"></span></button>
-                          <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-plus"></span></button></td>
-                      </tr> -->
 
+                      <?php
+                      $queryString = "MATCH (n:Processor) RETURN n";
+                      $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+                      $result = $query->getResultSet();
 
-      <?php
-      require('vendor/autoload.php');
+                      foreach ($result as $row) {
+                    // echo "<tr><td><img class='list-img' src='images/". $row['n']->getProperty('filename') .".jpg'></td>".
+                        echo "<tr><td class='hidden'>".$row['n']->getId()."</td>".
+                        "<td class='text-center'><input type='checkbox' class='table-checkbox'></td>".
+                        "<td>".$row['n']->getProperty('name')."</td>".
+                        "<td>".$row['n']->getProperty('description')."</td>".
+                        "<td>".$row['n']->getProperty('price')."</td>".
+                        "<td><button type='button' class='btn btn-warning'><span class='glyphicon glyphicon-list-alt'></span></button>".
+                        "<button type='button' class='btn btn-danger margin'><span class='glyphicon glyphicon-plus'></span></button></td></tr>";
+                      }
 
-      // Connecting to host:port
-      $client = new Everyman\Neo4j\Client('localhost', 7474);
-      $client->getTransport()
-        // ->useHttps()
-      ->setAuth('username', 'password');
-
-      //print_r($client->getServerInfo());
-
-      //Return all nodes
-      $queryString = "MATCH n RETURN n";
-      $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-      $result = $query->getResultSet();
-
-      foreach ($result as $row) {
-        //echo $row['n']->getProperty('name') . "<br>";
-        echo "<tr><td><img class='list-img' src='images/". $row['n']->getProperty('filename') .".jpg'></td>".
-        "<td>".$row['n']->getProperty('name')."</td>".
-        "<td>".$row['n']->getProperty('description')."</td>".
-        "<td>".$row['n']->getProperty('price')."</td>".
-        "<td><button type='button' class='btn btn-warning'><span class='glyphicon glyphicon-list-alt'></span></button>".
-              "<button type='button' class='btn btn-danger'><span class='glyphicon glyphicon-plus'></span></button></td></tr>";
-      }
-
-      ?>
-
+                      ?>
 
                     </tbody>
-                  </table>
-
+                  </table> 
                 </div>
-
               </div>
-            </div> 
+            </div>
+
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Videokaart
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                  <table id="videokaarten" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="hidden">id</th>
+                        <th style="width: 1px"><button type="button" class="btn btn-default vergelijkButton">Vergelijk</button></th>
+                        <th>Naam</th>
+                        <th>Beschrijving</th>
+                        <th>Gemiddelde Prijs</th>
+                        <th style="width: 70px">Acties</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <?php
+                      $queryString = "MATCH (n:Videokaart) RETURN n";
+                      $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+                      $result = $query->getResultSet();
+
+                      foreach ($result as $row) {// echo "<tr><td><img class='list-img' src='images/". $row['n']->getProperty('filename') .".jpg'></td>".
+                      echo "<tr><td class='hidden'>".$row['n']->getId()."</td>".
+                      "<td class='text-center'><input type='checkbox' class='table-checkbox'></td>".
+                      "<td>".$row['n']->getProperty('name')."</td>".
+                      "<td>".$row['n']->getProperty('description')."</td>".
+                      "<td>".$row['n']->getProperty('price')."</td>".
+                      "<td><button type='button' class='btn btn-warning'><span class='glyphicon glyphicon-list-alt'></span></button>".
+                      "<button type='button' class='btn btn-danger margin'><span class='glyphicon glyphicon-plus'></span></button></td></tr>";
+                    }
+
+                    ?>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingThree">
+              <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Geheugen
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+              <div class="panel-body">
+                Geheugen  
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- script references -->
-        <script src="js/scripts.js"></script>
-      </body>
-      </html>
+
+        <p class="text-center">
+          <a id="next1" href="#overzicht" class="btn btn-success btn-outline-rounded green nexttab">volgende stap<span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></a>
+        </p>
+      </div>
+
+      <div class="tab-pane fade" id="overzicht">
+        <h3 class="head text-center">Overzicht</h3>
+        <p class="narrow text-center">
+          Een overzicht van alle geselecteerde componenten.
+          <br>
+          <div class="col-xs-12">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="panel-title">
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <h5><span class="glyphicon glyphicon-shopping-cart"></span> Winkelwagen</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body overzicht-componenten">
+              </div>
+<!--                 <div class="panel-footer">
+                  <div class="row text-center">
+                    <div class="col-xs-4">
+                      <button type="button" class="btn btn-success btn-block">
+                        Verder
+                      </button>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </p>
+
+          <p class="text-center">
+            <a id="prev2" class="btn btn-success btn-outline-rounded green prevtab"><span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span>vorige stap</a>
+            <a id="next2" href="#overzicht" id="nexttab" class="btn btn-success btn-outline-rounded green nexttab">volgende stap<span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></a>
+          </p>
+
+        </div>
+
+        <div class="tab-pane fade" id="uitkomst">
+          <h3 class="head text-center">Goedkoopste winkels</h3>
+          <p class="narrow text-center">
+            Een lijst met alle geselecteerde componenten en de daarbij horende goedkoopste winkel.
+          </p>
+
+          <p class="text-center">
+            <a id="prev3" class="btn btn-success btn-outline-rounded green prevtab"><span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span>vorige stap</a>
+            <a id="next3" href="#overzicht" id="nexttab" class="btn btn-success btn-outline-rounded green nexttab">klaar<span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></a>
+          </p>
+        </div>
+
+        <div class="tab-pane fade" id="afronding">
+          <h3 class="head text-center">Klaar</h3>
+          <div class="text-center">
+            <a id="prev4" class="btn btn-success btn-outline-rounded green prevtab"><span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span>vorige stap</a>
+          </div> 
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script src="js/scripts.js"></script>
+</body>
+</html>
