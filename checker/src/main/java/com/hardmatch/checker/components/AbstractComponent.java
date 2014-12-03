@@ -4,6 +4,13 @@ import org.json.simple.JSONObject;
 
 import com.hardmatch.checker.CompatibiltyRules;
 
+/**
+* An abstract class that implements {@link IComponent}
+*
+* @author  Zara Ali
+* @version 1.0
+* @since   2014-03-31 
+*/
 public abstract class AbstractComponent implements IComponent {
 	
 	private Long ID;
