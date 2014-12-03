@@ -2,6 +2,8 @@ package com.hardmatch.checker.components;
 
 import org.json.simple.JSONObject;
 
+import com.hardmatch.checker.CompatibiltyRules;
+
 public abstract class AbstractComponent implements IComponent {
 	
 	private Long ID;
@@ -14,7 +16,9 @@ public abstract class AbstractComponent implements IComponent {
 	}
 
 	public boolean isCompatibleWith(IComponent other) {
-		return false;
+		boolean compatible = CompatibiltyRules.AreComponentsCompatible(this, other);
+		System.out.println("AbstractComponent.isCompatibleWith() "+compatible);
+		return compatible;
 	}
 
 	public void populateProperties(JSONObject object) {
@@ -33,7 +37,11 @@ public abstract class AbstractComponent implements IComponent {
 		return labels;
 	}
 
-	public static String MODEL_ID = "modelID";
-	public static String SOCKET_LABEL = "socket";
+	public static final String MODEL_ID = "modelID";
+	public static final String SOCKET_LABEL = "socket";
+	public static final String CAPACITY_LABEL = "capacity";
+	public static final String INTERFACE_STORAGE_LABEL = "interfaceStorage"; 
+	public static final String INTERFACE_GRAPHICS_CARD_LABEL = "interfaceGraphics"; 
+	public static final String MEMORY_TYPE_LABEL = "Geheugentype"; 
 
 }

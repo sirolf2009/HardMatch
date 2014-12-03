@@ -8,16 +8,21 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.hardmatch.checker.components.AbstractComponent;
 import com.hardmatch.checker.components.ComponentCPU;
+import com.hardmatch.checker.components.ComponentGraphicsCard;
 import com.hardmatch.checker.components.ComponentMotherboard;
+import com.hardmatch.checker.components.ComponentRAM;
+import com.hardmatch.checker.components.ComponentStorage;
 import com.hardmatch.checker.components.IComponent;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
 
 public class ComponentChecker {
 
 	private List<IComponent> CPUs;
+	private List<IComponent> Graphicscards;
 	private List<IComponent> Motherboards;
+	private List<IComponent> RAM;
+	private List<IComponent> Storage;
 
 	public RestAPI restTemp;
 	public RestAPI restFinal;
@@ -27,6 +32,9 @@ public class ComponentChecker {
 		restFinal = checker.restFinal;
 		CPUs = new ArrayList<IComponent>();
 		Motherboards = new ArrayList<IComponent>();
+		Graphicscards = new ArrayList<IComponent>();
+		Storage = new ArrayList<IComponent>();
+		RAM = new ArrayList<IComponent>();
 	}
 
 	public void addComponentToSetup(IComponent component) {
@@ -34,20 +42,32 @@ public class ComponentChecker {
 			CPUs.add((ComponentCPU) component);
 		} else if(component instanceof ComponentMotherboard) {
 			Motherboards.add((ComponentMotherboard) component);
+		} else if(component instanceof ComponentRAM) {
+			RAM.add((ComponentRAM) component);
+		} else if(component instanceof ComponentGraphicsCard) {
+			Graphicscards.add((ComponentGraphicsCard) component);
+		} else if(component instanceof ComponentStorage) {
+			Storage.add((ComponentStorage) component);
 		}
 	}
 
 	public void crossCheckAll() {
-		crossCheck(CPUs, Motherboards);
+		System.out.println("checking motherboards on CPU");
+		crossCheck(Motherboards, CPUs);
+		System.out.println("checking motherboards on RAM");
+		crossCheck(Motherboards, RAM);
+		System.out.println("checking motherboards on Graphics Cards");
+		crossCheck(Motherboards, Graphicscards);
+		System.out.println("checking motherboards on Storages");
+		crossCheck(Motherboards, Storage);
 	}
 
-	//TODO add store relationships
-	//TODO move store relationships to logical point
 	public void crossCheck(List<IComponent> list1, List<IComponent> list2) {
 		for(IComponent component1 : list1) {
 			for(IComponent component2 : list2) {
 				try {
 					boolean compatible = component1.isCompatibleWith(component2);
+					System.out.println(compatible);
 					URI startNodeFinal = getOrCreateNode(component1);
 					URI endNodeFinal = getOrCreateNode(component2);
 					createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component1.getID())), startNodeFinal);
@@ -55,6 +75,7 @@ public class ComponentChecker {
 					if(compatible) {
 						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "COMPATIBLE");
 					} else {
+						System.out.println("Creating a not compatible relationship");
 						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "NOT_COMPATIBLE");
 					}
 				} catch(URISyntaxException e) {
@@ -86,9 +107,7 @@ public class ComponentChecker {
 		for(Object obj : jsonResult) {
 			try {
 				JSONObject object = (JSONObject) obj;
-				URI startNode = new URI(object.get("start").toString());
 				URI endNode = new URI(object.get("end").toString());
-				String modelNr = restTemp.nodes.getProperties(startNode).get(AbstractComponent.MODEL_ID).toString();
 				String storeName = restTemp.nodes.getProperties(endNode).get("name").toString();
 				JSONObject answer = (JSONObject)restFinal.sendCypher("MATCH (store:Store) WHERE store.name=\\\""+storeName+"\\\" RETURN store, id(store)");
 				JSONArray results = (JSONArray) answer.get("results");
@@ -106,8 +125,7 @@ public class ComponentChecker {
 					store = restFinal.nodes.fromID(storeID);
 				}
 				URI relationship = restFinal.relationship.addRelationship(component, store, "SOLD_AT");
-				System.out.println(object);
-				//TODO get relationship price property, push to new relationship
+				restFinal.relationship.setRelationshipProperties(relationship, restTemp.relationship.getRelationshipProperties(new URI(object.get("self").toString())));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
