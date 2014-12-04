@@ -52,13 +52,13 @@ public class ComponentChecker {
 	}
 
 	public void crossCheckAll() {
-		System.out.println("checking motherboards on CPU");
+		Checker.log.info("checking motherboards on CPU");
 		crossCheck(Motherboards, CPUs);
-		System.out.println("checking motherboards on RAM");
+		Checker.log.info("checking motherboards on RAM");
 		crossCheck(Motherboards, RAM);
-		System.out.println("checking motherboards on Graphics Cards");
+		Checker.log.info("checking motherboards on Graphics Cards");
 		crossCheck(Motherboards, Graphicscards);
-		System.out.println("checking motherboards on Storages");
+		Checker.log.info("checking motherboards on Storage");
 		crossCheck(Motherboards, Storage);
 	}
 
@@ -67,7 +67,6 @@ public class ComponentChecker {
 			for(IComponent component2 : list2) {
 				try {
 					boolean compatible = component1.isCompatibleWith(component2);
-					System.out.println(compatible);
 					URI startNodeFinal = getOrCreateNode(component1);
 					URI endNodeFinal = getOrCreateNode(component2);
 					createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component1.getID())), startNodeFinal);
@@ -75,7 +74,6 @@ public class ComponentChecker {
 					if(compatible) {
 						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "COMPATIBLE");
 					} else {
-						System.out.println("Creating a not compatible relationship");
 						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "NOT_COMPATIBLE");
 					}
 				} catch(URISyntaxException e) {

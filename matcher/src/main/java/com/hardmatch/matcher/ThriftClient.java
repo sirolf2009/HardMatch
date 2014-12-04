@@ -25,8 +25,8 @@ public class ThriftClient {
 			MatcherPHPHandler.Client client = new MatcherPHPHandler.Client(protocol);
 			
 			List<Component> components = new ArrayList<Component>();
-			components.add(new Component("ASUS SABERTOOTH 990FX R2.0, socket AM3+ moederbord", new HashMap<String, String>()));
-			components.add(new Component("Intel® Core™ i7-4820K, 3,7 GHz (3,9 GHz Turbo Boost) 2011 processor", new HashMap<String, String>()));
+			components.add(new Component("xyz1", new HashMap<String, String>()));
+			components.add(new Component("xyz2", new HashMap<String, String>()));
 
 			System.out.println(client.match(components));
 

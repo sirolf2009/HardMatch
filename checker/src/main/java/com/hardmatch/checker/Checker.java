@@ -42,13 +42,13 @@ public class Checker {
 		initFromProperties();
 		run();
 	}
-	
+
 	public void run() {
 		restFinal.sendCypher("MATCH ()-[r]-() DELETE r");
 		restFinal.sendCypher("MATCH (n) DELETE n");
 		check();
 	}
-	
+
 	public void check() {
 		ComponentChecker setup = createSetup();
 		setup.crossCheckAll();
@@ -66,19 +66,35 @@ public class Checker {
 		}
 		return setup;
 	}
-
+	
 	public void initFromCommandLine(Options options, String[] args) {
 		CommandLineParser parser = new BasicParser();
 		try {
 			CommandLine cmd = parser.parse(options, args);
-			if(cmd.hasOption("h")) {
-				NEO4J_FINAL_IP = cmd.getOptionValue("h");
+			if(cmd.hasOption("hf")) {
+				NEO4J_FINAL_IP = cmd.getOptionValue("hf");
 			}
-			if(cmd.hasOption("p")) {
-				NEO4J_FINAL_PORT = Integer.parseInt(cmd.getOptionValue("p"));
+			if(cmd.hasOption("pf")) {
+				NEO4J_FINAL_PORT = Integer.parseInt(cmd.getOptionValue("pf"));
+			}
+			if(cmd.hasOption("ht")) {
+				NEO4J_TEMP_IP = cmd.getOptionValue("hf");
+			}
+			if(cmd.hasOption("pt")) {
+				try {
+					NEO4J_TEMP_PORT = Integer.parseInt(cmd.getOptionValue("pf"));
+				} catch (NumberFormatException e) {
+					log.fatal(cmd.getOptionValue("pf") + " is not a valid number. Exiting...", e);
+					System.exit(1);
+				}
 			}
 			if(cmd.hasOption("t")) {
-				THRIFT_PORT = Integer.parseInt(cmd.getOptionValue("t"));
+				try {
+					THRIFT_PORT = Integer.parseInt(cmd.getOptionValue("t"));
+				} catch (NumberFormatException e) {
+					log.fatal(cmd.getOptionValue("pf") + " is not a valid number. Exiting...", e);
+					System.exit(1);
+				}
 			}
 		} catch(ParseException e) {
 			e.printStackTrace();

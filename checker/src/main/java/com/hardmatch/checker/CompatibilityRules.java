@@ -7,15 +7,13 @@ import com.hardmatch.checker.components.ComponentRAM;
 import com.hardmatch.checker.components.ComponentStorage;
 import com.hardmatch.checker.components.IComponent;
 
-public class CompatibiltyRules {
+public class CompatibilityRules {
 
 	public static boolean AreComponentsCompatible(IComponent component1, IComponent component2) {
 		if(checkComponents(component1, component2)) {
-			System.out.println("CompatibiltyRules.AreComponentsCompatible() true");
 			return true;
 		} else {
 			boolean compatible = checkComponents(component2, component1);
-			System.out.println("CompatibiltyRules.AreComponentsCompatible() "+compatible);
 			return checkComponents(component2, component1);
 		}
 	}
@@ -25,10 +23,8 @@ public class CompatibiltyRules {
 			if(component2 instanceof ComponentCPU) {
 				if(((ComponentMotherboard) component1).socket == null || ((ComponentCPU) component2).socket == null || 
 						((ComponentMotherboard) component1).socket.equalsIgnoreCase(((ComponentCPU)component2).socket)) {
-					System.out.println("CompatibiltyRules.checkComponents() true "+((ComponentMotherboard) component1).socket + " " + ((ComponentCPU) component2).socket);
 					return true;
 				} else {
-					System.out.println("CompatibiltyRules.checkComponents() false");
 					return false;
 				}
 			}
