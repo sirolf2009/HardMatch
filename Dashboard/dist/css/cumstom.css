@@ -1,0 +1,7 @@
+div .jumbo_bg {
+	background-image: url(../img/jumbo_bg.jpg);
+	color: #FFFFFF;
+}
+div .less-header {
+	margin: 20px 0 20px;
+}
