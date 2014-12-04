@@ -41,6 +41,7 @@
   "info":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pretium velit et lacus volutpat consequat. Nulla facilisi. Donec egestas orci eu sapien tincidunt, lacinia laoreet massa finibus."
   },
   {
+  “test”:”testValue”,
   "name":"Asus STRIX-GTX970-DC2OC-4GD5",
   "filename":"Asus-STRIX-GTX970-DC2OC-4GD5",
   "category":"videokaart",
