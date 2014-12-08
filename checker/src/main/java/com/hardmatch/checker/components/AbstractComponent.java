@@ -2,7 +2,7 @@ package com.hardmatch.checker.components;
 
 import org.json.simple.JSONObject;
 
-import com.hardmatch.checker.CompatibilityRules;
+import com.hardmatch.checker.CompatibilityChecker;
 
 /**
 * An abstract class that implements {@link IComponent}
@@ -23,7 +23,7 @@ public abstract class AbstractComponent implements IComponent {
 	}
 
 	public boolean isCompatibleWith(IComponent other) {
-		boolean compatible = CompatibilityRules.AreComponentsCompatible(this, other);
+		boolean compatible = CompatibilityChecker.AreComponentsCompatible(this, other);
 		System.out.println("AbstractComponent.isCompatibleWith() "+compatible);
 		return compatible;
 	}

@@ -1,0 +1,4 @@
+<Synonyms>
+	<SynonymList delimeter=",">PCI-e,PCIe,PCI-Express,PCIExpress,PCI Express</SynonymList>
+	<SynonymList delimeter=",">SATA,Serieel ATA,Serieel-ATA</SynonymList>
+</Synonyms>

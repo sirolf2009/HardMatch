@@ -35,12 +35,12 @@ public class Checker {
 
 	public Checker(Options options, String[] args) {
 		initFromCommandLine(options, args);
-		run();
+		//run();
 	}
 
 	public Checker() {
 		initFromProperties();
-		run();
+		//run();
 	}
 
 	public void run() {
@@ -156,6 +156,7 @@ public class Checker {
 			log.error(NEO4J_FINAL_IP+":"+NEO4J_FINAL_PORT+" is not a valid URI");
 			e.printStackTrace();
 		}
+		new SynonymChecker();
 	}
 
 	public static void main(String[] args) {

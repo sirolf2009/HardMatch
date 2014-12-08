@@ -7,13 +7,14 @@ import com.hardmatch.checker.components.ComponentRAM;
 import com.hardmatch.checker.components.ComponentStorage;
 import com.hardmatch.checker.components.IComponent;
 
-public class CompatibilityRules {
+public class CompatibilityChecker {
+	
+	public static SynonymChecker synonymChecker = new SynonymChecker();
 
 	public static boolean AreComponentsCompatible(IComponent component1, IComponent component2) {
 		if(checkComponents(component1, component2)) {
 			return true;
 		} else {
-			boolean compatible = checkComponents(component2, component1);
 			return checkComponents(component2, component1);
 		}
 	}
@@ -22,7 +23,7 @@ public class CompatibilityRules {
 		if(component1 instanceof ComponentMotherboard) {
 			if(component2 instanceof ComponentCPU) {
 				if(((ComponentMotherboard) component1).socket == null || ((ComponentCPU) component2).socket == null || 
-						((ComponentMotherboard) component1).socket.equalsIgnoreCase(((ComponentCPU)component2).socket)) {
+						checkStrings(((ComponentMotherboard) component1).socket, ((ComponentCPU)component2).socket)) {
 					return true;
 				} else {
 					return false;
@@ -30,7 +31,7 @@ public class CompatibilityRules {
 			}
 			if(component2 instanceof ComponentStorage) {
 				if(((ComponentMotherboard) component1).connectorInterfaceStorage == null || ((ComponentStorage) component2).connectorInterface == null || 
-						((ComponentMotherboard) component1).connectorInterfaceStorage.equalsIgnoreCase(((ComponentStorage)component2).connectorInterface)) {
+						checkStrings(((ComponentMotherboard) component1).connectorInterfaceStorage, ((ComponentStorage)component2).connectorInterface)) {
 					return true;
 				} else {
 					return false;
@@ -38,7 +39,7 @@ public class CompatibilityRules {
 			}
 			if(component2 instanceof ComponentRAM) {
 				if(((ComponentMotherboard) component1).memoryType == null || ((ComponentRAM) component2).memoryType == null || 
-						((ComponentMotherboard) component1).memoryType.equalsIgnoreCase(((ComponentRAM)component2).memoryType)) {
+						checkStrings(((ComponentMotherboard) component1).memoryType, ((ComponentRAM)component2).memoryType)) {
 					return true;
 				} else {
 					return false;
@@ -46,12 +47,19 @@ public class CompatibilityRules {
 			}
 			if(component2 instanceof ComponentGraphicsCard) {
 				if(((ComponentMotherboard) component1).connectorInterfaceGraphicsCard == null || ((ComponentGraphicsCard) component2).connectorInterface == null || 
-						((ComponentMotherboard) component1).connectorInterfaceGraphicsCard.equalsIgnoreCase(((ComponentGraphicsCard)component2).connectorInterface)) {
+						checkStrings(((ComponentMotherboard) component1).connectorInterfaceGraphicsCard, ((ComponentGraphicsCard)component2).connectorInterface)) {
 					return true;
 				} else {
 					return false;
 				}
 			}
+		}
+		return false;
+	}
+	
+	public static boolean checkStrings(String string1, String string2) {
+		if(string1.equalsIgnoreCase(string2) || synonymChecker.areEqual(string1, string2)) {
+			return true;
 		}
 		return false;
 	}
