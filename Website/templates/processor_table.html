@@ -1,0 +1,43 @@
+<table id="processors" class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="hidden">id</th>
+            <th style="width: 1px">
+                <button type="button" class="btn btn-default vergelijkButton">Vergelijk</button>
+            </th>
+            <th>Naam</th>
+            <th>Beschrijving</th>
+            <th>Gemiddelde Prijs</th>
+            <th style="width: 75px">Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<!-- BEGIN row -->
+        <tr>
+            <td class='hidden'>
+                {ID}
+            </td>
+            <td class='text-center'>
+                <input type='checkbox' class='table-checkbox'>
+            </td>
+            <td>
+                {NAME}
+            </td>
+            <td>
+                {DESC}
+            </td>
+            <td>
+                {PRICE}
+            </td>
+            <td>
+                <button type='button' class='btn btn-warning'>
+                    <span class='glyphicon glyphicon-list-alt'></span>
+                </button>
+                <button type='button' class='btn btn-success margin'>
+                    <span class='glyphicon glyphicon-plus'></span>
+                </button>
+            </td>
+        </tr>
+        <!-- END row -->
+    </tbody>
+</table>
