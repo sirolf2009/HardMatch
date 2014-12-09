@@ -8,6 +8,19 @@
 	margin-left: 32px; margin-right: 32px;
 }
 
+.divider {
+    width: 80%;
+    margin: auto;
+    padding: 10px;
+}
+.menu {
+    width: 15%;
+    float: left;
+}
+.content {
+    margin-left: 15%;
+}
+
 .footer {
 	
 }
