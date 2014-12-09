@@ -35,12 +35,12 @@ public class Checker {
 
 	public Checker(Options options, String[] args) {
 		initFromCommandLine(options, args);
-		//run();
+		run();
 	}
 
 	public Checker() {
 		initFromProperties();
-		//run();
+		run();
 	}
 
 	public void run() {

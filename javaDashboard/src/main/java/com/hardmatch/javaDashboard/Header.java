@@ -15,7 +15,7 @@ public class Header extends Panel {
 		linkHome.add(new Image("Img", new ResourceReference(getClass(), "home.png")));
 		add(linkHome);
 		PageLink linkStats = new PageLink("StatsLink", StatPage.class);
-		linkStats.add(new Image("Img", new ResourceReference(getClass(), "button.png")));
+		linkStats.add(new Image("Img", new ResourceReference(getClass(), "stats.png")));
 		add(linkStats);
 	}
 

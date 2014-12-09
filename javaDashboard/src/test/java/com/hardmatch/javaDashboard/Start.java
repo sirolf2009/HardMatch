@@ -10,7 +10,6 @@ public class Start {
 	public static void main(String[] args) throws Exception {
 		Server server = new Server();
 		SocketConnector connector = new SocketConnector();
-		// Set some timeout options to make debugging easier.
 		connector.setMaxIdleTime(1000 * 60 * 60);
 		connector.setSoLingerTime(-1);
 		connector.setPort(8080);
@@ -21,13 +20,6 @@ public class Start {
 		bb.setContextPath("/");
 		bb.setWar("src/main/webapp");
 
-		
-		// START JMX SERVER
-		// MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-		// MBeanContainer mBeanContainer = new MBeanContainer(mBeanServer);
-		// server.getContainer().addEventListener(mBeanContainer);
-		// mBeanContainer.start();
-		
 		server.addHandler(bb);
 
 		try {

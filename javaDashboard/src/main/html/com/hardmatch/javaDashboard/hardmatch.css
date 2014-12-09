@@ -1,0 +1,13 @@
+.whiteBody {
+	width: 80%; background-color: white; margin: auto; text-align: center;
+}
+.blackBody {
+	width: 80%; background-color: black; margin: auto; text-align: center;
+}
+.bodyContent {
+	margin-left: 32px; margin-right: 32px;
+}
+
+.footer {
+	
+}
