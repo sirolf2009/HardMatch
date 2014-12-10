@@ -49,6 +49,7 @@
     </head>
 
     <?php
+    ini_set('display_errors',1);
     require_once "HTML/Template/IT.php";
     require('vendor/autoload.php');
 
