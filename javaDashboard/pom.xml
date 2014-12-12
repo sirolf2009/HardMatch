@@ -115,18 +115,6 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
-		<testResources>
-			<testResource>
-				<filtering>false</filtering>
-				<directory>src/test/java</directory>
-				<includes>
-					<include>**</include>
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</testResource>
-		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
