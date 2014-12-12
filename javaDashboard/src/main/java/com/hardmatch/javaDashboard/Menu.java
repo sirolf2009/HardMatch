@@ -1,19 +1,15 @@
 package com.hardmatch.javaDashboard;
 
-import java.awt.Dimension;
+import java.net.URISyntaxException;
 
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.wicketstuff.googlecharts.AbstractChartData;
 import org.wicketstuff.googlecharts.Chart;
-import org.wicketstuff.googlecharts.ChartAxis;
-import org.wicketstuff.googlecharts.ChartAxisType;
 import org.wicketstuff.googlecharts.ChartProvider;
-import org.wicketstuff.googlecharts.ChartType;
-import org.wicketstuff.googlecharts.IChartData;
 
 import com.hardmatch.javaDashboard.chart.ChartGenerator;
+import com.sirolf2009.util.neo4j.rest.RestAPI;
 
 public class Menu extends Panel {
 
@@ -39,9 +35,9 @@ public class Menu extends Panel {
 		form.add(button);
 		Button button2 = new Button("button2") {
 			@Override
-			public void onSubmit() {
-				System.out.println("test");
-				getPage().replace(new Chart("venn", ChartGenerator.getTestChartPie()));
+			public void onSubmit() {				
+				ChartProvider provider = ChartGenerator.getComponentDistributionPie();
+				getPage().replace(new Chart("venn", provider));
 			}
 		};
 		form.add(button2);

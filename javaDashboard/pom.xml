@@ -79,6 +79,11 @@
 			<artifactId>googlecharts</artifactId>
 			<version>1.4.20.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sirolf2009.neo4j</groupId>
+			<artifactId>NeoUtil</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -132,6 +137,16 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
+			<plugin>
+		<groupId>org.apache.tomcat.maven</groupId>
+		<artifactId>tomcat7-maven-plugin</artifactId>
+		<version>2.2</version>
+		<configuration>
+			<url>http://localhost:8081/manager/text</url>
+			<server>TomcatServer</server>
+			<path>/javaDashboard</path>
+		</configuration>
+	</plugin>
 		</plugins>
 	</build>
 
