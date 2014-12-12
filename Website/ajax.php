@@ -1,5 +1,11 @@
 <?php
 require('vendor/autoload.php');
+require_once "HTML/Template/IT.php";
+
+$client = new Everyman\Neo4j\Client('localhost', 7474);
+$client->getTransport()->setAuth('username', 'password');
+
+$tpl = new HTML_Template_IT("./templates");
 
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
@@ -10,74 +16,67 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 	}
 }
 
+// Not used yet - still in index.php
+
 function getProcessors(){
+	global $client;
+	global $tpl;
+
 	$queryString = "MATCH (n:Processor) RETURN n";
 	$query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
 	$result = $query->getResultSet();
 
-	$client->getNode($id);
+	$tpl->loadTemplatefile("processor_table.html", true, true);
 
 	foreach ($result as $row) {
-		echo "<tr><td class='hidden'>".$row['n']->getId()."</td>".
-		"<td>".$row['n']->getProperty('name')."</td>".
-		"<td>".$row['n']->getProperty('description')."</td>".
-		"<td>".$row['n']->getProperty('price')."</td>".
-		"<td><button type='button' class='btn btn-warning'><span class='glyphicon glyphicon-list-alt'></span></button>".
-		"<button type='button' class='btn btn-danger'><span class='glyphicon glyphicon-plus'></span></button></td></tr>";
+		$tpl->setCurrentBlock("row") ;
+		$tpl->setVariable("ID", $row['n']->getId()) ;
+		$tpl->setVariable("NAME", $row['n']->getProperty('name')) ;
+		$tpl->setVariable("DESC", $row['n']->getProperty('description')) ;
+		$tpl->setVariable("PRICE", $row['n']->getProperty('price')) ;
+		$tpl->parseCurrentBlock("row") ;
 	}
+
+	$tpl->show();
 }
 
-function getInfo(){
-	$client = new Everyman\Neo4j\Client('localhost', 7474);
-	$client->getTransport()
-	->setAuth('username', 'password');
 
+function getInfo(){
+	global $client;
 	$nodeid = $_POST['node'];
 	$node = $client->getNode($nodeid);
 
-	echo'<td><table border="0">'.
-	'<tr><td style="width:150px">Node id:</td>'.
-	'<td>'.$nodeid.'</td>'.
-	'</tr><tr><td>Naam:</td>'.
-	'<td>'.$node->getProperty('name').'</td>'.
-	'</tr><tr><td>Omschrijving:</td>'.
-	'<td>'.$node->getProperty('description').'</td>'.
-	'</tr><tr><td>Categorie:</td>'.
-	'<td>'.$node->getProperty('category').'</td>'.
-	'</tr><tr><td>Info:</td>'.
-	'<td>'.$node->getProperty('info').'</td>'.
-	'</tr></table></td>';
+	global $tpl;
+	$tpl->loadTemplatefile("tableinfo.html", true, true);
+	$tpl->setVariable("ID", $nodeid);
+	$tpl->setVariable("NAME", $node->getProperty('name'));
+	$tpl->setVariable("DESC", $node->getProperty('description'));
+	$tpl->setVariable("CAT", $node->getProperty('category'));
+	$tpl->setVariable("INFO", $node->getProperty('info'));
+	$tpl->show();
 }
 
 
 function componentOverview(){
-	$client = new Everyman\Neo4j\Client('localhost', 7474);
-	$client->getTransport()
-	->setAuth('username', 'password');
+	global $client;
 
-	$videokaartnode = $client->getNode($_POST['videokaartid']);
 	$processornode = $client->getNode($_POST['processorid']);
-	$html = "";
+	$videokaartnode = $client->getNode($_POST['videokaartid']);
 
-	if($_POST['videokaartid'] != ""){
-		$html .= addHtml($videokaartnode);
+	if(!empty($_POST['processorid'])){
+		addHtml($processornode);
 	}
-
-	if($_POST['processorid'] != ""){
-		$html .= addHtml($processornode);
+	if(!empty($_POST['videokaartid'])){
+		addHtml($videokaartnode);
 	}
-
-	if($_POST['videokaartid']=="" && $_POST['processorid']==""){
-		$html = "Geen componenten gekozen";
+	if(empty($_POST['videokaartid']) && empty($_POST['processorid'])){
+		echo("Geen componenten gekozen");
 	}
-
-	echo $html;
 }
 
 function compareComponents(){
-	$client = new Everyman\Neo4j\Client('localhost', 7474);
-	$client->getTransport()
-	->setAuth('username', 'password');
+	global $client;
+	global $tpl;
 
 	$ids = $_POST['nodeids'];
 	$headers = "";
@@ -95,14 +94,16 @@ function compareComponents(){
 		$description .= '<td>'.$j->getProperty('description').'</td>';
 	}
 
-	echo '<table class="table table-hover table-bordered">'.
-	'<thead><tr><th class="compare-table"></th>'.$headers.'</tr></thead><tbody>'.
-	'<tr><td class="compare-table">Categorie </td>'.$category.'</tr>'.
-	'<tr><td class="compare-table">Info </td>'.$description.'</tr>'.
-	'</tbody></table>';
+	$tpl->loadTemplatefile("comparetable.html", true, true);
+	$tpl->setVariable("HEADER", $headers);
+	$tpl->setVariable("CAT", $category);
+	$tpl->setVariable("DESC", $description);
+	$tpl->show();
 }
 
 function addHtml($node){
+	$tpl = new HTML_Template_IT("./templates");
+
 	switch ($node->getProperty('category')) {
 		case 'videokaart':
 		$description = $node->getProperty('name')."<p> ".$node->getProperty('description');
@@ -113,14 +114,10 @@ function addHtml($node){
 		break;
 	}
 
-	echo '<div id="'.$node->getProperty('category').'">'.
-	'<div class="row component"><div class="overview-icon col-md-1">'.
-	'<img class="img-responsive" src="./images/icons/'.$node->getProperty('category').'.png">'.
-	'</div><div class="col-md-10">'.
-	'<h4 class="product-name"><strong>'.$node->getProperty('name').'</strong></h4>'.
-	'<h4><small>'.$description.'</small></h4>'.
-	'</div><div class="overview-delete col-md-1">'.
-	'<button type="button" class="btn btn-link delete-component" id="'.$node->getProperty('category').'Button"><span class="glyphicon glyphicon-trash"></span>'.
-	'</button></div></div><hr></div>';
+	$tpl->loadTemplatefile("overviewhtml.html", true, true);
+	$tpl->setVariable("CAT", $node->getProperty('category'));
+	$tpl->setVariable("NAME", $node->getProperty('name'));
+	$tpl->setVariable("DESC", $node->getProperty('description'));
+	$tpl->show();
 }
 ?>

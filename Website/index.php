@@ -49,6 +49,8 @@
     </head>
 
     <?php
+    ini_set('display_errors',1);
+    require_once "HTML/Template/IT.php";
     require('vendor/autoload.php');
 
     $client = new Everyman\Neo4j\Client('localhost', 7474);
@@ -60,30 +62,20 @@
       <nav class="navbar navbar-static">
        <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#" target="ext"><b>HardMatch</b></a>
+          <a class="navbar-brand" href="./" target="ext"><b>HardMatch</b></a>
           <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="glyphicon glyphicon-chevron-down"></span>
           </a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">  
-            <li><a href="#">Home</a></li>
+            <li><a href="./">Home</a></li>
             <li><a href="#">PC-Builder</a></li>
-          </ul>
-          <ul class="nav navbar-right navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Profiel</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Over</a></li>
-              </ul>
-            </li>
           </ul>
         </div>
       </div>
-    </nav><!-- /.navbar -->
+    </nav>
+    <!-- /.navbar -->
 
     <div id="alerts">
     </div>
@@ -160,39 +152,27 @@
               </div>
               <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
-                  <table id="processors" class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th class="hidden">id</th>
-                        <th style="width: 1px"><button type="button" class="btn btn-default vergelijkButton">Vergelijk</button></th>
-                        <th>Naam</th>
-                        <th>Beschrijving</th>
-                        <th>Gemiddelde Prijs</th>
-                        <th style="width: 70px">Acties</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                  <?php                      
+                  $tpl = new HTML_Template_IT("./templates");
 
-                      <?php
-                      $queryString = "MATCH (n:Processor) RETURN n";
-                      $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-                      $result = $query->getResultSet();
+                  $queryString = "MATCH (n:Processor) RETURN n";
+                  $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+                  $result = $query->getResultSet();
 
-                      foreach ($result as $row) {
-                    // echo "<tr><td><img class='list-img' src='images/". $row['n']->getProperty('filename') .".jpg'></td>".
-                        echo "<tr><td class='hidden'>".$row['n']->getId()."</td>".
-                        "<td class='text-center'><input type='checkbox' class='table-checkbox'></td>".
-                        "<td>".$row['n']->getProperty('name')."</td>".
-                        "<td>".$row['n']->getProperty('description')."</td>".
-                        "<td>".$row['n']->getProperty('price')."</td>".
-                        "<td><button type='button' class='btn btn-warning'><span class='glyphicon glyphicon-list-alt'></span></button>".
-                        "<button type='button' class='btn btn-danger margin'><span class='glyphicon glyphicon-plus'></span></button></td></tr>";
-                      }
+                  $tpl->loadTemplatefile("processor_table.html", true, true);
 
-                      ?>
+                  foreach ($result as $row) {
+                    $tpl->setCurrentBlock("row") ;
+                    $tpl->setVariable("ID", $row['n']->getId()) ;
+                    $tpl->setVariable("NAME", $row['n']->getProperty('name')) ;
+                    $tpl->setVariable("DESC", $row['n']->getProperty('description')) ;
+                    $tpl->setVariable("PRICE", $row['n']->getProperty('price')) ;
+                    $tpl->parseCurrentBlock("row") ;
+                  }
 
-                    </tbody>
-                  </table> 
+                  $tpl->show();
+
+                  ?>
                 </div>
               </div>
             </div>
@@ -207,81 +187,70 @@
               </div>
               <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-body">
-                  <table id="videokaarten" class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th class="hidden">id</th>
-                        <th style="width: 1px"><button type="button" class="btn btn-default vergelijkButton">Vergelijk</button></th>
-                        <th>Naam</th>
-                        <th>Beschrijving</th>
-                        <th>Gemiddelde Prijs</th>
-                        <th style="width: 70px">Acties</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                  <?php
+                  $tpl = new HTML_Template_IT("./templates");
 
-                      <?php
-                      $queryString = "MATCH (n:Videokaart) RETURN n";
-                      $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-                      $result = $query->getResultSet();
+                  $queryString = "MATCH (n:Videokaart) RETURN n";
+                  $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+                  $result = $query->getResultSet();
 
-                      foreach ($result as $row) {// echo "<tr><td><img class='list-img' src='images/". $row['n']->getProperty('filename') .".jpg'></td>".
-                      echo "<tr><td class='hidden'>".$row['n']->getId()."</td>".
-                      "<td class='text-center'><input type='checkbox' class='table-checkbox'></td>".
-                      "<td>".$row['n']->getProperty('name')."</td>".
-                      "<td>".$row['n']->getProperty('description')."</td>".
-                      "<td>".$row['n']->getProperty('price')."</td>".
-                      "<td><button type='button' class='btn btn-warning'><span class='glyphicon glyphicon-list-alt'></span></button>".
-                      "<button type='button' class='btn btn-danger margin'><span class='glyphicon glyphicon-plus'></span></button></td></tr>";
-                    }
+                  $tpl->loadTemplatefile("videokaart_table.html", true, true);
 
-                    ?>
+                  foreach ($result as $row) {
+                    $tpl->setCurrentBlock("row") ;
+                    $tpl->setVariable("ID", $row['n']->getId()) ;
+                    $tpl->setVariable("NAME", $row['n']->getProperty('name')) ;
+                    $tpl->setVariable("DESC", $row['n']->getProperty('description')) ;
+                    $tpl->setVariable("PRICE", $row['n']->getProperty('price')) ;
+                    $tpl->parseCurrentBlock("row") ;
+                  }
 
-                  </tbody>
-                </table>
+                  $tpl->show();
+
+                  ?>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Geheugen
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                  Geheugen  
+                </div>
               </div>
             </div>
           </div>
-          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
-              <h4 class="panel-title">
-                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Geheugen
-                </a>
-              </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-              <div class="panel-body">
-                Geheugen  
-              </div>
-            </div>
-          </div>
+
+
+          <p class="text-center">
+            <a id="next1" href="#overzicht" class="btn btn-success btn-outline-rounded green nexttab">volgende stap<span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></a>
+          </p>
         </div>
 
-
-        <p class="text-center">
-          <a id="next1" href="#overzicht" class="btn btn-success btn-outline-rounded green nexttab">volgende stap<span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></a>
-        </p>
-      </div>
-
-      <div class="tab-pane fade" id="overzicht">
-        <h3 class="head text-center">Overzicht</h3>
-        <p class="narrow text-center">
-          Een overzicht van alle geselecteerde componenten.
-          <br>
-          <div class="col-xs-12">
-            <div class="panel panel-info">
-              <div class="panel-heading">
-                <div class="panel-title">
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <h5><span class="glyphicon glyphicon-shopping-cart"></span> Winkelwagen</h5>
+        <div class="tab-pane fade" id="overzicht">
+          <h3 class="head text-center">Overzicht</h3>
+          <p class="narrow text-center">
+            Een overzicht van alle geselecteerde componenten.
+            <br>
+            <div class="col-xs-12">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <div class="panel-title">
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <h5><span class="glyphicon glyphicon-shopping-cart"></span> Winkelwagen</h5>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="panel-body overzicht-componenten">
-              </div>
+                <div class="panel-body overzicht-componenten">
+                </div>
 <!--                 <div class="panel-footer">
                   <div class="row text-center">
                     <div class="col-xs-4">

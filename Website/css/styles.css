@@ -5,12 +5,12 @@
 button {
     margin-bottom: 3px;
 }
-.page-alerts {
-    margin-bottom: 20px;
-}
 .page-alerts .page-alert {
     border-radius: 0;
     margin-bottom: 0;
+}
+.alert{
+    margin-bottom: 0px;
 }
 .navbar-form input, .form-inline input {
     width: auto;
@@ -210,25 +210,23 @@ li.active span.round-tabs.five {
 }
 .nav-tabs > li {
     width: 25%;
+    height: 110px;
 }
-li:after {
+.nav-tabs li:after {
+    display:block;
+    width:20px;
     content: " ";
-    position: absolute;
-    left: 45%;
+    position: relative;
     opacity: 0;
     margin: 0 auto;
-    bottom: 0px;
+    bottom: 20px;
     border: 5px solid transparent;
     border-bottom-color: #ddd;
     transition: 0.1s ease-in-out;
 }
-li.active:after {
+.nav-tabs li.active:after {
     content: " ";
-    position: absolute;
-    left: 45%;
     opacity: 1;
-    margin: 0 auto;
-    bottom: 0px;
     border: 10px solid transparent;
     border-bottom-color: #ddd;
 }

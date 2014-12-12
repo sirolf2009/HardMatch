@@ -30,24 +30,25 @@ def productListingPages(receiveAllSubCategories):
 
     for index in receiveAllSubCategories:
 
-        product_url = index
-        if product_url == "http://www.processorstore.nl/category/212284/upgrade-kits.html":
+        categorie_url = index
+        if categorie_url == "http://www.processorstore.nl/category/212284/upgrade-kits.html":
             break
         else:
 
-            html_source = requests.get(product_url)
+            html_source = requests.get(categorie_url)
             plain_text = html_source.text
             soup = BeautifulSoup(plain_text)
 
-            product = soup.findAll('li', {'class': 'paging-navigation-last-page'})[0]
-            maxPageNumbers = product.text.strip()
+            subCategoriePages = soup.findAll('li', {'class': 'paging-navigation-last-page'})[0]
+            maxPageNumbers = subCategoriePages.text.strip()
 
-            productListingLevel(int(maxPageNumbers), product_url)
+            productListingLevel(int(maxPageNumbers), categorie_url)
 
 
 
 def productListingLevel(max_pages, URL):
     page = 1
+
 
     while page <= max_pages:
         product_url = URL + '?sort=popularity&dir=d&page=' + str(page)
@@ -55,56 +56,84 @@ def productListingLevel(max_pages, URL):
         plain_text = html_source.text
         soup = BeautifulSoup(plain_text)
 
+
+
         for product in soup.findAll('a', {'class': 'product-list-item--title-link'}):
-
             href = 'http://www.processorstore.nl' + product.get('href')
+            title = product.get('title')
 
-            productPageLevel(href)
+            productPageLevel(title, href)
+
         page += 1
+"""
+
+
+        for price in soup.findAll('strong', {'class':'product-list-item--price'}):
+            price = price.text
+            price = price[2:]
+            price = price.replace(',', '.')
+            print(price)
 
 
 
-def productPageLevel(url):
+        for availability in soup.findAll('div', {'class':'product-list-item--assortment-state'}):
+            stock = availability.string
+            stock = stock.strip()
 
-    product = url
+        print(href)
+        print(title)
+        print(price)
+        print(stock)
+        # productPageLevel(title, href, price, stock)
+"""
+
+
+def productPageLevel(title, href):
+
+    # print(title, href, price, stock)
+    print(title, href)
+
+    product = href
     html_source = requests.get(product)
     plain_text = html_source.text
     soup = BeautifulSoup(plain_text)
 
-    # Product Image
-    product_image = 'No Picture';
-    for attributes in soup.findAll('img', {'itemprop': 'image'}):
-        # image = soup.findAll('img', {'itemprop': 'image'})
-        product_image = attributes.get('src')
 
-    # Product Price
-    product_price = soup.findAll('strong', {'itemprop': 'price'})[0]
-    price = product_price.text
-    price2 = price.strip()
+    # Product specification table
+    specs_table = soup.findChildren('div', {'class': 'product-specifications is-collapsable is-collapsed'})
+    specs_div = soup.findChildren('div', {'class': 'product-specs'})
+    specs_dl = soup.findAll('dl', {'class': 'product-specs--list'})
 
-
-    print(price2[2:])
-    print(product_image)
-
-
-"""
-            product = soup.findAll('li', {'class': 'paging-navigation-last-page'})[0]
-            maxPageNumbers = product.text.strip()
+    if specs_table:
+        htmlOld(specs_table)
+    elif specs_dl:
+        htmlNew(specs_dl)
+    elif specs_div:
+        print('DIV specifications')
+    else:
+        print("Ik print ELSE")
 
 
+#TODO in Class verwerken
 
-    for product_Image in soup.findAll('img', {'itemprop': 'image'}):
+def htmlNew(sourceCode):
 
-        productImage = product_Image.get('src')
-        print(productImage)
+    print(sourceCode)
+    print("###############################")
+    # TODO: Check alle tabellen <TR>
 
-    for product_Price in soup.findAll('strong', {'itemprop': 'price'}):
+def htmlOld(sourceCode):
+    # wanneer gaat om Tables
+    print(sourceCode)
+    print("*******************************")
+    # TODO: Check alle tabellen <DL>
+    for tech in sourceCode.
+    product-specs--item-title
+    product-specs--item-spec
 
-        productPrice = product_Price.text
-        print(productPrice)
-"""
 
 
 
-#categorieLevel()
-productPageLevel('http://www.processorstore.nl/product/513475/intel-core-i7-5930k.html')
+
+categorieLevel()
+# productPageLevel()
