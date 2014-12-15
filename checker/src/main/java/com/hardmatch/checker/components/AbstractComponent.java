@@ -4,13 +4,6 @@ import org.json.simple.JSONObject;
 
 import com.hardmatch.checker.CompatibilityChecker;
 
-/**
-* An abstract class that implements {@link IComponent}
-*
-* @author  Zara Ali
-* @version 1.0
-* @since   2014-03-31 
-*/
 public abstract class AbstractComponent implements IComponent {
 	
 	private Long ID;
@@ -24,7 +17,6 @@ public abstract class AbstractComponent implements IComponent {
 
 	public boolean isCompatibleWith(IComponent other) {
 		boolean compatible = CompatibilityChecker.AreComponentsCompatible(this, other);
-		System.out.println("AbstractComponent.isCompatibleWith() "+compatible);
 		return compatible;
 	}
 

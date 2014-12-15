@@ -1,11 +1,40 @@
-<html xmlns="http://www.w3.org/1999/xhtml" 
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xmlns:wicket="http://wicket.apache.org" 
-        xsi:schemaLocation="http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd http://wicket.apache.org" > 
-  <head>
-    <title>Dashboard HardMatch</title>
-  </head>
-  <body>
-  <div id="header" wicket:id="headerPanel">header</div>
-  </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:wicket="http://wicket.apache.org"
+	xsi:schemaLocation="http://www.w3.org/MarkUp/SCHEMA/xhtml11.xsd http://wicket.apache.org">
+<head>
+<title>Dashboard HardMatch - Statistics</title>
+</head>
+<body>
+	<wicket:extend>
+		<div class="whiteBody">
+			<div class="bodyContent">
+				<h2>Holy shit how is this for an intro?</h2>
+				<p>Gokhan would be proud. You know why? This looks a shite tonne
+					like bootstrap. but that's alright though, you wanna know why?
+					Wel... mainly because I wanna try out word wrapping and i just need
+					this reaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaally long
+					sentence</p>
+				<p>Oh! Oh! Oh! Before I forget, look at this beautiful hardcoded
+					chart! :D</p>
+				<div style="background-color: black; width: 80%; margin: auto;">
+					<form wicket:id="ComponentOptions">
+					<div style="padding: 4px; padding-top: 6px">
+						<span style="margin: 4px;" wicket:id="HomeLink"> <img
+							wicket:id="Img"></img>
+						</span> <span wicket:id="StatsLink"> <img wicket:id="Img"></img>
+						</span>
+					</div>
+					</form>
+				</div>
+				<section class="divider">
+					<div class="menu" wicket:id="menu"></div>
+					<div class="content">
+						<img wicket:id="venn"></img>
+					</div>
+				</section>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
 </html>

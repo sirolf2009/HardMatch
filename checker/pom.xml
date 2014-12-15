@@ -4,7 +4,7 @@
 
 	<groupId>com.hardmatch</groupId>
 	<artifactId>checker</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>checker</name>
@@ -21,8 +21,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>5</source>
+					<target>5</target>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -68,6 +68,16 @@
 			<groupId>jdom</groupId>
 			<artifactId>jdom</artifactId>
 			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.thrift</groupId>
+			<artifactId>libthrift</artifactId>
+			<version>0.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.2</version>
 		</dependency>
 	</dependencies>
 </project>

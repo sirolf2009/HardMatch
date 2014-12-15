@@ -1,7 +1,5 @@
 package com.hardmatch.javaDashboard;
 
-import java.net.URISyntaxException;
-
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -9,7 +7,6 @@ import org.wicketstuff.googlecharts.Chart;
 import org.wicketstuff.googlecharts.ChartProvider;
 
 import com.hardmatch.javaDashboard.chart.ChartGenerator;
-import com.sirolf2009.util.neo4j.rest.RestAPI;
 
 public class Menu extends Panel {
 
@@ -29,11 +26,12 @@ public class Menu extends Panel {
 			private static final long serialVersionUID = -1868174593205054995L;
 			@Override
 			public void onSubmit() {
-				getPage().replace(new Chart("venn", ChartGenerator.getTestChartLine()));
+				getPage().replace(new Chart("venn", ChartGenerator.getStoresWithMostComponents()));
 			}
 		};
 		form.add(button);
 		Button button2 = new Button("button2") {
+			private static final long serialVersionUID = 942599678549826681L;
 			@Override
 			public void onSubmit() {				
 				ChartProvider provider = ChartGenerator.getComponentDistributionPie();
