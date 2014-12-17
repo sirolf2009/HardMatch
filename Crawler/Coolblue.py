@@ -127,9 +127,7 @@ def htmlOld(sourceCode):
     print(sourceCode)
     print("*******************************")
     # TODO: Check alle tabellen <DL>
-    for tech in sourceCode.
-    product-specs--item-title
-    product-specs--item-spec
+    #for tech in sourceCode.product-specs--item-title #product-specs--item-spec
 
 
 

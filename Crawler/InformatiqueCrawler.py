@@ -151,7 +151,7 @@ def componentFactory(detailadress, label):
     Component.saveMetaData(c)
     Component.saveComponent(c, label)
 
-def voorraadChecker(url,c):
+def voorraadChecker(url, fc):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
