@@ -9,17 +9,17 @@ from bs4 import BeautifulSoup
 from py2neo import neo4j, Node, Relationship
 
 
-def getComponents():
+def get_components():
     components = Category('Components', ['Componenten', 'Hardware'])
     return components
 
 
-def getCategories():
+def get_categories():
     graphics_cards = Category('Graphics Cards', ['Grafische kaarten', 'grafische kaarten'])
     processors = Category('Processors', ['Processoren', 'processoren'])
     motherboards = Category('Motherboards', ['Moederborden', 'moederborden'])
     memory_chips = Category('RAM', ['Geheugenkaarten', 'RAM', 'ram'])
-    #cases = Category('Cases', ['Behuizingen'])
+    # cases = Category('Cases', ['Behuizingen'])
     solid_state_drives = Category('Solid State Drives', ['SSD', 'ssd'])
     hard_drives = Category('Hard Drives', ['Harde schijven intern', 'harde schijven intern'])
 
@@ -120,14 +120,14 @@ def get_memory_object(component_links):
         return "Mem"
 
 
-def get_SSD_object(component_links):
+def get_ssd_object(component_links):
     for component_link in component_links:
         if 'SSD' in component_link:
             print("SSD")
     return "SSD"
 
 
-def get_HD_object(component_links):
+def get_hd_object(component_links):
     for component_link in component_links:
         if 'harde' in component_link:
             print("HD")
@@ -204,22 +204,22 @@ class Category():
         self.name = name
         self.titles = list(titles)
 
-    def setName(self, name):
+    def set_name(self, name):
         self.name = name
 
-    def setTitles(self, titles):
+    def set_titles(self, titles):
         self.titles = list(titles)
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def getTitle(self, index):
+    def get_title(self, index):
         return self.titles[index]
 
-    def getTitles(self):
+    def get_titles(self):
         return self.titles
 
-    def printCategory(self):
+    def print_category(self):
         print(self.name)
         for i in range(len(self.titles)):
             print(self.titles[i])
@@ -230,21 +230,21 @@ store = Node('Store', name='alternate.nl')
 neo4j_db.create(store)
 
 url = "http://www.alternate.nl"
-hardware = get_hardware_page_url(url, getComponents())
-components = get_component_page_url(hardware, url, getCategories())
+hardware = get_hardware_page_url(url, get_components())
+components = get_component_page_url(hardware, url, get_categories())
 links = get_component_url(components, url)
 motherboards = get_motherboard_object(links)
 graphics_cards = get_graphics_card_object(links)
 processors = get_processor_object(links)
 memory_cards = get_memory_object(links)
-SSD = get_SSD_object(links)
-HD = get_HD_object(links)
+SSD = get_ssd_object(links)
+HD = get_hd_object(links)
 
 get_component_object(links)
 
 
-#component_socket_type = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
-#component_clock_speed = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
+# component_socket_type = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
+# component_clock_speed = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
 
-#component_socket_type_string = component_socket_type[0].get('content')
-#component_clock_speed_string = component_clock_speed[0].get('content')
+# component_socket_type_string = component_socket_type[0].get('content')
+# component_clock_speed_string = component_clock_speed[0].get('content')
