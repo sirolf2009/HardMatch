@@ -7,6 +7,7 @@ __status__ = "Development"
 import requests
 from bs4 import BeautifulSoup
 from py2neo import neo4j, Node, Relationship
+from Crawler import components
 
 
 def get_components():
@@ -29,7 +30,6 @@ def get_categories():
                   memory_chips,
                   solid_state_drives,
                   hard_drives]
-
     return categories
 
 
@@ -96,6 +96,7 @@ def get_motherboard_object(component_links):
     for component_link in component_links:
         if 'moederbord' in component_link:
             print("motherboard")
+    test = components.RAM()
     return "MB"
 
 
@@ -103,6 +104,7 @@ def get_graphics_card_object(component_links):
     for component_link in component_links:
         if 'grafische' in component_link:
             print("graphics card")
+    # test = components.GraphicsCard
     return "GC"
 
 
@@ -154,8 +156,8 @@ def get_component_object(component_links):
         component_price_text = component_price[0].text
 
         def create_price_string(input_price):
-            new_string = input_price.replace("€", "").\
-                replace("*", "").replace(" ", "").\
+            new_string = input_price.replace("€", ""). \
+                replace("*", "").replace(" ", ""). \
                 replace(",", ".").replace("-", "00")
             return new_string
 
@@ -171,8 +173,7 @@ def get_component_object(component_links):
 
 
 class Component():
-
-    properties = {}  # Dictionary
+    properties = {}
     relationship_properties = {}
 
     def add_property(self, key, property):
@@ -231,8 +232,8 @@ neo4j_db.create(store)
 
 url = "http://www.alternate.nl"
 hardware = get_hardware_page_url(url, get_components())
-components = get_component_page_url(hardware, url, get_categories())
-links = get_component_url(components, url)
+components_list = get_component_page_url(hardware, url, get_categories())
+links = get_component_url(components_list, url)
 motherboards = get_motherboard_object(links)
 graphics_cards = get_graphics_card_object(links)
 processors = get_processor_object(links)
