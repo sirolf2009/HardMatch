@@ -2,9 +2,100 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0250f8f4-83b3-4a71-927f-964e50ef1896" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Crawler/AlternateCrawler.py" afterPath="$PROJECT_DIR$/Crawler/AlternateCrawler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/builder/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/builder/_html5lib.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/builder/_htmlparser.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/builder/_lxml.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/dammit.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/diagnose.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/element.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/testing.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_builder_registry.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_docs.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_html5lib.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_htmlparser.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_lxml.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_soup.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/bs4/tests/test_tree.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/admin.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/core.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/pull.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/push.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/read.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/batch/write.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/core.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/__main__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/core.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/create.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/delete.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/core.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/general.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/network.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/request.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/schema.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/statement.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/error/transaction.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/cypher/lang.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/deprecated.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/env.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/error.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/calendar/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/calendar/gregorian.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/__main__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/loader.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/writer.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/geoff/xmlutil.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/gremlin/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/neobox/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/neobox/__main__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/neobox/core.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/ogm/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/ogm/store.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/exceptions.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/plugin.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/scripts/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/scripts/load_data.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/ext/spatial/util.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/lang.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/batch.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/core.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/legacy/index.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/neo4j.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/__main__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/http.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/jsonencoder.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/numbers.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/kvlist.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/rfc3986.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/rfc6570.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/packages/urimagic/util.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/tardis.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/httpstream/watch.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/jsonstream/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/jsonstream/jsonencoder.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/jsonstream/pyjsonstream.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/tart/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/packages/tart/tables.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/schema.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/server.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/store.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/types.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler/lib/py2neo/util.py" afterPath="" />
     </list>
     <ignored path="HardMatch.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,11 +129,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AlternateCrawler.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AlternateCrawler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Crawler/AlternateCrawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3825">
-              <caret line="132" column="23" selection-start-line="132" selection-start-column="23" selection-end-line="132" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.66079295" vertical-offset="0" max-vertical-offset="3825">
+              <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
               <folding>
                 <element signature="e#154#169#0" expanded="true" />
               </folding>
@@ -50,10 +141,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8678414" vertical-offset="264" max-vertical-offset="945">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
               <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding />
             </state>
@@ -730,20 +821,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Crawler/lib/py2neo/ext/ogm/store.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4709">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Crawler/lib/bs4/tests/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="608">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Crawler/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2437276" vertical-offset="0" max-vertical-offset="558">
@@ -919,21 +996,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Crawler/AlternateCrawler.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3825">
-          <caret line="132" column="23" selection-start-line="132" selection-start-column="23" selection-end-line="132" selection-end-column="23" />
-          <folding>
-            <element signature="e#154#169#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/Crawler/AlternateCrawler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8678414" vertical-offset="264" max-vertical-offset="945">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.66079295" vertical-offset="0" max-vertical-offset="3825">
+          <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
+          <folding>
+            <element signature="e#154#169#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
