@@ -1,4 +1,3 @@
-#WebCrawler.py
 __author__ = "Rene van der Horst"
 __copyright__ = "Copyright 2014, HardMatch Project"
 __license__ = "GPL"
