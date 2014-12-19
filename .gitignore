@@ -56,8 +56,6 @@ docs/_build/
 target/
 Crawler/.idea
 
-.idea/.name
-
+.idea
 *.xml
-
 *.iml
