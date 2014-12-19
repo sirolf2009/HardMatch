@@ -1,7 +1,7 @@
 __author__ = 'Rene'
 
 from distutils.core import setup
-
-setup(
-    name="",
-)
+setup(name='foo',
+      version='1.0',
+      py_modules=['foo'],
+      )

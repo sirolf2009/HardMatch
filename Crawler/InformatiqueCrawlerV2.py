@@ -378,7 +378,7 @@ class RAM():
         'memoryCapacity': 'null',  #8GB
         'amount': 'null',  #2x
         'moduleCapacity': 'null',  #4GB
-        'pricePerGB': 'null',  #€7,869
+        'pricePerGB': 'null',  #7,869
         'memoryType': 'null',  #DDR3
         'memorySpecification': 'null',  #PC3-12800 (DDR3-1600)
         'lowVoltageDDR': 'null',  #Nee
@@ -443,7 +443,7 @@ class Storage():
         'commandQueuing': 'null',  #Native Command Queuing
         'powerUsageRead': 'null',  #4,5W
         'powerUsageWrite': 'null',  #4,5W
-        'pricePerGB': 'null',  #€0,036
+        'pricePerGB': 'null',  #0,036
         'manufacturerGuarantee': 'null',  #3 jaar carry in
         'EAN': 'null',  #0718037799674, 5711045474873
         'SKU': 'null'  #WD30EFRX

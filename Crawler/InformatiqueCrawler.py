@@ -149,6 +149,7 @@ def componentFactory(detailadress, label):
     Component.saveMetaData(c)
     Component.saveComponent(c, label)
 
+<<<<<<< HEAD
 def tableParser(soup,c):
     for omschrijving in soup.findAll('td', {'class': 'right'}):
         key = omschrijving.string
@@ -158,6 +159,9 @@ def tableParser(soup,c):
             Component.addGegeven(c, key, value)
 
 def voorraadChecker(url,c):
+=======
+def voorraadChecker(url, fc):
+>>>>>>> origin/master
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
