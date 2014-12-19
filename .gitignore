@@ -55,3 +55,9 @@ docs/_build/
 # PyBuilder
 target/
 Crawler/.idea
+
+.idea/.name
+
+*.xml
+
+*.iml
