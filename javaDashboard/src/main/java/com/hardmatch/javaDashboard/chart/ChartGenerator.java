@@ -69,11 +69,11 @@ public class ChartGenerator {
 				}
 				double[][] chartData = new double[1][3];
 				JSONObject object = rest.sendCypher("MATCH (cpu:CPU) RETURN count(cpu)");
-				chartData[0][0] = Double.parseDouble(rest.json.getRowsInColumn(object).get(0).get(0).toString());
+				chartData[0][0] = Double.parseDouble(rest.json.getRowsFromQuery(object).get(0).get(0).toString());
 				object = rest.sendCypher("MATCH (mother:Motherboard) RETURN count(mother)");
-				chartData[0][1] = Double.parseDouble(rest.json.getRowsInColumn(object).get(0).get(0).toString());
+				chartData[0][1] = Double.parseDouble(rest.json.getRowsFromQuery(object).get(0).get(0).toString());
 				object = rest.sendCypher("MATCH (gfx:GraphicsCard) RETURN count(gfx)");
-				chartData[0][2] = Double.parseDouble(rest.json.getRowsInColumn(object).get(0).get(0).toString());
+				chartData[0][2] = Double.parseDouble(rest.json.getRowsFromQuery(object).get(0).get(0).toString());
 				return chartData;
 			}
 		};
@@ -101,7 +101,7 @@ public class ChartGenerator {
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
-				List<JSONArray> storeCounts = rest.json.getRowsInColumn(rest.sendCypher("MATCH (n:Store)<-[:SOLD_AT]-(m) RETURN n, COUNT(n) ORDER BY COUNT(n)"));
+				List<JSONArray> storeCounts = rest.json.getRowsFromQuery(rest.sendCypher("MATCH (n:Store)<-[:SOLD_AT]-(m) RETURN n, COUNT(n) ORDER BY COUNT(n)"));
 				double[][] chartData = new double[1][storeCounts.size()];
 				for(int i = 0; i < storeCounts.size(); i++) {
 					JSONArray store = storeCounts.get(i);
