@@ -111,47 +111,57 @@ def midLevelSpider(url, subs):
 def lowLevelSpider(url, label):
     soup = getHTML(url)
     for section in soup.findAll('a', {'class': 'product_overlay'}):
-        # print(section.get('href'))
-        componentFactory(section.get('href'), label)
+        link = section.get('href') + '?spcall=yes'
+        componentFactory(link, label)
     if getNextPage(url) is not None:
         lowLevelSpider(getNextPage(url), label)
 
 
 def componentFactory(detailadress, label):
     soup = getHTML(detailadress)
+
     naam_raw = soup.find('h1')
     naam_clean = naam_raw.string
+
     prijs_raw = soup.find('p', {'class': 'verkoopprijs'})
     prijs_clean = prijs_raw.string
     prijs_tussen = prijs_clean.replace(',', '.')
     prijs_final = float(prijs_tussen[2:])
+
     merk_raw = soup.find('span', {'itemprop': 'brand'})
     merk_clean = merk_raw.string
+
     c = Component()
     Component.addGegeven(c, 'Naam', naam_clean)
     Component.addGegeven(c, 'Prijs', prijs_final)
     Component.addGegeven(c, 'Merk', merk_clean)
+
     voorraadChecker(detailadress,c)
+
     algemeen = soup.find('table', {'id': 'details'})
-    specs = soup.find('table', {'class': 'specs left'})
-    if algemeen is not None:
-        for omschrijving in algemeen.findAll('td', {'class': 'right'}):
-            key = omschrijving.string
-            if key is not None:
-                raw_value = omschrijving.findNextSibling('td')
-                value = raw_value.string
-                Component.addGegeven(c, key, value)
-    if specs is not None:
-        for omschrijving in specs.findAll('td', {'class': 'right'}):
-            key = omschrijving.string
-            if key is not None:
-                raw_value = omschrijving.findNextSibling('td')
-                value = raw_value.string
-                Component.addGegeven(c, key, value)
+    specs1 = soup.find('table', {'class': 'specs left'})
+    specs2 = soup.find('table', {'class': 'specs right'})
+
+    tableParser(algemeen,c)
+    tableParser(specs1,c)
+    tableParser(specs2,c)
+
     Component.saveMetaData(c)
     Component.saveComponent(c, label)
 
+<<<<<<< HEAD
+def tableParser(soup,c):
+    for omschrijving in soup.findAll('td', {'class': 'right'}):
+        key = omschrijving.string
+        if key is not None:
+            raw_value = omschrijving.findNextSibling('td')
+            value = raw_value.string
+            Component.addGegeven(c, key, value)
+
 def voorraadChecker(url,c):
+=======
+def voorraadChecker(url, fc):
+>>>>>>> origin/master
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
@@ -200,6 +210,7 @@ class Component():
         graph.create(cn)
         graph.create(rel)
 
+#Rename to english :)
     def saveMetaData(self):
         client = MongoClient()
         db = client.productdatabase
@@ -209,7 +220,8 @@ class Component():
             'Naam': self.gegevens['Naam'],
             'Prijs': self.gegevens['Prijs'],
             'Website': 'Informatique.nl',
-            'Tijd&Datum': millis
+            'TijdStart': millis
+            #'TijdStop'
         }
         collection.insert(metadata)
 
@@ -243,5 +255,5 @@ class Category():
 graph = Graph("http://localhost:7474/db/data/")
 winkel = Node('Store', Naam='informatique.nl')
 graph.create(winkel)
-topLevelSpider('http://www.informatique.nl/componenten/', getCategories())
-
+#topLevelSpider('http://www.informatique.nl/componenten/', getCategories())
+lowLevelSpider('http://www.informatique.nl/?M=USL&G=004','behuizing')

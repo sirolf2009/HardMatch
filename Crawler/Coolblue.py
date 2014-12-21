@@ -4,16 +4,50 @@ from bs4 import BeautifulSoup
 # from enum import Enum
 from py2neo import neo4j,Node,Relationship,Graph
 
+def stores(store):
+
+    if store == 'informatique':
+        link = 'www.informatique.nl'
+    elif store == 'alternate':
+        link = 'www.alernate.nl'
+    elif store == 'azerty':
+        link = 'www.azerty.nl'
+    elif store == 'coolblue':
+        link = 'http://www.processorstore.nl/category/212272/pc-componenten.html'
+    elif store == 'mediamarkt':
+        link = 'www.mediamarkt.nl'
+    else:
+        link = 'Geen juiste winkel gekozen'
+
+    return link
+
+
+
+def soup_function(args):
+
+    source = requests.get(args)
+    plain = source.text
+    soup = BeautifulSoup(plain)
+
+    return soup
+
+
+
+
+
+
+
+
 
 def categorieLevel():
     start = True
     subCategoriesArray = []
 
     while start:
-        url = 'http://www.processorstore.nl/category/212272/pc-componenten.html'
-        html_source = requests.get(url)
-        plain_text = html_source.text
-        soup = BeautifulSoup(plain_text)
+
+        s = stores('coolblue')
+        soup = soup_function(s)
+
 
         for categories in soup.findAll('a', {'class': 'facetAction'}):
 
@@ -26,6 +60,15 @@ def categorieLevel():
     productListingPages(subCategoriesArray)
 
 
+
+
+
+
+
+
+
+
+
 def productListingPages(receiveAllSubCategories):
 
     for index in receiveAllSubCategories:
@@ -35,9 +78,9 @@ def productListingPages(receiveAllSubCategories):
             break
         else:
 
-            html_source = requests.get(categorie_url)
-            plain_text = html_source.text
-            soup = BeautifulSoup(plain_text)
+            # Make a soup Object
+            soup = soup_function(categorie_url)
+
 
             subCategoriePages = soup.findAll('li', {'class': 'paging-navigation-last-page'})[0]
             maxPageNumbers = subCategoriePages.text.strip()
@@ -46,16 +89,19 @@ def productListingPages(receiveAllSubCategories):
 
 
 
+
+
+
+
+
+
 def productListingLevel(max_pages, URL):
     page = 1
 
 
     while page <= max_pages:
-        product_url = URL + '?sort=popularity&dir=d&page=' + str(page)
-        html_source = requests.get(product_url)
-        plain_text = html_source.text
-        soup = BeautifulSoup(plain_text)
 
+        soup = soup_function(URL + '?sort=popularity&dir=d&page=' + str(page))
 
 
         for product in soup.findAll('a', {'class': 'product-list-item--title-link'}):
@@ -65,27 +111,15 @@ def productListingLevel(max_pages, URL):
             productPageLevel(title, href)
 
         page += 1
+
+
 """
-
-
-        for price in soup.findAll('strong', {'class':'product-list-item--price'}):
-            price = price.text
-            price = price[2:]
-            price = price.replace(',', '.')
-            print(price)
-
-
-
-        for availability in soup.findAll('div', {'class':'product-list-item--assortment-state'}):
-            stock = availability.string
-            stock = stock.strip()
-
-        print(href)
-        print(title)
-        print(price)
-        print(stock)
         # productPageLevel(title, href, price, stock)
 """
+
+
+
+
 
 
 def productPageLevel(title, href):
@@ -93,47 +127,39 @@ def productPageLevel(title, href):
     # print(title, href, price, stock)
     print(title, href)
 
-    product = href
-    html_source = requests.get(product)
-    plain_text = html_source.text
-    soup = BeautifulSoup(plain_text)
+    soup = soup_function(href)
 
 
-    # Product specification table
-    specs_table = soup.findChildren('div', {'class': 'product-specifications is-collapsable is-collapsed'})
-    specs_div = soup.findChildren('div', {'class': 'product-specs'})
-    specs_dl = soup.findAll('dl', {'class': 'product-specs--list'})
+    """
+    if (soup.findAll('div', {'class': 'product-specifications is-collapsable is-collapsed'})):
+        print('Dit TRUE TRUE')
 
-    if specs_table:
-        htmlOld(specs_table)
-    elif specs_dl:
-        htmlNew(specs_dl)
-    elif specs_div:
-        print('DIV specifications')
-    else:
-        print("Ik print ELSE")
+    elif (soup.findChildren('dl', {'class': 'product-specs--list'})):
 
 
-#TODO in Class verwerken
+        for dt in soup.findAll('dt', {'class': 'product-specs--item-title'}):
 
-def htmlNew(sourceCode):
+            print(dt.string)
 
-    print(sourceCode)
-    print("###############################")
-    # TODO: Check alle tabellen <TR>
+        for dd in soup.findAll('dd', {'class': 'product-specs--item-spec'}):
+            print(dd.string)
+    """
 
+
+
+
+<<<<<<< Updated upstream
 def htmlOld(sourceCode):
     # wanneer gaat om Tables
     print(sourceCode)
     print("*******************************")
     # TODO: Check alle tabellen <DL>
-    for tech in sourceCode.
-    product-specs--item-title
-    product-specs--item-spec
+    #for tech in sourceCode.product-specs--item-title #product-specs--item-spec
+=======
+>>>>>>> Stashed changes
 
 
 
 
 
 categorieLevel()
-# productPageLevel()
