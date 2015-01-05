@@ -1,11 +1,13 @@
 <?php
 require('vendor/autoload.php');
-require_once "HTML/Template/IT.php";
+require('NodeExtension.php');
 
 $client = new Everyman\Neo4j\Client('localhost', 7474);
 $client->getTransport()->setAuth('username', 'password');
 
-$tpl = new HTML_Template_IT("./templates");
+$loader = new Twig_Loader_Filesystem('./templates/');
+$twig = new Twig_Environment($loader);
+$twig->addExtension(new NodeExtension());
 
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
@@ -17,7 +19,6 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 }
 
 // Not used yet - still in index.php
-
 function getProcessors(){
 	global $client;
 	global $tpl;
@@ -43,31 +44,30 @@ function getProcessors(){
 
 function getInfo(){
 	global $client;
+	global $twig;
 	$nodeid = $_POST['node'];
 	$node = $client->getNode($nodeid);
 
-	global $tpl;
-	$tpl->loadTemplatefile("tableinfo.html", true, true);
-	$tpl->setVariable("ID", $nodeid);
-	$tpl->setVariable("NAME", $node->getProperty('name'));
-	$tpl->setVariable("DESC", $node->getProperty('description'));
-	$tpl->setVariable("CAT", $node->getProperty('category'));
-	$tpl->setVariable("INFO", $node->getProperty('info'));
-	$tpl->show();
+	$template = $twig->loadTemplate('tableinfo.twig');
+    echo $template->render(array('node' => $node));
 }
 
 
 function componentOverview(){
 	global $client;
+	global $twig;
 
-	$processornode = $client->getNode($_POST['processorid']);
-	$videokaartnode = $client->getNode($_POST['videokaartid']);
+	$template = $twig->loadTemplate('overview-cart.twig');
 
 	if(!empty($_POST['processorid'])){
-		addHtml($processornode);
+		// addHtml($processornode);
+		$processornode = $client->getNode($_POST['processorid']);
+		echo $template->render(array('node' => $processornode));
 	}
 	if(!empty($_POST['videokaartid'])){
-		addHtml($videokaartnode);
+		// addHtml($videokaartnode);
+		$videokaartnode = $client->getNode($_POST['videokaartid']);
+		echo $template->render(array('node' => $videokaartnode));
 	}
 	if(empty($_POST['videokaartid']) && empty($_POST['processorid'])){
 		echo("Geen componenten gekozen");
@@ -76,48 +76,16 @@ function componentOverview(){
 
 function compareComponents(){
 	global $client;
-	global $tpl;
+	global $twig;
 
 	$ids = $_POST['nodeids'];
-	$headers = "";
-	$category = "";
-	$description = "";
-	$a = array();
+	$nodes = array();
 
 	foreach($ids as $i){
-		array_push($a,$client->getNode($i));
+		array_push($nodes,$client->getNode($i));
 	}
 
-	foreach ($a as $j){
-		$headers .= '<th>'.$j->getProperty('name').'</th>';
-		$category .= '<td>'.$j->getProperty('category').'</td>';
-		$description .= '<td>'.$j->getProperty('description').'</td>';
-	}
-
-	$tpl->loadTemplatefile("comparetable.html", true, true);
-	$tpl->setVariable("HEADER", $headers);
-	$tpl->setVariable("CAT", $category);
-	$tpl->setVariable("DESC", $description);
-	$tpl->show();
-}
-
-function addHtml($node){
-	$tpl = new HTML_Template_IT("./templates");
-
-	switch ($node->getProperty('category')) {
-		case 'videokaart':
-		$description = $node->getProperty('name')."<p> ".$node->getProperty('description');
-		break;
-
-		default:
-		$description = $node->getProperty('description');
-		break;
-	}
-
-	$tpl->loadTemplatefile("overviewhtml.html", true, true);
-	$tpl->setVariable("CAT", $node->getProperty('category'));
-	$tpl->setVariable("NAME", $node->getProperty('name'));
-	$tpl->setVariable("DESC", $node->getProperty('description'));
-	$tpl->show();
+	$template = $twig->loadTemplate('compare.twig');
+    echo $template->render(array('nodes' => $nodes));
 }
 ?>

@@ -32,7 +32,7 @@ header {
     position: static;
 }
 body {
-    color: #828282;
+    color: #666666;
     background-color: #eee;
 }
 a, a:hover {
@@ -324,5 +324,93 @@ li.active span.round-tabs.five {
 }
 
 .table>thead>tr>th {
-vertical-align: middle !important;
+    vertical-align: middle !important;
 }
+
+/* START styles voor goedkoopste winkel */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600);
+.gdk-winkel{
+    font-family: 'Open Sans', sans-serif;
+    min-width: 500px;
+    box-shadow: 0px 0px 5px rgb(51, 51, 51);
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+    margin: 10px 20px;
+}
+
+.gdk-winkel .gdk-img{
+    width:100px;
+    height:100px;
+    float:left;
+    background-color: #ddd;
+}
+
+.gdk-winkel .info{
+    height:75px;
+    background-color: #f4f4f4; 
+    overflow:hidden; 
+    padding-left: 20px;
+}
+
+.gdk-winkel .details{
+    width: 66%; 
+    float:left;
+}
+
+.gdk-winkel .details .details-title{
+    font-size: 20px;
+}
+
+.gdk-winkel .details-title,
+.gdk-winkel .store-title{
+    margin: 5px 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gdk-winkel .store{
+    width:33%; 
+    float:left;
+    text-align:center;
+    padding-left:20px;
+}
+
+.gdk-winkel .store .store-img{
+    max-height: 40px;
+    max-width: 110px;
+    padding-right: 5px;
+}
+
+@media (min-width: 690px) {
+    .gdk-winkel .store .store-img{
+        max-height: 40px;
+        max-width: 150px;
+    }
+}
+
+.gdk-winkel .extra{
+    background-color:#ddd;
+    height:25px;
+    overflow:hidden;
+    text-align:center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.gdk-winkel .extra a{
+    color: #666666;
+}
+
+.gdk-winkel .extra-info{
+    height: 25px;
+    width:33.333%;
+    float:left;
+    line-height: 25px;
+    font-weight:300;
+}
+
+.gdk-winkel .extra-info:hover{
+    color: rgb(30, 30, 30);
+    background-color: #ccc;
+}
+/* END styles voor goedkoopste winkel */
