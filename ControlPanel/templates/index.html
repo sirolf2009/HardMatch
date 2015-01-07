@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+
+    <h1>Welkom op mijn index pagina</h1>
+
+    {% if pageType == 'about' %}
+        <p>Dit is een ABOUT pagina</p>
+    {% else %}
+        <p>HAHAHA</p>
+    {% endif %}
+
+{% endblock %}
+

@@ -1,8 +1,14 @@
 __author__ = 'gokhankacan'
 import requests
 from bs4 import BeautifulSoup
-# from enum import Enum
 from py2neo import neo4j,Node,Relationship,Graph
+
+
+
+def main():
+    # categorieLevel('coolblue')
+    pr()
+
 
 def stores(store):
 
@@ -24,29 +30,20 @@ def stores(store):
 
 
 def soup_function(args):
-
     source = requests.get(args)
     plain = source.text
     soup = BeautifulSoup(plain)
-
     return soup
 
 
-
-
-
-
-
-
-
-def categorieLevel():
+def categorieLevel(storeURL):
     start = True
     subCategoriesArray = []
 
     while start:
 
-        s = stores('coolblue')
-        soup = soup_function(s)
+
+        soup = soup_function(stores(storeURL))
 
 
         for categories in soup.findAll('a', {'class': 'facetAction'}):
@@ -58,14 +55,6 @@ def categorieLevel():
             start = False
 
     productListingPages(subCategoriesArray)
-
-
-
-
-
-
-
-
 
 
 
@@ -89,64 +78,67 @@ def productListingPages(receiveAllSubCategories):
 
 
 
-
-
-
-
-
-
 def productListingLevel(max_pages, URL):
     page = 1
 
-
     while page <= max_pages:
-
         soup = soup_function(URL + '?sort=popularity&dir=d&page=' + str(page))
-
-
         for product in soup.findAll('a', {'class': 'product-list-item--title-link'}):
             href = 'http://www.processorstore.nl' + product.get('href')
             title = product.get('title')
-
             productPageLevel(title, href)
-
         page += 1
-
-
-"""
-        # productPageLevel(title, href, price, stock)
-"""
-
-
-
 
 
 
 def productPageLevel(title, href):
 
-    # print(title, href, price, stock)
-    print(title, href)
-
-    soup = soup_function(href)
-
-
-    """
-    if (soup.findAll('div', {'class': 'product-specifications is-collapsable is-collapsed'})):
-        print('Dit TRUE TRUE')
-
-    elif (soup.findChildren('dl', {'class': 'product-specs--list'})):
-
-
-        for dt in soup.findAll('dt', {'class': 'product-specs--item-title'}):
-
-            print(dt.string)
-
-        for dd in soup.findAll('dd', {'class': 'product-specs--item-spec'}):
-            print(dd.string)
-    """
+    s = soup_function(href)
+    print(s.find_parent('tr'))
+    # block = s.find('table', {'class':'table table_spectable roundedcorners'})
 
 
 
+
+def pr():
+    link = 'http://www.processorstore.nl/product/476816/category-212276/intel-core-i7-4790k.html'
+
+    source = requests.get(link)
+    plain = source.text
+    soup = BeautifulSoup(plain)
+
+
+    dl = soup.findChildren('dl', {'class': 'product-specs--list'})
+
+    for i in range(0, len(dl)):
+
+        # print(i)
+        # print('###################################')
+        # print(dl[i])
+
+
+        sourceDT = dl[i].text
+        soupDT = BeautifulSoup(sourceDT)
+        # print(soupDT.find('dt'))
+
+
+
+
+
+
+"""
+if (soup.findAll('div', {'class': 'product-specifications is-collapsable is-collapsed'})):
+    print('Dit TRUE TRUE')
+
+elif (soup.findChildren('dl', {'class': 'product-specs--list'})):
+
+
+    for dt in soup.findAll('dt', {'class': 'product-specs--item-title'}):
+
+        print(dt.string)
+
+    for dd in soup.findAll('dd', {'class': 'product-specs--item-spec'}):
+        print(dd.string)
 
 <<<<<<< Updated upstream
 def htmlOld(sourceCode):
@@ -156,10 +148,18 @@ def htmlOld(sourceCode):
     # TODO: Check alle tabellen <DL>
     #for tech in sourceCode.product-specs--item-title #product-specs--item-spec
 =======
->>>>>>> Stashed changes
+
+"""
 
 
 
 
+class productObj():
 
-categorieLevel()
+    def __init__(self, productLink):
+        self.specKey = ()
+        self.productLink = productLink
+
+
+if __name__ == '__main__':
+    main()
