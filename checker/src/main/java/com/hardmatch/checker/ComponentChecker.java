@@ -101,12 +101,26 @@ public class ComponentChecker {
 		return node;
 	}
 
-	public List<URI> createStoreLinks(JSONArray jsonResult, URI component) {
-		for(Object obj : jsonResult) {
+	public void createStoreLinks(JSONArray existingRelationships, URI component) {
+		for(Object obj : existingRelationships) {
 			try {
-				JSONObject object = (JSONObject) obj;
-				URI endNode = new URI(object.get("end").toString());
+				JSONObject existingRelationship = (JSONObject) obj;
+				URI endNode = new URI(existingRelationship.get("end").toString());
 				String storeName = restTemp.nodes.getProperties(endNode).get("name").toString();
+				boolean hasRelation = false;
+				for(Object objRelation : restFinal.relationship.getRelationships(component)) {
+					JSONObject storeRelationship = (JSONObject) objRelation;
+					if(storeRelationship.get("type").toString().equals("SOLD_AT")) {
+						URI storeNode = new URI(storeRelationship.get("end").toString());
+						if(restFinal.nodes.getProperties(storeNode).get("name").toString().equals(storeName)) {
+							hasRelation = true;
+							break;
+						}
+					}
+				}
+				if(hasRelation) {
+					continue;
+				}
 				JSONObject answer = (JSONObject)restFinal.sendCypher("MATCH (store:Store) WHERE store.name=\\\""+storeName+"\\\" RETURN store, id(store)");
 				JSONArray results = (JSONArray) answer.get("results");
 				JSONObject firstHit = (JSONObject) results.get(0);
@@ -123,12 +137,11 @@ public class ComponentChecker {
 					store = restFinal.nodes.fromID(storeID);
 				}
 				URI relationship = restFinal.relationship.addRelationship(component, store, "SOLD_AT");
-				restFinal.relationship.setRelationshipProperties(relationship, restTemp.relationship.getRelationshipProperties(new URI(object.get("self").toString())));
+				restFinal.relationship.setRelationshipProperties(relationship, restTemp.relationship.getRelationshipProperties(new URI(existingRelationship.get("self").toString())));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
 
 	public void addLabels(URI node, String labels) {
