@@ -5,10 +5,14 @@ import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
+import com.hardmatch.matcher.packets.PacketHeartbeat;
+import com.sirolf2009.networking.Packet;
+
 public class ThriftServer {
 
 	private static ThriftHandler handler;
 	private static MatcherPHPHandler.Processor<ThriftHandler> processor;
+	private static NetworkManagerMatcher networkManager;
 
 	public static void main(String [] args) {
 		try {
@@ -22,6 +26,8 @@ public class ThriftServer {
 			};
 
 			new Thread(simple).start();
+			
+			networkManager = new NetworkManagerMatcher();
 		} catch (Exception x) {
 			x.printStackTrace();
 		}
@@ -37,6 +43,10 @@ public class ThriftServer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	static {
+		Packet.registerPacket(1, PacketHeartbeat.class);
 	}
 
 }
