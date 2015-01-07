@@ -1,4 +1,8 @@
+#!/usr/bin/env python
+#coding: utf8
+
 __author__ = 'Basit'
+
 
 import requests
 from bs4 import BeautifulSoup

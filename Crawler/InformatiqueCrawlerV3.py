@@ -1,7 +1,11 @@
-__author__ = 'Basit'
+#!/usr/bin/env python
+#coding: utf8
+
+# __author__ = 'Basit'
 import requests
 from bs4 import BeautifulSoup
 from py2neo import Node, Graph
+
 
 import IParseSave
 
