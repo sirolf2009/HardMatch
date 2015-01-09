@@ -28,7 +28,7 @@ def saveComponent(properties, winkel, label, price):
     winkel.pull()
     for i in properties:
         cn.properties[i] = properties[i]
-    graph = Graph("http://localhost:7474/db/data/")
+    graph = Graph("http://localhost:7484/db/data/")
     rel = Relationship(cn, 'SOLD_AT', winkel, price=price)
     graph.create(cn)
     graph.create(rel)

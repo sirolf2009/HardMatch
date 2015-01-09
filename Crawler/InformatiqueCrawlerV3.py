@@ -366,7 +366,7 @@ class Storage(IParseSave.Storage):
         IParseSave.saveComponent(store.properties, winkel, label, price)
 
 
-graph = Graph("http://localhost:7474/db/data/")
+graph = Graph("http://localhost:7484/db/data/")
 winkel = Node('Store', Name='informatique.nl')
 graph.create(winkel)
 topLevelSpider('http://www.informatique.nl/componenten/', getCategories())
