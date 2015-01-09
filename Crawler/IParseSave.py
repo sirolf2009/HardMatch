@@ -23,13 +23,13 @@ def printProperties(properties):
         print(properties[x])
 
 
-def saveComponent(properties, winkel):
-    cn = Node(properties['label'])
+def saveComponent(properties, winkel, label, price):
+    cn = Node(label)
     winkel.pull()
     for i in properties:
         cn.properties[i] = properties[i]
-    graph = Graph("http://localhost:7484/db/data/")
-    rel = Relationship(cn, 'SOLD_AT', winkel, price=properties['price'])
+    graph = Graph("http://localhost:7474/db/data/")
+    rel = Relationship(cn, 'SOLD_AT', winkel, price=price)
     graph.create(cn)
     graph.create(rel)
     cn.add_labels('Component')
@@ -39,9 +39,7 @@ def saveComponent(properties, winkel):
 class CPU():
     properties = {
         'modelID': 'null',
-        'label': 'CPU',
         'name': 'null',
-        'price': 'null',
         'brand': 'null',
         'serie': 'null',
         'product': 'null',  # eerste gedeelte van de productnaam
@@ -74,10 +72,8 @@ class CPU():
 class GraphicsCard():
     properties = {
         'modelID': 'null',
-        'label': 'GraphicsCard',
         'brand': 'null',
         'product': 'null',
-        'price': 'null',
         'Videochip': 'null',  # GeForce GTX 970
         'ChipsetGeneratie': 'null',  # GeForce 900 Serie
         'Videochipfabrikant': 'null',  # Nvidia
@@ -114,10 +110,8 @@ class GraphicsCard():
 class Motherboard():
     properties = {
         'modelID': 'null',
-        'label': 'Motherboard',
         'brand': 'null',
         'product': 'null',  # Asus M5A78L-M
-        'price': 'null',
         'socket': 'null',
         'AantalSockets': 'null',
         'FormFactor': 'null',
@@ -145,10 +139,8 @@ class Motherboard():
 class RAM():
     properties = {
         'modelID': 'null',
-        'label': 'RAM',
         'brand': 'null',  # Crucial
         'serie': 'null',  # Ballistix
-        'price': 'null',
         'Geheugengrootte': 'null',  #8GB
         'Aantal': 'null',  #2x
         'Modulegrootte': 'null',  #4GB
@@ -163,11 +155,9 @@ class RAM():
 class Storage():
     properties = {
         'modelID': 'null',
-        'label': 'Storage',
         'brand': 'null',  # WD
         'serie': 'null',  # Red
         'product': 'null',  #WD Red SATA 6 Gb/s
-        'price': 'null',
         'Opslagcapactiteit': 'null',  #3TB
         'HardeschijfBusIntern': 'null',  #SATA-600
         'Hoogte': 'null',  #26,1mm

@@ -146,6 +146,7 @@ def getNextPage(link):
 
 class CPU(IParseSave.CPU):
     def cpuParser(detailadress):
+        label = 'CPU'
         cpu = CPU()
         soup = getHTML(detailadress)
         specs = soup.findAll('td', {'class': 'right'})
@@ -157,8 +158,9 @@ class CPU(IParseSave.CPU):
         cpu.properties['brand'] = brand.string
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
+        price = price.replace('.', '')
         price = price.replace(',', '.')
-        cpu.properties['price'] = float(price[2:])
+        price = float(price[2:])
 
         if specs is not None:
             for x in specs:
@@ -184,11 +186,12 @@ class CPU(IParseSave.CPU):
                     elif 'L3' in x.string:
                         cpu.properties['CPUCacheLevel3'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(cpu.properties, winkel)
+        IParseSave.saveComponent(cpu.properties, winkel, label, price)
 
 
 class GraphicsCard(IParseSave.GraphicsCard):
     def graphicsCardParser(detailadress):
+        label = 'GraphicsCard'
         gc = GraphicsCard()
         soup = getHTML(detailadress)
         specs = soup.findAll('td', {'class': 'right'})
@@ -203,8 +206,9 @@ class GraphicsCard(IParseSave.GraphicsCard):
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
+        price = price.replace('.', '')
         price = price.replace(',', '.')
-        gc.properties['price'] = float(price[2:])
+        price = float(price[2:])
 
         if specs is not None:
             for x in specs:
@@ -234,11 +238,12 @@ class GraphicsCard(IParseSave.GraphicsCard):
                     elif 'sloten' in x.string:
                         gc.properties['aantalSlots'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(gc.properties, winkel)
+        IParseSave.saveComponent(gc.properties, winkel, label, price)
 
 
 class Motherboard(IParseSave.Motherboard):
     def motherBoardParser(detailadress):
+        label = 'Motherboard'
         mb = Motherboard()
         soup = getHTML(detailadress)
         specs = soup.findAll('td', {'class': 'right'})
@@ -253,8 +258,9 @@ class Motherboard(IParseSave.Motherboard):
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
+        price = price.replace('.', '')
         price = price.replace(',', '.')
-        mb.properties['price'] = float(price[2:])
+        price = float(price[2:])
 
         breadCrumbvariables = soup.findAll('span', {'itemprop': 'title'})
         for x in breadCrumbvariables:
@@ -277,11 +283,12 @@ class Motherboard(IParseSave.Motherboard):
                     elif 'PCI-E x16 sloten' in x.string:
                         mb.properties['AantalPCI-ex16Slots'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(mb.properties, winkel)
+        IParseSave.saveComponent(mb.properties, winkel, label, price)
 
 
 class RAM(IParseSave.RAM):
     def RAMparser(detailadress):
+        label = 'RAM'
         ram = RAM()
         soup = getHTML(detailadress)
         specs = soup.findAll('td', {'class': 'right'})
@@ -296,8 +303,9 @@ class RAM(IParseSave.RAM):
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
+        price = price.replace('.', '')
         price = price.replace(',', '.')
-        ram.properties['price'] = float(price[2:])
+        price = float(price[2:])
 
         type = soup.find('span', {'itemprop': 'description'})
         type = type.text
@@ -318,11 +326,12 @@ class RAM(IParseSave.RAM):
                     elif 'Latency' in x.string:
                         ram.properties['GeheugenCASLatency'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(ram.properties, winkel)
+        IParseSave.saveComponent(ram.properties, winkel, label, price)
 
 
 class Storage(IParseSave.Storage):
     def storageParser(detailadress):
+        label = 'Storage'
         store = Storage()
         soup = getHTML(detailadress)
         specs = soup.findAll('td', {'class': 'right'})
@@ -336,8 +345,9 @@ class Storage(IParseSave.Storage):
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
+        price = price.replace('.', '')
         price = price.replace(',', '.')
-        store.properties['price'] = float(price[2:])
+        price = float(price[2:])
 
         if specs is not None:
             for x in specs:
@@ -353,10 +363,10 @@ class Storage(IParseSave.Storage):
                     if 'Chache' in x.string:
                         store.properties['DriveCache'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(store.properties, winkel)
+        IParseSave.saveComponent(store.properties, winkel, label, price)
 
 
-graph = Graph("http://localhost:7484/db/data/")
+graph = Graph("http://localhost:7474/db/data/")
 winkel = Node('Store', Name='informatique.nl')
 graph.create(winkel)
 topLevelSpider('http://www.informatique.nl/componenten/', getCategories())
