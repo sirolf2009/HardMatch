@@ -28,10 +28,12 @@ def saveComponent(properties, winkel):
     winkel.pull()
     for i in properties:
         cn.properties[i] = properties[i]
-    graph = Graph("http://localhost:7474/db/data/")
+    graph = Graph("http://localhost:7484/db/data/")
     rel = Relationship(cn, 'SOLD_AT', winkel, price=properties['price'])
     graph.create(cn)
     graph.create(rel)
+    cn.add_labels('Component')
+    cn.push()
 
 
 class CPU():
@@ -114,7 +116,6 @@ class Motherboard():
         'modelID': 'null',
         'label': 'Motherboard',
         'brand': 'null',
-        'serie': 'null',  # AMD AM3+
         'product': 'null',  # Asus M5A78L-M
         'price': 'null',
         'socket': 'null',
