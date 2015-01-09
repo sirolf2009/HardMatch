@@ -162,26 +162,27 @@ class CPU(IParseSave.CPU):
 
         if specs is not None:
             for x in specs:
-                if 'Fabrikantcode' in x.string:
-                    cpu.properties['modelID'] = x.findNextSibling('td').string
-                elif 'Type' in x.string:
-                    cpu.properties['serie'] = x.findNextSibling('td').string
-                elif 'socket' in x.string:
-                    cpu.properties['Socket'] = x.findNextSibling('td').string
-                elif 'cores' in x.string:
-                    cpu.properties['AantalCores'] = x.findNextSibling('td').string
-                elif 'snelheid' in x.string:
-                    cpu.properties['Snelheid'] = x.findNextSibling('td').string
-                elif 'TDP' in x.string:
-                    cpu.properties['ThermalDesignPower'] = x.findNextSibling('td').string
-                elif 'Graphics' in x.string:
-                    cpu.properties['GeïntegreerdeGraphics'] = x.findNextSibling('td').string
-                elif 'L1' in x.string:
-                    cpu.properties['CPUCacheLevel1'] = x.findNextSibling('td').string
-                elif 'L2' in x.string:
-                    cpu.properties['CPUCacheLevel2'] = x.findNextSibling('td').string
-                elif 'L3' in x.string:
-                    cpu.properties['CPUCacheLevel3'] = x.findNextSibling('td').string
+                if x.string is not None:
+                    if 'Fabrikantcode' in x.string:
+                        cpu.properties['modelID'] = x.findNextSibling('td').string
+                    elif 'Type' in x.string:
+                        cpu.properties['serie'] = x.findNextSibling('td').string
+                    elif 'socket' in x.string:
+                        cpu.properties['Socket'] = x.findNextSibling('td').string
+                    elif 'cores' in x.string:
+                        cpu.properties['AantalCores'] = x.findNextSibling('td').string
+                    elif 'snelheid' in x.string:
+                        cpu.properties['Snelheid'] = x.findNextSibling('td').string
+                    elif 'TDP' in x.string:
+                        cpu.properties['ThermalDesignPower'] = x.findNextSibling('td').string
+                    elif 'Graphics' in x.string:
+                        cpu.properties['GeïntegreerdeGraphics'] = x.findNextSibling('td').string
+                    elif 'L1' in x.string:
+                        cpu.properties['CPUCacheLevel1'] = x.findNextSibling('td').string
+                    elif 'L2' in x.string:
+                        cpu.properties['CPUCacheLevel2'] = x.findNextSibling('td').string
+                    elif 'L3' in x.string:
+                        cpu.properties['CPUCacheLevel3'] = x.findNextSibling('td').string
 
         IParseSave.saveComponent(cpu.properties, winkel)
 
@@ -207,30 +208,31 @@ class GraphicsCard(IParseSave.GraphicsCard):
 
         if specs is not None:
             for x in specs:
-                if 'Fabrikantcode' in x.string:
-                    gc.properties['modelID'] = x.findNextSibling('td').string
-                elif 'Fabrikant' in x.string:
-                    gc.properties['Videochipfabrikant'] = x.findNextSibling('td').string
-                elif 'GPU kloksnelheid' in x.string:
-                    gc.properties['NominaleSnelheidVideochip'] = x.findNextSibling('td').string
-                elif 'kernen' in x.string:
-                    gc.properties['Rekenkernen'] = x.findNextSibling('td').string
-                elif 'hoeveelheid' in x.string:
-                    gc.properties['Geheugengrootte'] = x.findNextSibling('td').string
-                elif 'geheugentype' in x.string:
-                    gc.properties['GeheugenType'] = x.findNextSibling('td').string
-                elif 'Geheugen kloksnelheid' in x.string:
-                    gc.properties['GeheugenSnelheid'] = x.findNextSibling('td').string
-                elif 'bandbreedte' in x.string:
-                    gc.properties['GeheugenBusbreedte'] = x.findNextSibling('td').string
-                elif 'Bus type' in x.string:
-                    gc.properties['CardInterface'] = x.findNextSibling('td').string
-                elif 'DirectX' in x.string:
-                    gc.properties['DirectXversion'] = x.findNextSibling('td').string
-                elif 'OpenGL' in x.string:
-                    gc.properties['OpenGLversion'] = x.findNextSibling('td').string
-                elif 'sloten' in x.string:
-                    gc.properties['aantalSlots'] = x.findNextSibling('td').string
+                if x.string is not None:
+                    if 'Fabrikantcode' in x.string:
+                        gc.properties['modelID'] = x.findNextSibling('td').string
+                    elif 'Fabrikant' in x.string:
+                        gc.properties['Videochipfabrikant'] = x.findNextSibling('td').string
+                    elif 'GPU kloksnelheid' in x.string:
+                        gc.properties['NominaleSnelheidVideochip'] = x.findNextSibling('td').string
+                    elif 'kernen' in x.string:
+                        gc.properties['Rekenkernen'] = x.findNextSibling('td').string
+                    elif 'hoeveelheid' in x.string:
+                        gc.properties['Geheugengrootte'] = x.findNextSibling('td').string
+                    elif 'geheugentype' in x.string:
+                        gc.properties['GeheugenType'] = x.findNextSibling('td').string
+                    elif 'Geheugen kloksnelheid' in x.string:
+                        gc.properties['GeheugenSnelheid'] = x.findNextSibling('td').string
+                    elif 'bandbreedte' in x.string:
+                        gc.properties['GeheugenBusbreedte'] = x.findNextSibling('td').string
+                    elif 'Bus type' in x.string:
+                        gc.properties['CardInterface'] = x.findNextSibling('td').string
+                    elif 'DirectX' in x.string:
+                        gc.properties['DirectXversion'] = x.findNextSibling('td').string
+                    elif 'OpenGL' in x.string:
+                        gc.properties['OpenGLversion'] = x.findNextSibling('td').string
+                    elif 'sloten' in x.string:
+                        gc.properties['aantalSlots'] = x.findNextSibling('td').string
 
         IParseSave.saveComponent(gc.properties, winkel)
 
@@ -261,18 +263,19 @@ class Motherboard(IParseSave.Motherboard):
 
         if specs is not None:
             for x in specs:
-                if 'Fabrikantcode' in x.string:
-                    mb.properties['modelID'] = x.findNextSibling('td').string
-                if 'geheugensloten' in x.string:
-                    mb.properties['AantalSockets'] = x.findNextSibling('td').string
-                elif 'Form factor' in x.string:
-                    mb.properties['FormFactor'] = x.findNextSibling('td').string
-                elif 'Chipset' in x.string:
-                    mb.properties['Moederbordchipset'] = x.findNextSibling('td').string
-                elif 'Type geheugen' in x.string:
-                    mb.properties['Geheugentype'] = x.findNextSibling('td').string
-                elif 'PCI-E x16 sloten' in x.string:
-                    mb.properties['AantalPCI-ex16Slots'] = x.findNextSibling('td').string
+                if x.string is not None:
+                    if 'Fabrikantcode' in x.string:
+                        mb.properties['modelID'] = x.findNextSibling('td').string
+                    if 'geheugensloten' in x.string:
+                        mb.properties['AantalSockets'] = x.findNextSibling('td').string
+                    elif 'Form factor' in x.string:
+                        mb.properties['FormFactor'] = x.findNextSibling('td').string
+                    elif 'Chipset' in x.string:
+                        mb.properties['Moederbordchipset'] = x.findNextSibling('td').string
+                    elif 'Type geheugen' in x.string:
+                        mb.properties['Geheugentype'] = x.findNextSibling('td').string
+                    elif 'PCI-E x16 sloten' in x.string:
+                        mb.properties['AantalPCI-ex16Slots'] = x.findNextSibling('td').string
 
         IParseSave.saveComponent(mb.properties, winkel)
 
@@ -305,14 +308,15 @@ class RAM(IParseSave.RAM):
 
         if specs is not None:
             for x in specs:
-                if 'Fabrikantcode' in x.string:
-                    ram.properties['modelID'] = x.findNextSibling('td').string
-                if 'capactiteit' in x.string:
-                    ram.properties['GeheugenSpecificatie'] = x.findNextSibling('td').string
-                elif 'modules' in x.string:
-                    ram.properties['Aantal'] = x.findNextSibling('td').string
-                elif 'Latency' in x.string:
-                    ram.properties['GeheugenCASLatency'] = x.findNextSibling('td').string
+                if x.string is not None:
+                    if 'Fabrikantcode' in x.string:
+                        ram.properties['modelID'] = x.findNextSibling('td').string
+                    if 'capactiteit' in x.string:
+                        ram.properties['GeheugenSpecificatie'] = x.findNextSibling('td').string
+                    elif 'modules' in x.string:
+                        ram.properties['Aantal'] = x.findNextSibling('td').string
+                    elif 'Latency' in x.string:
+                        ram.properties['GeheugenCASLatency'] = x.findNextSibling('td').string
 
         IParseSave.saveComponent(ram.properties, winkel)
 
@@ -337,16 +341,17 @@ class Storage(IParseSave.Storage):
 
         if specs is not None:
             for x in specs:
-                if 'Fabrikantcode' in x.string:
-                    store.properties['modelID'] = x.findNextSibling('td').string
-                if 'Capaciteit' in x.string:
-                    store.properties['Opslagcapactiteit'] = x.findNextSibling('td').string
-                if 'Dikte' in x.string:
-                    store.properties['Hoogte'] = x.findNextSibling('td').string
-                if 'Rotatiesnelheid' in x.string:
-                    store.properties['RotatieSnelheid'] = x.findNextSibling('td').string
-                if 'Chache' in x.string:
-                    store.properties['DriveCache'] = x.findNextSibling('td').string
+                if x.string is not None:
+                    if 'Fabrikantcode' in x.string:
+                        store.properties['modelID'] = x.findNextSibling('td').string
+                    if 'Capaciteit' in x.string:
+                        store.properties['Opslagcapactiteit'] = x.findNextSibling('td').string
+                    if 'Dikte' in x.string:
+                        store.properties['Hoogte'] = x.findNextSibling('td').string
+                    if 'Rotatiesnelheid' in x.string:
+                        store.properties['RotatieSnelheid'] = x.findNextSibling('td').string
+                    if 'Chache' in x.string:
+                        store.properties['DriveCache'] = x.findNextSibling('td').string
 
         IParseSave.saveComponent(store.properties, winkel)
 
