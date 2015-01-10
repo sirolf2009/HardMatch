@@ -5,7 +5,7 @@ import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
-import com.hardmatch.matcher.packets.PacketHeartbeat;
+import com.hardmatch.matcher.packets.PacketHeartbeatMatcher;
 import com.sirolf2009.networking.Packet;
 
 public class ThriftServer {
@@ -46,7 +46,7 @@ public class ThriftServer {
 	}
 	
 	static {
-		Packet.registerPacket(1, PacketHeartbeat.class);
+		Packet.registerPacket(1, PacketHeartbeatMatcher.class);
 	}
 
 }

@@ -5,6 +5,10 @@ import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
+import com.hardmatch.checker.NetworkManagerChecker;
+import com.hardmatch.checker.PacketHeartbeatChecker;
+import com.sirolf2009.networking.Packet;
+
 public class ThriftServer {
 
 	private static ThriftHandler handler;
@@ -31,12 +35,17 @@ public class ThriftServer {
 		try {
 			TServerTransport serverTransport = new TServerSocket(9091);
 			TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-
+			new NetworkManagerChecker();
 			System.out.println("Server started. Waiting for connections");
 			server.serve();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	static {
+		Packet.registerPacket(2, PacketHeartbeatChecker.class);
+	}
+
 
 }

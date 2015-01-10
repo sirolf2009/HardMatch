@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 
+import com.hardmatch.javaDashboard.packets.PacketHeartbeatChecker;
 import com.hardmatch.javaDashboard.packets.PacketHeartbeatMatcher;
 import com.sirolf2009.networking.Packet;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
@@ -19,7 +20,7 @@ public class WicketApplication extends WebApplication {
 	
 	public WicketApplication() {
 		try {
-			server = new NetworkManager(this);
+			setServer(new NetworkManager(this));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -52,8 +53,17 @@ public class WicketApplication extends WebApplication {
 		this.lastMatcherHeartBeat = lastMatcherHeartBeat;
 	}
 
+	public NetworkManager getServer() {
+		return server;
+	}
+
+	public void setServer(NetworkManager server) {
+		this.server = server;
+	}
+
 	static {
 		Packet.registerPacket(1, PacketHeartbeatMatcher.class);
+		Packet.registerPacket(2, PacketHeartbeatChecker.class);
 	}
 
 }

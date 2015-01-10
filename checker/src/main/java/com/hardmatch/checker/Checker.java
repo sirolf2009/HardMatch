@@ -18,6 +18,7 @@ import org.json.simple.JSONObject;
 
 import com.hardmatch.checker.components.ComponentFactory;
 import com.hardmatch.checker.components.ComponentFactory.UnknownComponentException;
+import com.sirolf2009.networking.Packet;
 import com.sirolf2009.util.neo4j.NeoUtil;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
 
@@ -32,6 +33,7 @@ public class Checker {
 
 	public RestAPI restTemp;
 	public RestAPI restFinal;
+
 
 	public Checker(Options options, String[] args) {
 		initFromCommandLine(options, args);
@@ -172,5 +174,4 @@ public class Checker {
 			new Checker();
 		}
 	}
-
 }
