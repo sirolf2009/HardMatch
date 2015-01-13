@@ -8,11 +8,10 @@ import org.apache.thrift.transport.TServerTransport;
 import com.hardmatch.matcher.packets.PacketHeartbeatMatcher;
 import com.sirolf2009.networking.Packet;
 
-public class ThriftServer {
+public class ThriftServerMatcher {
 
 	private static ThriftHandler handler;
 	private static MatcherPHPHandler.Processor<ThriftHandler> processor;
-	private static NetworkManagerMatcher networkManager;
 
 	public static void main(String [] args) {
 		try {
@@ -27,7 +26,7 @@ public class ThriftServer {
 
 			new Thread(simple).start();
 			
-			networkManager = new NetworkManagerMatcher();
+			new NetworkManagerMatcher();
 		} catch (Exception x) {
 			x.printStackTrace();
 		}

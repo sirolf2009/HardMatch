@@ -64,31 +64,26 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="panel panel-default">
-							<div class="panel-body">Another chart!</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="panel panel-default">
-							<div class="panel-body">Another chart!</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h3>Matcher status</h3>
-				Time since last heartbeat <div wicket:id="timeSinceMatcherHeartbeat"></div>
+				<h4>Time since last heartbeat</h4>
+				<div wicket:id="timeSinceMatcherHeartbeat"></div>
+				<br />
+				<div wicket:id="chartMatcherHeartbeat"></div>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h3>Checker status</h3>
+				<h4>Time since last heartbeat</h4>
+				<div wicket:id="timeSinceCheckerHeartbeat"></div>
+				<br />
+				<div wicket:id="chartCheckerHeartbeat"></div>
 			</div>
 		</div>
 
@@ -105,19 +100,19 @@
 					</div>
 					<div class="col-md-6">
 						<div class="panel panel-default">
-								<div wicket:id="chartMostExpensiveComponents"></div>
+							<div wicket:id="chartMostExpensiveComponents"></div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="panel panel-default">
-							<div class="panel-body">Another chart!</div>
+							<div wicket:id="chartStorePerComponents"></div>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="panel panel-default">
-							<div class="panel-body">Another chart!</div>
+							<div wicket:id="chartCompatibilityDistribution"></div>
 						</div>
 					</div>
 				</div>

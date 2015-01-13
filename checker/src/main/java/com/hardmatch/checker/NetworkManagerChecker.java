@@ -5,7 +5,7 @@ import java.util.Observable;
 import com.sirolf2009.networking.AbstractClient;
 
 public class NetworkManagerChecker extends AbstractClient {
-	
+
 	public NetworkManagerChecker() {
 		this("localhost", 1200);
 	}
@@ -18,12 +18,14 @@ public class NetworkManagerChecker extends AbstractClient {
 	public void onConnected() {
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					Thread.sleep(1000*60);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				while(true) {
+					sendPacket(new PacketHeartbeatChecker());
+					try {
+						Thread.sleep(1000*30);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-				sendPacket(new PacketHeartbeatChecker());
 			}
 		}).start();
 	}

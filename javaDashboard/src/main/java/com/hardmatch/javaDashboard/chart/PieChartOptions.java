@@ -3,6 +3,7 @@ package com.hardmatch.javaDashboard.chart;
 import com.googlecode.wickedcharts.highcharts.options.ChartOptions;
 import com.googlecode.wickedcharts.highcharts.options.Cursor;
 import com.googlecode.wickedcharts.highcharts.options.DataLabels;
+import com.googlecode.wickedcharts.highcharts.options.Function;
 import com.googlecode.wickedcharts.highcharts.options.Options;
 import com.googlecode.wickedcharts.highcharts.options.PlotOptions;
 import com.googlecode.wickedcharts.highcharts.options.PlotOptionsChoice;
@@ -25,7 +26,7 @@ public class PieChartOptions extends Options {
 		.setPlotBorderWidth(null)
 		.setPlotShadow(Boolean.FALSE));
 
-		setTitle(new Title("Component Distribution"));
+		setTitle(new Title("NO NAME DEFINED"));
 
 		setTooltip(new Tooltip()
 		.setFormatter(new PercentageFormatter())
@@ -39,7 +40,7 @@ public class PieChartOptions extends Options {
 		.setEnabled(Boolean.TRUE)
 		.setColor(new HexColor("#000000"))
 		.setConnectorColor(new HexColor("#000000"))
-		.setFormatter(new PercentageFormatter()))));
+		.setFormatter(new Function("return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(2) + '%';")))));
 	}
 
 	public PieChartOptions(Options template) {

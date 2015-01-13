@@ -22,7 +22,7 @@ public class ColumnChartOptions extends Options {
 	public ColumnChartOptions() {
 		setChartOptions(new ChartOptions().setType(SeriesType.COLUMN));
 		
-		setxAxis(new Axis());
+		setxAxis(new Axis().setCategories(""));
 		setyAxis(new Axis().setMin(0).setTitle(new Title("Price")));
 
 		setLegend(new Legend()
