@@ -35,7 +35,6 @@ public class ThriftServer {
 		try {
 			TServerTransport serverTransport = new TServerSocket(9091);
 			TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-			new NetworkManagerChecker();
 			System.out.println("Server started. Waiting for connections");
 			server.serve();
 		} catch (Exception e) {

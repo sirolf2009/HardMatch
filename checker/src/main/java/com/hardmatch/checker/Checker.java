@@ -18,7 +18,6 @@ import org.json.simple.JSONObject;
 
 import com.hardmatch.checker.components.ComponentFactory;
 import com.hardmatch.checker.components.ComponentFactory.UnknownComponentException;
-import com.sirolf2009.networking.Packet;
 import com.sirolf2009.util.neo4j.NeoUtil;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
 
@@ -28,7 +27,7 @@ public class Checker {
 	public static int NEO4J_FINAL_PORT = 7474;
 	public static String NEO4J_TEMP_IP = "http://localhost";
 	public static int NEO4J_TEMP_PORT = 7484;
-	public static int THRIFT_PORT = 9091;
+	public static boolean SHOULD_CONNECT = false;
 	public static SimpleLog log = new SimpleLog("checker");
 
 	public RestAPI restTemp;
@@ -68,7 +67,7 @@ public class Checker {
 		}
 		return setup;
 	}
-	
+
 	public void initFromCommandLine(Options options, String[] args) {
 		CommandLineParser parser = new BasicParser();
 		try {
@@ -90,13 +89,8 @@ public class Checker {
 					System.exit(1);
 				}
 			}
-			if(cmd.hasOption("t")) {
-				try {
-					THRIFT_PORT = Integer.parseInt(cmd.getOptionValue("t"));
-				} catch (NumberFormatException e) {
-					log.fatal(cmd.getOptionValue("pf") + " is not a valid number. Exiting...", e);
-					System.exit(1);
-				}
+			if(cmd.hasOption("d")) {
+				SHOULD_CONNECT = true;
 			}
 		} catch(ParseException e) {
 			e.printStackTrace();
@@ -134,10 +128,10 @@ public class Checker {
 			} else {
 				config.addProperty("pt", NEO4J_FINAL_PORT);
 			}
-			if(config.containsKey("t")) {
-				THRIFT_PORT = config.getInt("t");
+			if(config.containsKey("d")) {
+				SHOULD_CONNECT = config.getBoolean("d");
 			} else {
-				config.addProperty("t", THRIFT_PORT);
+				config.addProperty("d", SHOULD_CONNECT);
 			}
 			config.save();
 		} catch (ConfigurationException e) {
@@ -159,6 +153,15 @@ public class Checker {
 			e.printStackTrace();
 		}
 		new SynonymChecker();
+		if(SHOULD_CONNECT) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					new NetworkManagerChecker();
+				}
+			}).start();
+			log.info("Initialized. Checking now");
+		}
 	}
 
 	public static void main(String[] args) {
@@ -167,8 +170,8 @@ public class Checker {
 			options.addOption("hf", true, "Default: \"http://localhost\". The IP address of the final Neo4J");
 			options.addOption("pf", true, "Default: 7474. The port of the final Neo4J");
 			options.addOption("ht", true, "Default: \"http://localhost\". The IP address of the temporary Neo4J");
-			options.addOption("pt", true, "Default: 7474. The port of the temporary Neo4J");
-			options.addOption("t", true, "Default: 9091. The port to host on Thrift");
+			options.addOption("pt", true, "Default: 7484. The port of the temporary Neo4J");
+			options.addOption("d", false, "Default: false. Determines if the checker should connect to the java dashboard");
 			new Checker(options, args);
 		} else {
 			new Checker();
