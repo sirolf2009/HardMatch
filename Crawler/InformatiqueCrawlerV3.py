@@ -155,21 +155,23 @@ class CPU(IParseSave.CPU):
         splitStrings = product.split(',')
         cpu.properties['product'] = splitStrings[0]
         brand = soup.find('span', {'itemprop': 'brand'})
-        cpu.properties['brand'] = brand.string
+        cpu.properties['Merk'] = brand.string
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
         price = price.replace('.', '')
         price = price.replace(',', '.')
         price = float(price[2:])
 
+        cpu.properties['Img'] = IParseSave.imgFinder(detailadress)
+
         if specs is not None:
             for x in specs:
                 if x.string is not None:
                     if 'Fabrikantcode' in x.string:
-                        cpu.properties['modelID'] = x.findNextSibling('td').string
+                        cpu.properties['ModelID'] = x.findNextSibling('td').string
                     elif 'Type' in x.string:
                         cpu.properties['serie'] = x.findNextSibling('td').string
-                    elif 'socket' in x.string:
+                    elif 'Socket' in x.string:
                         cpu.properties['Socket'] = x.findNextSibling('td').string
                     elif 'cores' in x.string:
                         cpu.properties['AantalCores'] = x.findNextSibling('td').string
@@ -186,7 +188,8 @@ class CPU(IParseSave.CPU):
                     elif 'L3' in x.string:
                         cpu.properties['CPUCacheLevel3'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(cpu.properties, winkel, label, price)
+        voorraad = IParseSave.voorraadChecker(detailadress)
+        IParseSave.saveComponent(cpu.properties, label, price,voorraad,detailadress, winkel)
 
 
 class GraphicsCard(IParseSave.GraphicsCard):
@@ -202,7 +205,7 @@ class GraphicsCard(IParseSave.GraphicsCard):
         gc.properties['product'] = splitStrings[0]
 
         brand = soup.find('span', {'itemprop': 'brand'})
-        gc.properties['brand'] = brand.string
+        gc.properties['Merk'] = brand.string
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
@@ -210,11 +213,13 @@ class GraphicsCard(IParseSave.GraphicsCard):
         price = price.replace(',', '.')
         price = float(price[2:])
 
+        gc.properties['Img'] = IParseSave.imgFinder(detailadress)
+
         if specs is not None:
             for x in specs:
                 if x.string is not None:
                     if 'Fabrikantcode' in x.string:
-                        gc.properties['modelID'] = x.findNextSibling('td').string
+                        gc.properties['ModelID'] = x.findNextSibling('td').string
                     elif 'Fabrikant' in x.string:
                         gc.properties['Videochipfabrikant'] = x.findNextSibling('td').string
                     elif 'GPU kloksnelheid' in x.string:
@@ -238,7 +243,8 @@ class GraphicsCard(IParseSave.GraphicsCard):
                     elif 'sloten' in x.string:
                         gc.properties['aantalSlots'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(gc.properties, winkel, label, price)
+        voorraad = IParseSave.voorraadChecker(detailadress)
+        IParseSave.saveComponent(gc.properties, label, price,voorraad,detailadress, winkel)
 
 
 class Motherboard(IParseSave.Motherboard):
@@ -254,13 +260,15 @@ class Motherboard(IParseSave.Motherboard):
         mb.properties['product'] = splitStrings[0]
 
         brand = soup.find('span', {'itemprop': 'brand'})
-        mb.properties['brand'] = brand.string
+        mb.properties['Merk'] = brand.string
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
         price = price.replace('.', '')
         price = price.replace(',', '.')
         price = float(price[2:])
+
+        mb.properties['Img'] = IParseSave.imgFinder(detailadress)
 
         breadCrumbvariables = soup.findAll('span', {'itemprop': 'title'})
         for x in breadCrumbvariables:
@@ -271,7 +279,7 @@ class Motherboard(IParseSave.Motherboard):
             for x in specs:
                 if x.string is not None:
                     if 'Fabrikantcode' in x.string:
-                        mb.properties['modelID'] = x.findNextSibling('td').string
+                        mb.properties['ModelID'] = x.findNextSibling('td').string
                     if 'geheugensloten' in x.string:
                         mb.properties['AantalSockets'] = x.findNextSibling('td').string
                     elif 'Form factor' in x.string:
@@ -283,7 +291,8 @@ class Motherboard(IParseSave.Motherboard):
                     elif 'PCI-E x16 sloten' in x.string:
                         mb.properties['AantalPCI-ex16Slots'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(mb.properties, winkel, label, price)
+        voorraad = IParseSave.voorraadChecker(detailadress)
+        IParseSave.saveComponent(mb.properties, label, price,voorraad, detailadress, winkel)
 
 
 class RAM(IParseSave.RAM):
@@ -296,10 +305,10 @@ class RAM(IParseSave.RAM):
         product = soup.find('h1')
         product = product.string
         splitStrings = product.split(',')
-        ram.properties['product'] = splitStrings[0]
+        ram.properties['Name'] = splitStrings[0]
 
         brand = soup.find('span', {'itemprop': 'brand'})
-        ram.properties['brand'] = brand.string
+        ram.properties['Merk'] = brand.string
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
@@ -307,18 +316,21 @@ class RAM(IParseSave.RAM):
         price = price.replace(',', '.')
         price = float(price[2:])
 
-        type = soup.find('span', {'itemprop': 'description'})
-        type = type.text
-        splitStrings = type.split()
-        type = splitStrings[2]
-        type_final = type
-        ram.properties['memoryType'] = type_final
+        ram.properties['Img'] = IParseSave.imgFinder(detailadress)
+
+        type = soup.findAll('span', {'itemprop': 'title'})
+        for x in type:
+            if 'DDR' in x.string:
+                type = x.string
+                type = type[:4]
+                ram.properties['GeheugenType'] = type
+
 
         if specs is not None:
             for x in specs:
                 if x.string is not None:
                     if 'Fabrikantcode' in x.string:
-                        ram.properties['modelID'] = x.findNextSibling('td').string
+                        ram.properties['ModelID'] = x.findNextSibling('td').string
                     if 'capactiteit' in x.string:
                         ram.properties['GeheugenSpecificatie'] = x.findNextSibling('td').string
                     elif 'modules' in x.string:
@@ -326,7 +338,8 @@ class RAM(IParseSave.RAM):
                     elif 'Latency' in x.string:
                         ram.properties['GeheugenCASLatency'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(ram.properties, winkel, label, price)
+        voorraad = IParseSave.voorraadChecker(detailadress)
+        IParseSave.saveComponent(ram.properties, label, price,voorraad,detailadress, winkel)
 
 
 class Storage(IParseSave.Storage):
@@ -341,7 +354,7 @@ class Storage(IParseSave.Storage):
         store.properties['product'] = product
 
         brand = soup.find('span', {'itemprop': 'brand'})
-        store.properties['brand'] = brand.string
+        store.properties['Merk'] = brand.string
 
         price = soup.find('p', {'class': 'verkoopprijs'})
         price = price.string
@@ -349,11 +362,13 @@ class Storage(IParseSave.Storage):
         price = price.replace(',', '.')
         price = float(price[2:])
 
+        store.properties['Img'] = IParseSave.imgFinder(detailadress)
+
         if specs is not None:
             for x in specs:
                 if x.string is not None:
                     if 'Fabrikantcode' in x.string:
-                        store.properties['modelID'] = x.findNextSibling('td').string
+                        store.properties['ModelID'] = x.findNextSibling('td').string
                     if 'Capaciteit' in x.string:
                         store.properties['Opslagcapactiteit'] = x.findNextSibling('td').string
                     if 'Dikte' in x.string:
@@ -363,10 +378,13 @@ class Storage(IParseSave.Storage):
                     if 'Chache' in x.string:
                         store.properties['DriveCache'] = x.findNextSibling('td').string
 
-        IParseSave.saveComponent(store.properties, winkel, label, price)
+        voorraad = IParseSave.voorraadChecker(detailadress)
+
+        IParseSave.saveComponent(store.properties, label, price, voorraad, detailadress, winkel)
 
 
 graph = Graph("http://localhost:7484/db/data/")
 winkel = Node('Store', Name='informatique.nl')
 graph.create(winkel)
+
 topLevelSpider('http://www.informatique.nl/componenten/', getCategories())

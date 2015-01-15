@@ -6,43 +6,62 @@ __author__ = 'Basit'
 
 import requests
 from bs4 import BeautifulSoup
-from py2neo import Node, Relationship, Graph
+from py2neo import Node, Relationship, Graph, neo4j, schema
 
 
 def getHTML(url):
-    # print(url)
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
     return soup
 
+def imgFinder(link):
+    soup = getHTML(link)
+    img = soup.find('img', {'class':'full'})
+    imgLink = img.get('src')
+    return imgLink
 
 def printProperties(properties):
     for x in properties:
         print(x)
         print(properties[x])
 
+def voorraadChecker(url):
+    source_code = requests.get(url)
+    plain_text = source_code.text
+    soup = BeautifulSoup(plain_text)
+    voorraad = 'null'
+    substring = 'Online op voorraad'
+    for x in soup.find('td', {'style': 'padding:5px 4px 5px 4px;line-height:2'}):
+        if x is not None:
+            if substring in x.text:
+                voorraad = 'ja'
+    return voorraad
 
-def saveComponent(properties, winkel, label, price):
-    cn = Node(label)
-    winkel.pull()
-    for i in properties:
-        cn.properties[i] = properties[i]
+def saveComponent(properties, label, price, voorraad,link, winkel):
     graph = Graph("http://localhost:7484/db/data/")
-    rel = Relationship(cn, 'SOLD_AT', winkel, price=price)
-    graph.create(cn)
+    modelID = properties['ModelID']
+
+    if bool(graph.cypher.execute_one('match (n) where n.ModelID = "{}" return n'.format(modelID))):
+        cn = graph.cypher.execute_one('match (n) where n.ModelID = "{}" return n'.format(modelID))
+    else:
+        cn = Node(label)
+        for i in properties:
+            cn.properties[i] = properties[i]
+        graph.create(cn)
+        cn.add_labels('Component')
+        cn.push()
+
+    rel = Relationship(cn, 'SOLD_AT', winkel, price=price, in_stock=voorraad,link=link)
     graph.create(rel)
-    cn.add_labels('Component')
-    cn.push()
 
 
 class CPU():
     properties = {
-        'modelID': 'null',
-        'name': 'null',
-        'brand': 'null',
-        'serie': 'null',
-        'product': 'null',  # eerste gedeelte van de productnaam
+        'ModelID': 'null',
+        'Name': 'null',
+        'Merk': 'null',
+        'Serie': 'null',
         'Socket': 'null',
         'AantalCores': 'null',
         'Snelheid': 'null',
@@ -71,9 +90,9 @@ class CPU():
 
 class GraphicsCard():
     properties = {
-        'modelID': 'null',
-        'brand': 'null',
-        'product': 'null',
+        'ModelID': 'null',
+        'Merk': 'null',
+        'Name': 'null',
         'Videochip': 'null',  # GeForce GTX 970
         'ChipsetGeneratie': 'null',  # GeForce 900 Serie
         'Videochipfabrikant': 'null',  # Nvidia
@@ -109,9 +128,9 @@ class GraphicsCard():
 
 class Motherboard():
     properties = {
-        'modelID': 'null',
-        'brand': 'null',
-        'product': 'null',  # Asus M5A78L-M
+        'ModelID': 'null',
+        'Merk': 'null',
+        'Name': 'null',  # Asus M5A78L-M
         'socket': 'null',
         'AantalSockets': 'null',
         'FormFactor': 'null',
@@ -138,8 +157,9 @@ class Motherboard():
 
 class RAM():
     properties = {
-        'modelID': 'null',
-        'brand': 'null',  # Crucial
+        'ModelID': 'null',
+        'Merk': 'null',  # Crucial
+        'Name': 'null',
         'serie': 'null',  # Ballistix
         'Geheugengrootte': 'null',  #8GB
         'Aantal': 'null',  #2x
@@ -154,10 +174,10 @@ class RAM():
 
 class Storage():
     properties = {
-        'modelID': 'null',
-        'brand': 'null',  # WD
+        'ModelID': 'null',
+        'Merk': 'null',  # WD
         'serie': 'null',  # Red
-        'product': 'null',  #WD Red SATA 6 Gb/s
+        'Name': 'null',  #WD Red SATA 6 Gb/s
         'Opslagcapactiteit': 'null',  #3TB
         'HardeschijfBusIntern': 'null',  #SATA-600
         'Hoogte': 'null',  #26,1mm
