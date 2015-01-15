@@ -1,8 +1,10 @@
-h = http://localhost
-p = 7474
-t = 9091
-hf = http://localhost
+hf = http://149.210.188.74
 pf = 7474
+<<<<<<< HEAD
 ht = http://localhost
 pt = 7474
+=======
+ht = http://149.210.188.74/
+pt = 7484
+>>>>>>> d947b60024b8ff7528beb615e81de60e94548b9d
 d = false

@@ -16,6 +16,9 @@ import com.hardmatch.checker.components.ComponentStorage;
 import com.hardmatch.checker.components.IComponent;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
 
+import static com.hardmatch.checker.interfaces.InterfaceStore.*;
+import static com.hardmatch.checker.interfaces.InterfaceRelations.*;
+
 public class ComponentChecker {
 
 	private List<IComponent> CPUs;
@@ -72,9 +75,9 @@ public class ComponentChecker {
 					createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component1.getID())), startNodeFinal);
 					createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component2.getID())), endNodeFinal);
 					if(compatible) {
-						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "COMPATIBLE");
+						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, COMPATIBLE);
 					} else {
-						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "NOT_COMPATIBLE");
+						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, NOT_COMPATIBLE);
 					}
 				} catch(URISyntaxException e) {
 					e.printStackTrace();
@@ -106,13 +109,13 @@ public class ComponentChecker {
 			try {
 				JSONObject existingRelationship = (JSONObject) obj;
 				URI endNode = new URI(existingRelationship.get("end").toString());
-				String storeName = restTemp.nodes.getProperties(endNode).get("name").toString();
+				String storeName = restTemp.nodes.getProperties(endNode).get(NAME).toString();
 				boolean hasRelation = false;
 				for(Object objRelation : restFinal.relationship.getRelationships(component)) {
 					JSONObject storeRelationship = (JSONObject) objRelation;
-					if(storeRelationship.get("type").toString().equals("SOLD_AT")) {
+					if(storeRelationship.get("type").toString().equals(SOLD_AT)) {
 						URI storeNode = new URI(storeRelationship.get("end").toString());
-						if(restFinal.nodes.getProperties(storeNode).get("name").toString().equals(storeName)) {
+						if(restFinal.nodes.getProperties(storeNode).get(NAME).toString().equals(storeName)) {
 							hasRelation = true;
 							break;
 						}
@@ -121,14 +124,14 @@ public class ComponentChecker {
 				if(hasRelation) {
 					continue;
 				}
-				JSONObject answer = (JSONObject)restFinal.sendCypher("MATCH (store:Store) WHERE store.name=\\\""+storeName+"\\\" RETURN store, id(store)");
+				JSONObject answer = (JSONObject)restFinal.sendCypher("MATCH (store:Store) WHERE store."+NAME+"=\\\""+storeName+"\\\" RETURN store, id(store)");
 				JSONArray results = (JSONArray) answer.get("results");
 				JSONObject firstHit = (JSONObject) results.get(0);
 				JSONArray data = (JSONArray) firstHit.get("data");
 				URI store = null;
 				if(data.size() == 0) {
 					store = restFinal.nodes.createNode();
-					restFinal.nodes.addLabelToNode(store, "Store");
+					restFinal.nodes.addLabelToNode(store, LABEL_STORE);
 					restFinal.nodes.setNodeProperties(store, restTemp.nodes.getRawProperties(endNode));
 				} else {
 					JSONObject firstDataHit = (JSONObject) data.get(0);
@@ -136,7 +139,7 @@ public class ComponentChecker {
 					long storeID = Long.parseLong(row.get(1).toString());
 					store = restFinal.nodes.fromID(storeID);
 				}
-				URI relationship = restFinal.relationship.addRelationship(component, store, "SOLD_AT");
+				URI relationship = restFinal.relationship.addRelationship(component, store, SOLD_AT);
 				restFinal.relationship.setRelationshipProperties(relationship, restTemp.relationship.getRelationshipProperties(new URI(existingRelationship.get("self").toString())));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
