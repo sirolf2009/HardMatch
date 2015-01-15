@@ -1,7 +1,5 @@
-h = http://localhost
-p = 7474
-t = 9091
-hf = http://localhost
+hf = http://149.210.188.74
 pf = 7474
-ht = http://localhost
-pt = 7474
+ht = http://149.210.188.74/
+pt = 7484
+d = false

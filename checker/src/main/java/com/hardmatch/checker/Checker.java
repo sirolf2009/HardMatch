@@ -74,6 +74,7 @@ public class Checker {
 			CommandLine cmd = parser.parse(options, args);
 			if(cmd.hasOption("hf")) {
 				NEO4J_FINAL_IP = cmd.getOptionValue("hf");
+				log.info("setting ");
 			}
 			if(cmd.hasOption("pf")) {
 				NEO4J_FINAL_PORT = Integer.parseInt(cmd.getOptionValue("pf"));
@@ -83,7 +84,7 @@ public class Checker {
 			}
 			if(cmd.hasOption("pt")) {
 				try {
-					NEO4J_TEMP_PORT = Integer.parseInt(cmd.getOptionValue("pf"));
+					NEO4J_TEMP_PORT = Integer.parseInt(cmd.getOptionValue("pt"));
 				} catch (NumberFormatException e) {
 					log.fatal(cmd.getOptionValue("pf") + " is not a valid number. Exiting...", e);
 					System.exit(1);
@@ -144,7 +145,8 @@ public class Checker {
 
 	private void init() {
 		try {
-			log.info("Setting Neo4J root to "+NEO4J_FINAL_IP+":"+NEO4J_FINAL_PORT+"/db/data/");
+			log.info("Setting Neo4J Final root to "+NEO4J_FINAL_IP+":"+NEO4J_FINAL_PORT+"/db/data/");
+			log.info("Setting Neo4J Temp root to "+NEO4J_TEMP_IP+":"+NEO4J_TEMP_PORT+"/db/data/");
 			restFinal = new RestAPI(new URI(NEO4J_FINAL_IP+":"+NEO4J_FINAL_PORT+"/db/data/"));
 			restTemp = new RestAPI(new URI(NEO4J_TEMP_IP)+":"+NEO4J_TEMP_PORT+"/db/data/");
 			NeoUtil.log.setLevel(SimpleLog.LOG_LEVEL_OFF);
@@ -166,6 +168,7 @@ public class Checker {
 
 	public static void main(String[] args) {
 		if(args.length > 0) {
+			log.info("Running checker from command line parameters");
 			Options options = new Options();
 			options.addOption("hf", true, "Default: \"http://localhost\". The IP address of the final Neo4J");
 			options.addOption("pf", true, "Default: 7474. The port of the final Neo4J");
