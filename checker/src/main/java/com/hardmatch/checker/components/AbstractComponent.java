@@ -36,11 +36,11 @@ public abstract class AbstractComponent implements IComponent {
 		return labels;
 	}
 
-	public static final String MODEL_ID = "modelID";
+	public static final String MODEL_ID = "ModelID";
 	public static final String SOCKET_LABEL = "Socket";
 	public static final String CAPACITY_LABEL = "Opslagcapaciteit";
 	public static final String INTERFACE_STORAGE_LABEL = "HardeschijfBusIntern"; 
-	public static final String INTERFACE_GRAPHICS_CARD_LABEL = "VideoUit"; 
+	public static final String INTERFACE_GRAPHICS_CARD_LABEL = "CardInterface"; 
 	public static final String MEMORY_TYPE_LABEL = "Geheugentype"; 
 
 }
