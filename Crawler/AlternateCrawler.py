@@ -7,30 +7,6 @@ __status__ = "Development"
 import requests
 from bs4 import BeautifulSoup
 from py2neo import neo4j, Node, Relationship
-from Crawler import components
-
-
-def get_components():
-    components = Category('Components', ['Componenten', 'Hardware'])
-    return components
-
-
-def get_categories():
-    graphics_cards = Category('Graphics Cards', ['Grafische kaarten', 'grafische kaarten'])
-    processors = Category('Processors', ['Processoren', 'processoren'])
-    motherboards = Category('Motherboards', ['Moederborden', 'moederborden'])
-    memory_chips = Category('RAM', ['Geheugenkaarten', 'RAM', 'ram'])
-    # cases = Category('Cases', ['Behuizingen'])
-    solid_state_drives = Category('Solid State Drives', ['SSD', 'ssd'])
-    hard_drives = Category('Hard Drives', ['Harde schijven intern', 'harde schijven intern'])
-
-    categories = [graphics_cards,
-                  processors,
-                  motherboards,
-                  memory_chips,
-                  solid_state_drives,
-                  hard_drives]
-    return categories
 
 
 def get_page_soup(url):
@@ -47,7 +23,7 @@ def source_code_to_soup(source_code):
 
 
 def get_hardware_page_url(url, search_words):
-    """Top Level"""
+    """Every <a> with 'search words' as text"""
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
@@ -61,79 +37,68 @@ def get_hardware_page_url(url, search_words):
     return hardware_page_url
 
 
-def get_component_page_url(hardware_page_url, url, categories):
-    """Mid Level"""
+def get_subLevel2_url(hardware_page_url, url, component_search_words):
+    """get all <a> with subLevel2 class"""
     source_code = requests.get(hardware_page_url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
-    component_page_url_list = []
-    for anchor in soup.findAll('a', {'target': '_self'}):
-        for category in range(len(categories)):
-            for categoryTitle in range(len(categories[category].getTitles())):
-                if anchor.text in categories[category].getTitle(categoryTitle):
-                    component_page_path = anchor.get('href')
-                    component_page_url = url + component_page_path
-                    component_page_url_list.append(component_page_url)
-    return component_page_url_list
+    subLevel2_urls = []
+    for subLevel2_url in soup.find_all('li', class_="subLevel2"):
+            for list_item in component_search_words:
+                if list_item in subLevel2_url.text:
+                    href = subLevel2_url.a['href']
+                    subLevel2_url_full = url + href
+                    subLevel2_urls.append(subLevel2_url_full)
+    finished_list = list(set(subLevel2_urls))
+    return finished_list
 
 
-def get_component_url(component_page_url_list, url):
-    """Low Level"""
-    component_links = []
-    for component_page_url in component_page_url_list:
-        source_code = requests.get(component_page_url)
+def get_subLevel3_url(subLevel2_urls, url, component_search_words):
+    """get all <a> with subLevel3 class"""
+    subLevel3_urls = []
+    for subLevel2_url in subLevel2_urls:
+        source_code = requests.get(subLevel2_url)
         plain_text = source_code.text
-        component_page_soup = BeautifulSoup(plain_text)
-        for component in component_page_soup.findAll('a', {'class': 'h1x1'}):
-            link = component.get('href')
-            full_link = url + link
+        soup = BeautifulSoup(plain_text)
+        for subLevel3_url in soup.findAll('li', class_="subLevel3"):
+            for list_item in component_search_words:
+                if list_item in subLevel3_url.text:
+                    href = subLevel3_url.a['href']
+                    subLevel3_url_full = url + href
+                    subLevel3_urls.append(subLevel3_url_full)
+    return subLevel3_urls
+
+
+def get_subLevel4_url(subLevel3_urls, url, component_search_words):
+    """get all <a> with subLevel3 class"""
+    subLevel4_urls = []
+    for subLevel3_url in subLevel3_urls:
+        source_code = requests.get(subLevel3_url)
+        plain_text = source_code.text
+        soup = BeautifulSoup(plain_text)
+        for subLevel4_url in soup.findAll('li', class_="subLevel4"):
+            for list_item in component_search_words:
+                if list_item in subLevel4_url.text:
+                    href = subLevel4_url.a['href']
+                    subLevel4_url_full = url + href
+                    subLevel4_urls.append(subLevel4_url_full)
+    return subLevel4_urls
+
+
+def get_all_product_links(links_l4, url):
+    list_of_links = []
+    for link_l4 in links_l4:
+        source_code = requests.get(link_l4)
+        plain_text = source_code.text
+        soup = BeautifulSoup(plain_text)
+        for item in soup.find_all('a', class_='productLink'):
+            href = item['href']
+            full_link = url + href
             print(full_link)
-            component_links.append(full_link)
-    return component_links
+            list_of_links.append(full_link)
+        return list_of_links
 
-
-def get_motherboard_object(component_links):
-    for component_link in component_links:
-        if 'moederbord' in component_link:
-            print("motherboard")
-    test = components.RAM()
-    return "MB"
-
-
-def get_graphics_card_object(component_links):
-    for component_link in component_links:
-        if 'grafische' in component_link:
-            print("graphics card")
-    # test = components.GraphicsCard
-    return "GC"
-
-
-def get_processor_object(component_links):
-    for component_link in component_links:
-        if 'processor' in component_link:
-            print("processor")
-    return "Pro"
-
-
-def get_memory_object(component_links):
-    for component_link in component_links:
-        if 'geheugen' in component_link:
-            print("memory")
-        return "Mem"
-
-
-def get_ssd_object(component_links):
-    for component_link in component_links:
-        if 'SSD' in component_link:
-            print("SSD")
-    return "SSD"
-
-
-def get_hd_object(component_links):
-    for component_link in component_links:
-        if 'harde' in component_link:
-            print("HD")
-    return "HD"
+# def parser_and_object_creator:
 
 
 def get_component_object(component_links):
@@ -151,9 +116,20 @@ def get_component_object(component_links):
                 component_mhz = component.text
                 break
 
-        component_brand_string = component_brand[0].text
-        component_name_string = component_name[0].get('content')
-        component_price_text = component_price[0].text
+        if not component_brand:
+            component_brand_string = 'NULL'
+        else:
+            component_brand_string = component_brand[0].text
+
+        if not component_name:
+            component_name_string = 'NULL'
+        else:
+            component_name_string = component_brand[0].text
+
+        if not component_price:
+            component_price_text = 'NULL'
+        else:
+            component_price_text = component_price[0].text
 
         def create_price_string(input_price):
             new_string = input_price.replace("€", ""). \
@@ -169,7 +145,7 @@ def get_component_object(component_links):
         Component.add_relationship_property(component, 'price', component_price_string)
         Component.add_property(component, 'processor speed', component_mhz)
         Component.save_component_with_relationships(component)
-        Component.print_property(component)
+        # Component.print_property(component)
 
 
 class Component():
@@ -197,55 +173,60 @@ class Component():
         neo4j_db.create(relationship)
 
 
-class Category():
-    name = ''
-    titles = []
+behuizing = ['Behuizingen']
+geheugen = ["Geheugen"]
+grafische_kaarten = ['Grafische kaarten']
+opslag = ['Harde schijven intern']
+koeling = ['Koeling']
+moederborden = ['Moederborden']
+processors = ['Processoren']
 
-    def __init__(self, name, titles):
-        self.name = name
-        self.titles = list(titles)
+behuizing_L3 = ['Desktop']
+geheugen_L3 = ['']
+grafische_kaarten_L3 = ["PCIe kaarten Matrox", "AGP kaarten", "PCI kaarten"]
+opslag_L3 = ["SATA", "SAS", "Hybride", "SSD's"]
+koeling_L3 = ["CPU"]
+moederborden_L3 = ["AMD", "Intel"]
+processors_L3 = ["Desktop"]
 
-    def set_name(self, name):
-        self.name = name
-
-    def set_titles(self, titles):
-        self.titles = list(titles)
-
-    def get_name(self):
-        return self.name
-
-    def get_title(self, index):
-        return self.titles[index]
-
-    def get_titles(self):
-        return self.titles
-
-    def print_category(self):
-        print(self.name)
-        for i in range(len(self.titles)):
-            print(self.titles[i])
-
+processors_L4 = ["Alles bekijken"]
 
 neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
 store = Node('Store', name='alternate.nl')
 neo4j_db.create(store)
 
 url = "http://www.alternate.nl"
-hardware = get_hardware_page_url(url, get_components())
-components_list = get_component_page_url(hardware, url, get_categories())
-links = get_component_url(components_list, url)
-motherboards = get_motherboard_object(links)
-graphics_cards = get_graphics_card_object(links)
-processors = get_processor_object(links)
-memory_cards = get_memory_object(links)
-SSD = get_ssd_object(links)
-HD = get_hd_object(links)
+hardware = "http://www.alternate.nl/html/highlights/page.html?tk=7&lk=7&hgid=189&tgid=906"
 
-get_component_object(links)
+behuizing_output = get_subLevel2_url(hardware, url, behuizing)
+behuizing_sublinks = get_subLevel3_url(behuizing_output, url, behuizing_L3)
+all_behuizing = get_all_product_links(behuizing_sublinks, url)
 
+# geheugen_output = get_subLevel2_url(hardware, url, geheugen)
+# print("Geheugen:")
+# print(geheugen_output)
 
-# component_socket_type = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
-# component_clock_speed = component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'})
+grafische_kaarten_output = get_subLevel2_url(hardware, url, grafische_kaarten)
+grafische_kaarten_sublinks = get_subLevel3_url(grafische_kaarten_output, url, grafische_kaarten_L3)
+all_grafische_kaarten = get_all_product_links(grafische_kaarten_sublinks, url)
 
-# component_socket_type_string = component_socket_type[0].get('content')
-# component_clock_speed_string = component_clock_speed[0].get('content')
+opslag_output = get_subLevel2_url(hardware, url, opslag)
+opslag_sublinks = get_subLevel3_url(opslag_output, url, opslag_L3)
+all_opslag = get_all_product_links(opslag_sublinks, url)
+
+koeling_output = get_subLevel2_url(hardware, url, koeling)
+koeling_output_sublinks = get_subLevel3_url(koeling_output, url, koeling_L3)
+all_koeling = get_all_product_links(koeling_output_sublinks, url)
+
+moederborden_output = get_subLevel2_url(hardware, url, moederborden)
+moederborden_output_sublinks = get_subLevel3_url(moederborden_output, url, moederborden_L3)
+all_moederborden = get_all_product_links(moederborden_output_sublinks, url)
+
+processors_output = get_subLevel2_url(hardware, url, processors)
+processors_output_sublinks = get_subLevel3_url(processors_output, url, processors_L3)
+processors_output_sublinks_l4 = get_subLevel4_url(processors_output_sublinks, url, processors_L4)
+all_processors = get_all_product_links(processors_output_sublinks_l4, url)
+
+print(len(all_behuizing) + len(all_grafische_kaarten) +
+      len(all_koeling) + len(all_moederborden) + len(all_opslag) +
+      len(all_processors))
