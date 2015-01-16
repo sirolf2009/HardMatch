@@ -7,6 +7,7 @@ __status__ = "Development"
 import requests, re
 from bs4 import BeautifulSoup
 from py2neo import neo4j, Node, Relationship
+from pymongo import MongoClient
 
 import IParseSave
 
@@ -160,23 +161,25 @@ def get_CPU(detail_pages):
             cpu.properties['GeheugenSpecificatie'] = geheugen_specificatie
         except AttributeError:
             print("NULL")
+        # CPU cache level 1
         try:
             CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
             cpu.properties['CPUCacheLevel1'] = CPU_cache_level1
         except AttributeError:
             print("NULL")
-
+        # CPU cache level 2
         try:
             CPU_cache_level2 = soup.find('td', text="L2").next_sibling.text
             cpu.properties['CPUCacheLevel2'] = CPU_cache_level2
         except AttributeError:
             print("NULL")
+        # Price
         try:
             x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
-
+        # Shipping costs
         try:
             x = soup.find('div', {"id": "cheapestShippingCosts"})
             shipping_costs = price_parser(x.text)
@@ -186,7 +189,116 @@ def get_CPU(detail_pages):
         inStock = "NULL"
         # link = cpu.properties
         # print(cpu.properties)
-        saveComponent(cpu.properties, label, price, inStock, link, store)
+        saveComponent(cpu.properties, label, price, inStock, link)
+
+
+def get_Motherboard(detail_pages):
+    label = 'Motherboard'
+    motherboard = IParseSave.Motherboard()
+    for detail_page in detail_pages:
+        source_code = requests.get(detail_page)
+        plain_text = source_code.text
+        soup = BeautifulSoup(plain_text)
+        link = detail_page
+        # MODELID
+        try:
+            x = soup.find('meta', {"itemprop": "name"})
+            modelID = x['content'].replace('"', "")
+            motherboard.properties['ModelID'] = modelID
+        except AttributeError:
+            motherboard.properties['ModelID'] = "NULL"
+        # NAME
+        try:
+            name = soup.find('meta', {"itemprop": "name"})
+            motherboard.properties['Name'] = name['content'].encode('utf-8')
+        except AttributeError:
+            motherboard.properties['Name'] = "NULL"
+        # BRAND
+        try:
+            brand = soup.find('meta', {"itemprop": "brand"})
+            motherboard.properties['Merk'] = brand
+        except AttributeError:
+            motherboard.properties['Merk'] = "NULL"
+        # Socket
+        try:
+            socket = soup.find('td', {"class": "c1"}, text='Socket')
+            print(socket)
+            print(socket.next_elements)
+            motherboard.properties['Socket'] = socket
+        except AttributeError:
+            motherboard.properties['Socket'] = "NULL"
+        # amount of Sockets
+        try:
+            amount_of_sockets = soup.find('td', text="Maximaal ondersteunde CPU's").next_sibling.text
+            motherboard.properties['AantalSockets'] = amount_of_sockets
+        except AttributeError:
+            motherboard.properties['AantalSockets'] = "NULL"
+        # Form Factor
+        try:
+            FormFactor = soup.find('td', text="Formfactor").next_sibling.text
+            motherboard.properties['FormFactor'] = FormFactor
+        except AttributeError:
+            motherboard.properties['FormFactor'] = "NULL"
+
+        # 'BIOSofUEFI': 'null',
+        # 'DualofSingleBIOSUEFI': 'null',
+        # 'Moederbordchipset': 'null'
+
+        # Geheugentype
+        try:
+            geheugen_type = soup.find('td', text="Geheugen type").next_sibling.text
+            motherboard.properties['Geheugentype'] = geheugen_type
+        except AttributeError:
+            motherboard.properties['Geheugentype'] = "NULL"
+        # 'MaximumGeheugengrootte': 'null',
+        # 'HardeschijfBus': 'null',
+        # CardInterface
+        try:
+            card_interface = soup.find('td', text="Sloten").next_sibling.text
+            motherboard.properties['CardInterface'] = card_interface
+        except AttributeError:
+            motherboard.properties['CardInterface'] = "NULL"
+        # Snelheid
+        try:
+            snelheid = soup.find('td', text="CPU snelheid").next_sibling.text
+            motherboard.properties['Snelheid'] = snelheid
+        except AttributeError:
+            motherboard.properties['Snelheid'] = "NULL"
+        # Geheugenspecificatie
+        try:
+            geheugen_specificatie = soup.find('td', text="Standaarden").next_sibling.text
+            motherboard.properties['GeheugenSpecificatie'] = geheugen_specificatie
+        except AttributeError:
+           motherboard.properties['GeheugenSpecificatie'] = "NULL"
+        # CPU cache Level 1
+        try:
+            CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
+            motherboard.properties['CPUCacheLevel1'] = CPU_cache_level1
+        except AttributeError:
+            motherboard.properties['CPUCacheLevel1'] = "NULL"
+        # CPU cache Level 2
+        try:
+            CPU_cache_level2 = soup.find('td', text="L2").next_sibling.text
+            motherboard.properties['CPUCacheLevel2'] = CPU_cache_level2
+        except AttributeError:
+            motherboard.properties['CPUCacheLevel2'] = "NULL"
+        # price
+        try:
+            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            price = price_parser(x.text)
+        except AttributeError:
+            price = "NULL"
+        #
+        try:
+            x = soup.find('div', {"id": "cheapestShippingCosts"})
+            shipping_costs = price_parser(x.text)
+        except AttributeError:
+            shipping_costs = "NULL"
+
+        inStock = "NULL"
+        # link = cpu.properties
+        # print(motherboard.properties)
+        saveComponent(motherboard.properties, label, price, inStock, link)
 
 
 def price_parser(line):
@@ -199,7 +311,7 @@ def price_parser(line):
     return x
 
 
-def saveComponent(properties, label, price, voorraad, link, winkel):
+def saveComponent(properties, label, price, voorraad, link):
     neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
     modelID = properties['ModelID']
 
@@ -213,8 +325,14 @@ def saveComponent(properties, label, price, voorraad, link, winkel):
         cn.add_labels('Component')
         cn.push()
 
-    rel = Relationship(cn, 'SOLD_AT', winkel, price=price, in_stock=voorraad, link=link)
+    rel = Relationship(cn, 'SOLD_AT', store, price=price, in_stock=voorraad, link=link)
     neo4j_db.create(rel)
+
+neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
+
+if not bool(neo4j_db.cypher.execute_one('MATCH (node {name: "alternate.nl"}) RETURN node')):
+    store = Node('Store', name='www.alternate.nl')
+    neo4j_db.create(store)
 
 
 behuizing = ['Behuizingen']
@@ -236,10 +354,6 @@ processors_L3 = ["Desktop"]
 processors_L4 = ["Alles bekijken"]
 
 neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
-
-if not bool(neo4j_db.cypher.execute_one('MATCH (node {name: "alternate.nl"}) RETURN node')):
-    store = Node('Store', name='alternate.nl')
-    neo4j_db.create(store)
 
 
 url = "http://www.alternate.nl"
@@ -274,6 +388,7 @@ processors_output_sublinks = get_subLevel3_url(processors_output, url, processor
 processors_output_sublinks_l4 = get_subLevel4_url(processors_output_sublinks, url, processors_L4)
 all_processors = get_all_product_links(processors_output_sublinks_l4, url)
 get_CPU(all_processors)
+# get_Motherboard(all_moederborden)
 
 print(len(all_behuizing) + len(all_grafische_kaarten) +
       len(all_koeling) + len(all_moederborden) + len(all_opslag) +

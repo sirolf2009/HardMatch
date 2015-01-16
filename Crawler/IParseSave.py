@@ -134,7 +134,7 @@ class Motherboard():
         'ModelID': 'null',
         'Merk': 'null',
         'Name': 'null',  # Asus M5A78L-M
-        'socket': 'null',
+        'Socket': 'null',
         'AantalSockets': 'null',
         'FormFactor': 'null',
         'BIOSofUEFI': 'null',
