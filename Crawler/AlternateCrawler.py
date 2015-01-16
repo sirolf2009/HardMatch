@@ -4,9 +4,11 @@ __license__ = "GPL"
 __version__ = "0.1"
 __status__ = "Development"
 
-import requests
+import requests, re
 from bs4 import BeautifulSoup
 from py2neo import neo4j, Node, Relationship
+
+import IParseSave
 
 
 def get_page_soup(url):
@@ -94,83 +96,149 @@ def get_all_product_links(links_l4, url):
         for item in soup.find_all('a', class_='productLink'):
             href = item['href']
             full_link = url + href
-            print(full_link)
+            # print(full_link)
             list_of_links.append(full_link)
         return list_of_links
 
 # def parser_and_object_creator:
 
 
-def get_component_object(component_links):
-    component_mhz = "none"
-    for component_link in component_links:
-        url_source_code = requests.get(component_link)
-        url_plain_text = url_source_code.text
-        component_soup = BeautifulSoup(url_plain_text)
+def get_CPU(detail_pages):
+    label = 'CPU'
+    cpu = IParseSave.CPU()
+    for detail_page in detail_pages:
+        source_code = requests.get(detail_page)
+        plain_text = source_code.text
+        soup = BeautifulSoup(plain_text)
+        try:
+            x = soup.find('meta', {"itemprop": "name"})
+            modelID = x['content'].replace('"', "")
+            cpu.properties['ModelID'] = modelID
+        except AttributeError:
+            print("NULL")
+        try:
+            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            price = price_parser(x.text)
+        except AttributeError:
+            price = "NULL"
 
-        component_brand = component_soup.find_all('span', {'itemprop': 'brand'})
-        component_name = component_soup.find_all('meta', {'itemprop': 'name'})
-        component_price = component_soup.find_all('span', {'itemprop': 'price'})
-        for component in component_soup.find_all('td', {'class': 'techDataSubCol techDataSubColValue'}):
-            if 'MHz' in str(component):
-                component_mhz = component.text
-                break
+        try:
+            x = soup.find('div', {"id": "cheapestShippingCosts"})
+            shipping_costs = price_parser(x.text)
+        except AttributeError:
+            shipping_costs = "NULL"
 
-        if not component_brand:
-            component_brand_string = 'NULL'
-        else:
-            component_brand_string = component_brand[0].text
+        inStock = "NULL"
+        link = "NULL"
 
-        if not component_name:
-            component_name_string = 'NULL'
-        else:
-            component_name_string = component_brand[0].text
+        try:
+            name = soup.find('meta', {"itemprop": "name"})
+            cpu.properties['Name'] = name['content'].encode('utf-8')
+        except AttributeError:
+            print("NULL")
 
-        if not component_price:
-            component_price_text = 'NULL'
-        else:
-            component_price_text = component_price[0].text
+        try:
+            merk = soup.find('td', text="Socket").next_sibling.text
+            cpu.properties['Merk'] = merk
+        except AttributeError:
+            print("NULL")
+        try:
+            serie = soup.find('td', text="Socket").next_sibling.text
+            cpu.properties['Serie'] = serie
+        except AttributeError:
+            print("NULL")
+        try:
+            socket = soup.find('td', text="Socket").next_sibling.text
+            cpu.properties['Socket'] = socket
+        except AttributeError:
+            print("NULL")
+        try:
+            aantal_cores = soup.find('td', text="Aantal").next_sibling.text
+            cpu.properties['AantalCores'] = aantal_cores
+        except AttributeError:
+            print("NULL")
 
-        def create_price_string(input_price):
-            new_string = input_price.replace("€", ""). \
-                replace("*", "").replace(" ", ""). \
-                replace(",", ".").replace("-", "00")
-            return new_string
+        CPU_spec_number = "NULL"
 
-        component_price_string = create_price_string(component_price_text)
+        try:
+            snelheid = soup.find('td', text="CPU snelheid").next_sibling.text
+            cpu.properties['Snelheid'] = snelheid
+        except AttributeError:
+            print("NULL")
 
-        component = Component()
-        Component.add_property(component, 'brand', component_brand_string)
-        Component.add_property(component, 'name', component_name_string)
-        Component.add_relationship_property(component, 'price', component_price_string)
-        Component.add_property(component, 'processor speed', component_mhz)
-        Component.save_component_with_relationships(component)
-        # Component.print_property(component)
+        maximale_Turbo_Frequentie = "NULL"
+
+        try:
+            geheugen_specificatie = soup.find('td', text="Standaarden").next_sibling.text
+            cpu.properties['GeheugenSpecificatie'] = geheugen_specificatie
+        except AttributeError:
+            print("NULL")
+
+        bus_snelheid = "NULL"
+
+        proces_technologie = "NULL"
+
+        thermal_design_power = "NULL"
+
+        # geintegreerde_graphics = soup.find('td', text="Geïntegreerde GPU").next_sibling.text
+        # print(geintegreerde_graphics)
+
+        nominale_snelheid_videochip = "NULL"
+
+        maximale_snelheid_videochip = "NULL"
+
+        try:
+            CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
+            cpu.properties['CPUCacheLevel1'] = CPU_cache_level1
+        except AttributeError:
+            print("NULL")
+
+        try:
+            CPU_cache_level2 = soup.find('td', text="L2").next_sibling.text
+            cpu.properties['CPUCacheLevel2'] = CPU_cache_level2
+        except AttributeError:
+            print("NULL")
+
+        CPU_cache_level3 = "NULL"
+        threads = "NULL"
+        virtualisatie = "NULL"
+        virtualisatie_type = "NULL"
+        CPU_multiplier = "NULL"
+        CPU_stepping = "NULL"
+        CPU_instructieset = "NULL"
+        # type_koeling = soup.find('td', text="Koeling").next_sibling.next_sibling.text
+        # print()
+
+        # print(cpu.properties)
+        saveComponent(cpu.properties, label, price, inStock, link, store)
 
 
-class Component():
-    properties = {}
-    relationship_properties = {}
+def price_parser(line):
+    x = line.replace("€", "").\
+        replace("*", "").\
+        replace(",", ".").\
+        replace(" ", "").\
+        replace("verzendkosten", "").\
+        replace("va.", "")
+    return x
 
-    def add_property(self, key, property):
-        self.properties[key] = property
 
-    def add_relationship_property(self, key, property):
-        self.relationship_properties[key] = property
+def saveComponent(properties, label, price, voorraad, link, winkel):
+    neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
+    modelID = properties['ModelID']
 
-    def print_property(self):
-        for key in self.properties:
-            print("x: " + key)
-            print("p: " + self.properties[key])
+    if bool(neo4j_db.cypher.execute_one('match (n) where n.ModelID = "{}" return n'.format(modelID))):
+        cn = neo4j_db.cypher.execute_one('match (n) where n.ModelID = "{}" return n'.format(modelID))
+    else:
+        cn = Node(label)
+        for i in properties:
+            cn.properties[i] = properties[i]
+        neo4j_db.create(cn)
+        cn.add_labels('Component')
+        cn.push()
 
-    def save_component_with_relationships(self):
-        component = Node("Component", "CPU")
-        for key in self.properties:
-            component.properties[key] = self.properties[key]
-        store.pull()
-        relationship = Relationship(component, 'SOLD_AT', store, price=self.relationship_properties['price'])
-        neo4j_db.create(component)
-        neo4j_db.create(relationship)
+    rel = Relationship(cn, 'SOLD_AT', winkel, price=price, in_stock=voorraad, link=link)
+    neo4j_db.create(rel)
 
 
 behuizing = ['Behuizingen']
@@ -192,8 +260,11 @@ processors_L3 = ["Desktop"]
 processors_L4 = ["Alles bekijken"]
 
 neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
-store = Node('Store', name='alternate.nl')
-neo4j_db.create(store)
+
+if not bool(neo4j_db.cypher.execute_one('MATCH (node {name: "alternate.nl"}) RETURN node')):
+    store = Node('Store', name='alternate.nl')
+    neo4j_db.create(store)
+
 
 url = "http://www.alternate.nl"
 hardware = "http://www.alternate.nl/html/highlights/page.html?tk=7&lk=7&hgid=189&tgid=906"
@@ -226,6 +297,7 @@ processors_output = get_subLevel2_url(hardware, url, processors)
 processors_output_sublinks = get_subLevel3_url(processors_output, url, processors_L3)
 processors_output_sublinks_l4 = get_subLevel4_url(processors_output_sublinks, url, processors_L4)
 all_processors = get_all_product_links(processors_output_sublinks_l4, url)
+get_CPU(all_processors)
 
 print(len(all_behuizing) + len(all_grafische_kaarten) +
       len(all_koeling) + len(all_moederborden) + len(all_opslag) +
