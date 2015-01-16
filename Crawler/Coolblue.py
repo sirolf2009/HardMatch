@@ -147,7 +147,7 @@ def productPageLevel(title, href):
 
 
 
-
+'''
 <<<<<<< Updated upstream
 def htmlOld(sourceCode):
     # wanneer gaat om Tables
@@ -157,7 +157,7 @@ def htmlOld(sourceCode):
     #for tech in sourceCode.product-specs--item-title #product-specs--item-spec
 =======
 >>>>>>> Stashed changes
-
+'''
 
 
 
