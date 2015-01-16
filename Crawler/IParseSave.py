@@ -18,7 +18,7 @@ def getHTML(url):
 
 def imgFinder(link):
     soup = getHTML(link)
-    img = soup.find('img', {'class':'full'})
+    img = soup.find('img', {'class': 'full'})
     imgLink = img.get('src')
     return imgLink
 

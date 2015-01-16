@@ -110,10 +110,65 @@ def get_CPU(detail_pages):
         source_code = requests.get(detail_page)
         plain_text = source_code.text
         soup = BeautifulSoup(plain_text)
+        link = detail_page
+        # MODELID
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
             cpu.properties['ModelID'] = modelID
+        except AttributeError:
+            print("NULL")
+        # NAME
+        try:
+            name = soup.find('meta', {"itemprop": "name"})
+            cpu.properties['Name'] = name['content'].encode('utf-8')
+        except AttributeError:
+            print("NULL")
+        # BRAND
+        try:
+            brand = soup.find('meta', {"itemprop": "brand"})
+            cpu.properties['Merk'] = brand
+        except AttributeError:
+            print("NULL")
+        # Serie
+        try:
+            serie = soup.find('td', text="Socket").next_sibling.text
+            cpu.properties['Serie'] = serie
+        except AttributeError:
+            print("NULL")
+        # Socket
+        try:
+            socket = soup.find('td', text="Socket").next_sibling.text
+            cpu.properties['Socket'] = socket
+        except AttributeError:
+            print("NULL")
+        # Amount of Cores
+        try:
+            aantal_cores = soup.find('td', text="Aantal").next_sibling.text
+            cpu.properties['AantalCores'] = aantal_cores
+        except AttributeError:
+            print("NULL")
+        # Snelheid
+        try:
+            snelheid = soup.find('td', text="CPU snelheid").next_sibling.text
+            cpu.properties['Snelheid'] = snelheid
+        except AttributeError:
+            print("NULL")
+        # Geheugenspecificatie
+        try:
+            geheugen_specificatie = soup.find('td', text="Standaarden").next_sibling.text
+            cpu.properties['GeheugenSpecificatie'] = geheugen_specificatie
+        except AttributeError:
+            print("NULL")
+        try:
+            CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
+            cpu.properties['CPUCacheLevel1'] = CPU_cache_level1
+        except AttributeError:
+            print("NULL")
+
+        try:
+            CPU_cache_level2 = soup.find('td', text="L2").next_sibling.text
+            cpu.properties['CPUCacheLevel2'] = CPU_cache_level2
         except AttributeError:
             print("NULL")
         try:
@@ -129,86 +184,7 @@ def get_CPU(detail_pages):
             shipping_costs = "NULL"
 
         inStock = "NULL"
-        link = "NULL"
-
-        try:
-            name = soup.find('meta', {"itemprop": "name"})
-            cpu.properties['Name'] = name['content'].encode('utf-8')
-        except AttributeError:
-            print("NULL")
-
-        try:
-            merk = soup.find('td', text="Socket").next_sibling.text
-            cpu.properties['Merk'] = merk
-        except AttributeError:
-            print("NULL")
-        try:
-            serie = soup.find('td', text="Socket").next_sibling.text
-            cpu.properties['Serie'] = serie
-        except AttributeError:
-            print("NULL")
-        try:
-            socket = soup.find('td', text="Socket").next_sibling.text
-            cpu.properties['Socket'] = socket
-        except AttributeError:
-            print("NULL")
-        try:
-            aantal_cores = soup.find('td', text="Aantal").next_sibling.text
-            cpu.properties['AantalCores'] = aantal_cores
-        except AttributeError:
-            print("NULL")
-
-        CPU_spec_number = "NULL"
-
-        try:
-            snelheid = soup.find('td', text="CPU snelheid").next_sibling.text
-            cpu.properties['Snelheid'] = snelheid
-        except AttributeError:
-            print("NULL")
-
-        maximale_Turbo_Frequentie = "NULL"
-
-        try:
-            geheugen_specificatie = soup.find('td', text="Standaarden").next_sibling.text
-            cpu.properties['GeheugenSpecificatie'] = geheugen_specificatie
-        except AttributeError:
-            print("NULL")
-
-        bus_snelheid = "NULL"
-
-        proces_technologie = "NULL"
-
-        thermal_design_power = "NULL"
-
-        # geintegreerde_graphics = soup.find('td', text="Geïntegreerde GPU").next_sibling.text
-        # print(geintegreerde_graphics)
-
-        nominale_snelheid_videochip = "NULL"
-
-        maximale_snelheid_videochip = "NULL"
-
-        try:
-            CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
-            cpu.properties['CPUCacheLevel1'] = CPU_cache_level1
-        except AttributeError:
-            print("NULL")
-
-        try:
-            CPU_cache_level2 = soup.find('td', text="L2").next_sibling.text
-            cpu.properties['CPUCacheLevel2'] = CPU_cache_level2
-        except AttributeError:
-            print("NULL")
-
-        CPU_cache_level3 = "NULL"
-        threads = "NULL"
-        virtualisatie = "NULL"
-        virtualisatie_type = "NULL"
-        CPU_multiplier = "NULL"
-        CPU_stepping = "NULL"
-        CPU_instructieset = "NULL"
-        # type_koeling = soup.find('td', text="Koeling").next_sibling.next_sibling.text
-        # print()
-
+        # link = cpu.properties
         # print(cpu.properties)
         saveComponent(cpu.properties, label, price, inStock, link, store)
 
