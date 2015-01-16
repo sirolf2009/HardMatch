@@ -384,7 +384,7 @@ class Storage(IParseSave.Storage):
 
 
 graph = Graph("http://localhost:7484/db/data/")
-winkel = Node('Store', Name='informatique.nl')
+winkel = Node('Store', Name='www.informatique.nl')
 graph.create(winkel)
 
 topLevelSpider('http://www.informatique.nl/componenten/', getCategories())
