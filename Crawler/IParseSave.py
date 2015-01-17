@@ -4,9 +4,12 @@
 __author__ = 'Basit'
 
 
+import time
 import requests
 from bs4 import BeautifulSoup
 from py2neo import Node, Relationship, Graph, neo4j, schema
+import pymongo
+
 
 
 def getHTML(url):
@@ -54,6 +57,26 @@ def saveComponent(properties, label, price, voorraad,link, winkel):
 
     rel = Relationship(cn, 'SOLD_AT', winkel, price=price, in_stock=voorraad,link=link)
     graph.create(rel)
+    saveMetaData(properties['Name'], modelID,price,'www.Informatique.nl', [label, 'Component'])
+
+
+def saveMetaData(productName, modelID, price, store, labels):
+    try:
+        client = pymongo.MongoClient()
+        db = client.MetaData
+        collection = db.MetaDataCollection
+        millis = int(round(time.time() * 1000))
+        metadata = {
+            'Store': store,
+            'productName': productName,
+            'ModelID': '(Fabrikantcode('+modelID+')',
+            'productPrice': price,
+            'Timestamp [EPOC]': millis,
+            'nodeLabels':labels
+        }
+        collection.insert(metadata)
+    except pymongo.errors.ConnectionFailure:
+        print('No connection could be made with MongoDB')
 
 
 class CPU():
@@ -131,7 +154,7 @@ class Motherboard():
         'ModelID': 'null',
         'Merk': 'null',
         'Name': 'null',  # Asus M5A78L-M
-        'socket': 'null',
+        'Socket': 'null',
         'AantalSockets': 'null',
         'FormFactor': 'null',
         'BIOSofUEFI': 'null',
