@@ -153,7 +153,7 @@ class CPU(IParseSave.CPU):
         product = soup.find('h1')
         product = product.string
         splitStrings = product.split(',')
-        cpu.properties['product'] = splitStrings[0]
+        cpu.properties['Name'] = splitStrings[0]
         brand = soup.find('span', {'itemprop': 'brand'})
         cpu.properties['Merk'] = brand.string
         price = soup.find('p', {'class': 'verkoopprijs'})
@@ -202,7 +202,7 @@ class GraphicsCard(IParseSave.GraphicsCard):
         product = soup.find('h1')
         product = product.string
         splitStrings = product.split(',')
-        gc.properties['product'] = splitStrings[0]
+        gc.properties['Name'] = splitStrings[0]
 
         brand = soup.find('span', {'itemprop': 'brand'})
         gc.properties['Merk'] = brand.string
@@ -257,7 +257,7 @@ class Motherboard(IParseSave.Motherboard):
         product = soup.find('h1')
         product = product.string
         splitStrings = product.split(',')
-        mb.properties['product'] = splitStrings[0]
+        mb.properties['Name'] = splitStrings[0]
 
         brand = soup.find('span', {'itemprop': 'brand'})
         mb.properties['Merk'] = brand.string
@@ -351,7 +351,7 @@ class Storage(IParseSave.Storage):
 
         product = soup.find('h1')
         product = product.string
-        store.properties['product'] = product
+        store.properties['Name'] = product
 
         brand = soup.find('span', {'itemprop': 'brand'})
         store.properties['Merk'] = brand.string

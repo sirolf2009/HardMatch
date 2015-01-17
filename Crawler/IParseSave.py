@@ -4,9 +4,12 @@
 __author__ = 'Basit'
 
 
+import time
 import requests
 from bs4 import BeautifulSoup
 from py2neo import Node, Relationship, Graph, neo4j, schema
+import pymongo
+
 
 
 def getHTML(url):
@@ -15,19 +18,16 @@ def getHTML(url):
     soup = BeautifulSoup(plain_text)
     return soup
 
-
 def imgFinder(link):
     soup = getHTML(link)
-    img = soup.find('img', {'class': 'full'})
+    img = soup.find('img', {'class':'full'})
     imgLink = img.get('src')
     return imgLink
-
 
 def printProperties(properties):
     for x in properties:
         print(x)
         print(properties[x])
-
 
 def voorraadChecker(url):
     source_code = requests.get(url)
@@ -41,8 +41,7 @@ def voorraadChecker(url):
                 voorraad = 'ja'
     return voorraad
 
-
-def saveComponent(properties, label, price, voorraad, link, winkel):
+def saveComponent(properties, label, price, voorraad,link, winkel):
     graph = Graph("http://localhost:7484/db/data/")
     modelID = properties['ModelID']
 
@@ -56,8 +55,28 @@ def saveComponent(properties, label, price, voorraad, link, winkel):
         cn.add_labels('Component')
         cn.push()
 
-    rel = Relationship(cn, 'SOLD_AT', winkel, price=price, in_stock=voorraad, link=link)
+    rel = Relationship(cn, 'SOLD_AT', winkel, price=price, in_stock=voorraad,link=link)
     graph.create(rel)
+    saveMetaData(properties['Name'], modelID,price,'www.Informatique.nl', [label, 'Component'])
+
+
+def saveMetaData(productName, modelID, price, store, labels):
+    try:
+        client = pymongo.MongoClient()
+        db = client.MetaData
+        collection = db.MetaDataCollection
+        millis = int(round(time.time() * 1000))
+        metadata = {
+            'Store': store,
+            'productName': productName,
+            'ModelID': '(Fabrikantcode('+modelID+')',
+            'productPrice': price,
+            'Timestamp [EPOC]': millis,
+            'nodeLabels':labels
+        }
+        collection.insert(metadata)
+    except pymongo.errors.ConnectionFailure:
+        print('No connection could be made with MongoDB')
 
 
 class CPU():
@@ -129,6 +148,7 @@ class GraphicsCard():
     }
 
 
+
 class Motherboard():
     properties = {
         'ModelID': 'null',
@@ -172,6 +192,7 @@ class RAM():
         'LowVoltageDDR': 'null',  #Nee
         'GeheugenCASLatency': 'null',
     }
+
 
 
 class Storage():
