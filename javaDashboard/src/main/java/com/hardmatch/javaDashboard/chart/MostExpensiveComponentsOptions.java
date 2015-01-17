@@ -18,7 +18,7 @@ public class MostExpensiveComponentsOptions extends ColumnChartOptions {
 		setTitle(new Title("Top "+amount+" Most Expensive Components"));
 		
 		RestAPI rest = WicketApplication.getRest();
-		JSONObject object = rest.sendCypher("MATCH (n:Component)-[r:SOLD_AT]->(:Store) RETURN DISTINCT n.modelID, MAX(r.price) ORDER BY MAX(r.price) DESC LIMIT "+amount);
+		JSONObject object = rest.sendCypher("MATCH (n:Component)-[r:SOLD_AT]->(:Store) RETURN DISTINCT n.modelID, MAX(r.Price) ORDER BY MAX(r.price) DESC LIMIT "+amount);
 		List<JSONArray> rows = rest.json.getRowsFromQuery(object);
 		for(JSONArray row : rows) {
 			String name = row.get(0).toString();
