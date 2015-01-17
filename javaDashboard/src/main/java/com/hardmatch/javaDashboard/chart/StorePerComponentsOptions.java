@@ -20,7 +20,7 @@ public class StorePerComponentsOptions extends PieChartOptions {
 		series.setType(SeriesType.PIE).setName("Component Share");
 		setTitle(new Title("Components with most stores"));
 		RestAPI rest = WicketApplication.getRest();
-		JSONObject object = rest.sendCypher("MATCH (n:Component)-[r:SOLD_AT]-(m:Store) RETURN n.modelID, COUNT(r) ORDER BY count(r) DESC LIMIT "+amount);
+		JSONObject object = rest.sendCypher("MATCH (n:Component)-[r:SOLD_AT]-(m:Store) RETURN n.ModelID, COUNT(r) ORDER BY count(r) DESC LIMIT "+amount);
 		List<JSONArray> results = rest.json.getRowsFromQuery(object);
 		for (int i = 0; i < results.size(); i++) {
 			JSONArray row = results.get(i);
