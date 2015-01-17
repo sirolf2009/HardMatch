@@ -6,6 +6,7 @@ import static com.hardmatch.checker.interfaces.InterfaceStore.LABEL_STORE;
 import static com.hardmatch.checker.interfaces.InterfaceStore.STORE_NAME;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,6 +20,12 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.impl.SimpleLog;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -31,10 +38,11 @@ import com.sirolf2009.util.neo4j.rest.RestAPI;
 public class Checker {
 
 	public static String NEO4J_FINAL_IP = "http://localhost";
-	public static int NEO4J_FINAL_PORT = 7474;
+	//public static int NEO4J_FINAL_PORT = 7474;
 	public static String NEO4J_TEMP_IP = "http://localhost";
 	public static int NEO4J_TEMP_PORT = 7484;
 	public static boolean SHOULD_CONNECT = false;
+	public static String SERVER_PORT_FILE_LOC = "/usr/local/bin/HardMatch/neo4JPort.xml";
 	public static SimpleLog log = new SimpleLog("checker");
 
 	public RestAPI restTemp;
@@ -57,12 +65,12 @@ public class Checker {
 		transferDB();
 		check();
 	}
-	
+
 	public void transferDB() {
 		JSONObject components = restTemp.sendCypher("MATCH (n:Component) RETURN n, labels(n), id(n)");
 		List<JSONArray> rows = restTemp.json.getRowsFromQuery(components);
+		log.info("Copying over "+rows.size()+" nodes");
 		for(int i = 0; i < rows.size(); i++) {
-			System.out.println(i+"/"+rows.size());
 			JSONArray row = rows.get(i);
 			try {
 				IComponent component = ComponentFactory.getComponent((JSONObject) row.get(0), row.get(1).toString(), (Long)row.get(2));
@@ -75,8 +83,9 @@ public class Checker {
 				e.printStackTrace();
 			}
 		}
+		log.info("done");
 	}
-	
+
 	public URI getOrCreateNode(IComponent component) throws URISyntaxException {
 		URI node = null;
 		String cypher = "MATCH (n:Component) WHERE n."+MODEL_ID+"=\\\""+component.getModelID()+"\\\" RETURN id(n)";
@@ -94,7 +103,7 @@ public class Checker {
 		}
 		return node;
 	}
-	
+
 	public void createStoreLinks(JSONArray existingRelationships, URI component) {
 		for(Object obj : existingRelationships) {
 			try {
@@ -137,7 +146,7 @@ public class Checker {
 			}
 		}
 	}
-	
+
 	public void addLabels(URI node, String labels) {
 		labels = labels.replace("[", "").replace("]", "").replace("\"", "");
 		for(String label : labels.split(",")) {
@@ -169,10 +178,6 @@ public class Checker {
 			CommandLine cmd = parser.parse(options, args);
 			if(cmd.hasOption("hf")) {
 				NEO4J_FINAL_IP = cmd.getOptionValue("hf");
-				log.info("setting ");
-			}
-			if(cmd.hasOption("pf")) {
-				NEO4J_FINAL_PORT = Integer.parseInt(cmd.getOptionValue("pf"));
 			}
 			if(cmd.hasOption("ht")) {
 				NEO4J_TEMP_IP = cmd.getOptionValue("hf");
@@ -187,6 +192,9 @@ public class Checker {
 			}
 			if(cmd.hasOption("d")) {
 				SHOULD_CONNECT = true;
+			}
+			if(cmd.hasOption("x")) {
+				SERVER_PORT_FILE_LOC = cmd.getOptionValue("x");
 			}
 		} catch(ParseException e) {
 			e.printStackTrace();
@@ -209,25 +217,20 @@ public class Checker {
 			} else {
 				config.addProperty("hf", NEO4J_FINAL_IP);
 			}
-			if(config.containsKey("pf")) {
-				NEO4J_FINAL_PORT = config.getInt("pf");
-			} else {
-				config.addProperty("pf", NEO4J_FINAL_PORT);
-			}
 			if(config.containsKey("ht")) {
 				NEO4J_FINAL_IP = config.getString("hf");
 			} else {
 				config.addProperty("ht", NEO4J_FINAL_IP);
 			}
-			if(config.containsKey("pt")) {
-				NEO4J_FINAL_PORT = config.getInt("pf");
-			} else {
-				config.addProperty("pt", NEO4J_FINAL_PORT);
-			}
 			if(config.containsKey("d")) {
 				SHOULD_CONNECT = config.getBoolean("d");
 			} else {
 				config.addProperty("d", SHOULD_CONNECT);
+			}
+			if(config.containsKey("x")) {
+				SERVER_PORT_FILE_LOC = config.getString("x");
+			} else {
+				config.addProperty("x", SERVER_PORT_FILE_LOC);
 			}
 			config.save();
 		} catch (ConfigurationException e) {
@@ -240,15 +243,42 @@ public class Checker {
 
 	private void init() {
 		try {
-			log.info("Setting Neo4J Final root to "+NEO4J_FINAL_IP+":"+NEO4J_FINAL_PORT+"/db/data/");
 			log.info("Setting Neo4J Temp root to "+NEO4J_TEMP_IP+":"+NEO4J_TEMP_PORT+"/db/data/");
-			restFinal = new RestAPI(new URI(NEO4J_FINAL_IP+":"+NEO4J_FINAL_PORT+"/db/data/"));
 			restTemp = new RestAPI(new URI(NEO4J_TEMP_IP)+":"+NEO4J_TEMP_PORT+"/db/data/");
 			NeoUtil.log.setLevel(SimpleLog.LOG_LEVEL_OFF);
 		} catch (URISyntaxException e) {
-			log.error(NEO4J_FINAL_IP+":"+NEO4J_FINAL_PORT+" is not a valid URI");
-			e.printStackTrace();
+			log.fatal(NEO4J_TEMP_IP+":"+NEO4J_TEMP_PORT+" is not a valid URI", e);
+			System.exit(-2);
 		}
+		SAXBuilder builder = new SAXBuilder();
+		Element element = new Element("port").setText("UNDEFINED");
+		try {
+			File file = new File(SERVER_PORT_FILE_LOC);
+			if(!file.exists()) {
+				file.createNewFile();
+			}
+			Document document = (Document) builder.build(file);
+			element = document.getRootElement().getChild("port");
+			if(element == null) {
+				element = new Element("port").setText("7474");
+				document.addContent(element);
+				XMLOutputter xmlOutput = new XMLOutputter();
+				xmlOutput.setFormat(Format.getPrettyFormat());
+				xmlOutput.output(document, new FileWriter(SERVER_PORT_FILE_LOC));
+			}
+			log.info("Setting Neo4J Final root to "+NEO4J_FINAL_IP+":"+Integer.parseInt(element.getText())+"/db/data/");
+			restFinal = new RestAPI(new URI(NEO4J_FINAL_IP+":"+Integer.parseInt(element.getText())+"/db/data/"));
+		} catch (JDOMException e) {
+			log.fatal(SERVER_PORT_FILE_LOC+" is not an XML file", e);
+			System.exit(-3);
+		} catch (IOException e) {
+			log.fatal(SERVER_PORT_FILE_LOC+" could not be read", e);
+			System.exit(-4);
+		} catch (URISyntaxException e) {
+			log.fatal(NEO4J_FINAL_IP+":"+element.getText()+"/db/data/ is not a valid URI", e);
+			System.exit(-4);
+		}
+		changePortsInXML();
 		new SynonymChecker();
 		if(SHOULD_CONNECT) {
 			new Thread(new Runnable() {
@@ -261,15 +291,33 @@ public class Checker {
 		}
 	}
 
+	public void changePortsInXML() {
+		try {
+			SAXBuilder builder = new SAXBuilder();
+			Document document = (Document) builder.build(new File(SERVER_PORT_FILE_LOC));
+			Element element = document.getRootElement().getChild("port");
+			if(element.getText().equals("7474")) {
+				element.setText("7494");
+			} else {
+				element.setText("7474");
+			}
+			XMLOutputter xmlOutput = new XMLOutputter();
+			xmlOutput.setFormat(Format.getPrettyFormat());
+			xmlOutput.output(document, new FileWriter(SERVER_PORT_FILE_LOC));
+		} catch (JDOMException | IOException e) {
+			log.error("An error occured during changing the ports file", e);
+		}
+	}
+
 	public static void main(String[] args) {
 		if(args.length > 0) {
 			log.info("Running checker from command line parameters");
 			Options options = new Options();
 			options.addOption("hf", true, "Default: \"http://localhost\". The IP address of the final Neo4J");
-			options.addOption("pf", true, "Default: 7474. The port of the final Neo4J");
 			options.addOption("ht", true, "Default: \"http://localhost\". The IP address of the temporary Neo4J");
 			options.addOption("pt", true, "Default: 7484. The port of the temporary Neo4J");
 			options.addOption("d", false, "Default: false. Determines if the checker should connect to the java dashboard");
+			options.addOption("x", true, "Default: /usr/local/bin/HardMatch/neo4JPort.xml. The location of the file to write/read the most updated DB port");
 			new Checker(options, args);
 		} else {
 			new Checker();

@@ -86,12 +86,20 @@ public class ComponentChecker {
 				crossCheck(Motherboards, Storage, "Motherboard -> STR");
 			}
 		}).start();
+		do {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} while(ThreadCounter != 0);
+		Checker.log.info("done");
 	}
 
 	public void crossCheck(List<IComponent> list1, final List<IComponent> list2, String threadName) {
+		Checker.log.info(threadName+" checking "+list1.size()+" Motherboards on "+list2.size()+" nodes");
 		for(int i = 0; i < list1.size(); i++) {
 			final IComponent component1 = list1.get(i);
-			System.out.println(threadName + " "+((i/list1.size())*100)+"% "+i+"/"+list1.size());
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
