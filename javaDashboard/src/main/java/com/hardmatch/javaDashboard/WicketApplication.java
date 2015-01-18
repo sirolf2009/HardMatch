@@ -47,7 +47,7 @@ public class WicketApplication extends WebApplication {
 	public static RestAPI getRest() {
 		if(rest == null) {
 			try {
-				rest = new RestAPI("http://localhost:7474/db/data");
+				rest = new RestAPI("http://149.210.188.74:7474/db/data");
 				NeoUtil.log.setLevel(SimpleLog.LOG_LEVEL_ERROR);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();

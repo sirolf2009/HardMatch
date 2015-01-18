@@ -17,13 +17,16 @@ public class CompatibilityDistributionOptions extends PieChartOptions {
 
 	public CompatibilityDistributionOptions() {
 		PointSeries series = new PointSeries();
-		setTitle(new Title("Compatibility distribution"));
+		setTitle(new Title("CPU distribution"));
 		series.setType(SeriesType.PIE).setName("Compatibility Share");
 		RestAPI rest = WicketApplication.getRest();
-		JSONObject object = rest.sendCypher("MATCH (c)-[:COMPATIBLE]-(), (n)-[NOT_COMPATIBLE]-() RETURN COUNT(DISTINCT n) AS not_compatible, COUNT(DISTINCT c) AS compatible");
+		JSONObject object = rest.sendCypher("MATCH (n:CPU) WHERE n.Socket <> 'null' RETURN distinct n.Socket, COUNT(n.Socket) LIMIT 100");
 		List<JSONArray> results = rest.json.getRowsFromQuery(object);
-		series.addPoint(createPoint("Compatible", Double.parseDouble(results.get(0).get(1).toString()), 0));
-		series.addPoint(createPoint("Not compatible", Double.parseDouble(results.get(0).get(0).toString()), 1));
+		for (int i = 0; i < results.size(); i++) {
+			JSONArray row = results.get(i);
+			String name = row.get(0).toString();
+			series.addPoint(createPoint(name, Double.parseDouble(row.get(1).toString()), i));
+		}
 		addSeries(series);
 	}
 
