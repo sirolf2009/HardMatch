@@ -55,7 +55,7 @@ def saveComponent(properties, label, price, voorraad,link, winkel):
         cn.add_labels('Component')
         cn.push()
 
-    rel = Relationship(cn, 'SOLD_AT', winkel, price=price, in_stock=voorraad,link=link)
+    rel = Relationship(cn, 'SOLD_AT', winkel, Price=price, in_stock=voorraad,link=link)
     graph.create(rel)
     saveMetaData(properties['Name'], modelID,price,'www.Informatique.nl', [label, 'Component'])
 

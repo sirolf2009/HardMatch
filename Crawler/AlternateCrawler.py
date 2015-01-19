@@ -325,7 +325,7 @@ def saveComponent(properties, label, price, voorraad, link):
         cn.add_labels('Component')
         cn.push()
 
-    rel = Relationship(cn, 'SOLD_AT', store, price=price, in_stock=voorraad, link=link)
+    rel = Relationship(cn, 'SOLD_AT', store, Price=price, inStock=voorraad, link=link)
     neo4j_db.create(rel)
 
 neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
