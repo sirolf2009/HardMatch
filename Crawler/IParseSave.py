@@ -33,7 +33,7 @@ def voorraadChecker(url):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
-    voorraad = 'null'
+    voorraad = 'NULL'
     substring = 'Online op voorraad'
     for x in soup.find('td', {'style': 'padding:5px 4px 5px 4px;line-height:2'}):
         if x is not None:
@@ -81,137 +81,158 @@ def saveMetaData(productName, modelID, price, store, labels):
 
 class CPU():
     properties = {
-        'ModelID': 'null',
-        'Name': 'null',
-        'Merk': 'null',
-        'Serie': 'null',
-        'Socket': 'null',
-        'AantalCores': 'null',
-        'Snelheid': 'null',
-        'ThermalDesignPower': 'null',
-        'CPUSSpecNumber': 'null',
-        'MaximaleTurboFrequentie': 'null',
-        'GeheugenSpecificatie': 'null',
-        'BusSnelheid': 'null',
-        'Procestechnologie': 'null',
-        'GeïntegreerdeGraphics': 'null',
-        'Gpu': 'null',
-        'NominaleSnelheidVideochip': 'null',
-        'MaximaleSnelheidVideochip': 'null',
-        'CPUCacheLevel1': 'null',
-        'CPUCacheLevel2': 'null',
-        'CPUCacheLevel3': 'null',
-        'Threads': 'null',
-        'Virtualisatie': 'null',
-        'VirtualisatieType':'null',
-        'CPUMultiplier': 'null',
-        'CPUStepping': 'null',
-        'CPUInstructieset ': 'null',
-        'TypeKoeling': 'null'
+        'ModelID': 'NULL',
+        'Name': 'NULL',
+        'Merk': 'NULL',
+        'Serie': 'NULL',
+        'Socket': 'NULL',
+        'AantalCores': 'NULL',
+        'Snelheid': 'NULL',
+        'ThermalDesignPower': 'NULL',
+        'CPUSSpecNumber': 'NULL',
+        'MaximaleTurboFrequentie': 'NULL',
+        'GeheugenSpecificatie': 'NULL',
+        'BusSnelheid': 'NULL',
+        'Procestechnologie': 'NULL',
+        'GeïntegreerdeGraphics': 'NULL',
+        'Gpu': 'NULL',
+        'NominaleSnelheidVideochip': 'NULL',
+        'MaximaleSnelheidVideochip': 'NULL',
+        'CPUCacheLevel1': 'NULL',
+        'CPUCacheLevel2': 'NULL',
+        'CPUCacheLevel3': 'NULL',
+        'Threads': 'NULL',
+        'Virtualisatie': 'NULL',
+        'VirtualisatieType':'NULL',
+        'CPUMultiplier': 'NULL',
+        'CPUStepping': 'NULL',
+        'CPUInstructieset ': 'NULL',
+        'TypeKoeling': 'NULL'
+    }
+
+
+class CPUFan():
+    properties = {
+        'ModelID': 'NULL',
+        'Name': 'NULL',
+        'Merk': 'NULL',
+        'Serie': 'NULL',
+        'Socket': 'NULL',
+    }
+
+
+class Case():
+    properties = {
+        'ModelID': 'NULL',
+        'Name': 'NULL',
+        'Merk': 'NULL',
+        'Serie': 'NULL',
+        'FormFactor': 'NULL',
+        'VoedingFormFactor': 'NULL'
     }
 
 
 class GraphicsCard():
     properties = {
-        'ModelID': 'null',
-        'Merk': 'null',
-        'Name': 'null',
-        'Videochip': 'null',  # GeForce GTX 970
-        'ChipsetGeneratie': 'null',  # GeForce 900 Serie
-        'Videochipfabrikant': 'null',  # Nvidia
-        'NominaleSnelheidVideochip': 'null',
-        'MaximaleTurboFrequentie': 'null',
-        'Rekenkernen': 'null',  # 1.664
-        'Geheugengrootte': 'null',  # 4GB
-        'GeheugenType': 'null',  # GDDR5
-        'GeheugenSnelheid': 'null',  # 7,01GHz
-        'GeheugenBusbreedte': 'null',  # 256 bit
-        'CardInterface': 'null',  # PCI-e 3.0 x16
-        'VideoUit': 'null',  # DVI-D, DVI-I, HDMI
-        'HoogsteHDMIVersie': 'null',  # HDMI 2.0
-        'HoogsteDisplayPortVersie': 'null',  # DisplayPort 1.2
-        'VideoAdapter': 'null',  # DVI naar D-Sub adapter
-        'DirectXversion': 'null',  # 12.0
-        'OpenGLversion': 'null',  # 4.4
-        'ShaderModel': 'null',  # 5.0
-        'MaximaleResolutie': 'null',  # 4096x2160 (Cinema 4K)
-        'Lengte': 'null',  # 269mm
-        'Hoogte': 'null',  # 35mm
-        'Breedte': 'null',  # 141mm
-        'AantalSlots': 'null',  # 2x
-        'AantalPins': 'null',
-        'Aantal6Pins': 'null',  # 1x
-        'Aantal8Pins': 'null',  # 1x
-        'Stroomverbruik': 'null',  # 148W
-        'TypeKoeling': 'null',  # Passieve fan
-        'linkInterface': 'null'  # Nvidia SLi
+        'ModelID': 'NULL',
+        'Merk': 'NULL',
+        'Name': 'NULL',
+        'Videochip': 'NULL',  # GeForce GTX 970
+        'ChipsetGeneratie': 'NULL',  # GeForce 900 Serie
+        'Videochipfabrikant': 'NULL',  # Nvidia
+        'NominaleSnelheidVideochip': 'NULL',
+        'MaximaleTurboFrequentie': 'NULL',
+        'Rekenkernen': 'NULL',  # 1.664
+        'Geheugengrootte': 'NULL',  # 4GB
+        'GeheugenType': 'NULL',  # GDDR5
+        'GeheugenSnelheid': 'NULL',  # 7,01GHz
+        'GeheugenBusbreedte': 'NULL',  # 256 bit
+        'CardInterface': 'NULL',  # PCI-e 3.0 x16
+        'VideoUit': 'NULL',  # DVI-D, DVI-I, HDMI
+        'HoogsteHDMIVersie': 'NULL',  # HDMI 2.0
+        'HoogsteDisplayPortVersie': 'NULL',  # DisplayPort 1.2
+        'VideoAdapter': 'NULL',  # DVI naar D-Sub adapter
+        'DirectXversion': 'NULL',  # 12.0
+        'OpenGLversion': 'NULL',  # 4.4
+        'ShaderModel': 'NULL',  # 5.0
+        'MaximaleResolutie': 'NULL',  # 4096x2160 (Cinema 4K)
+        'Lengte': 'NULL',  # 269mm
+        'Hoogte': 'NULL',  # 35mm
+        'Breedte': 'NULL',  # 141mm
+        'AantalSlots': 'NULL',  # 2x
+        'AantalPins': 'NULL',
+        'Aantal6Pins': 'NULL',  # 1x
+        'Aantal8Pins': 'NULL',  # 1x
+        'Stroomverbruik': 'NULL',  # 148W
+        'TypeKoeling': 'NULL',  # Passieve fan
+        'linkInterface': 'NULL'  # Nvidia SLi
     }
 
 
 
 class Motherboard():
     properties = {
-        'ModelID': 'null',
-        'Merk': 'null',
-        'Name': 'null',  # Asus M5A78L-M
-        'Socket': 'null',
-        'AantalSockets': 'null',
-        'FormFactor': 'null',
-        'BIOSofUEFI': 'null',
-        'DualofSingleBIOSUEFI': 'null',
-        'Moederbordchipset': 'null',
-        'Geheugentype': 'null',
-        'MaximumGeheugengrootte': 'null',
-        'HardeschijfBus': 'null',
-        'CardInterface': 'null',
-        'AantalPCI-ex16Slots': 'null',
-        'LinkInterfaceATiCrossfireATiCrossfire': 'null',
-        'VerbindingEthernet': 'null',
-        'Netwerkchip': 'null',
-        'BluetoothAanwezig': 'null',
-        'VerbindingUSBFW': 'null',
-        'VideoUit': 'null',
-        'Verbinding': 'null',
-        'AudioKanalen': 'null',
-        'AudioUitgangen': 'null',
-        'Audiochip': 'null'
+        'ModelID': 'NULL',
+        'Merk': 'NULL',
+        'Name': 'NULL',  # Asus M5A78L-M
+        'Socket': 'NULL',
+        'AantalSockets': 'NULL',
+        'FormFactor': 'NULL',
+        'BIOSofUEFI': 'NULL',
+        'DualofSingleBIOSUEFI': 'NULL',
+        'Moederbordchipset': 'NULL',
+        'Geheugentype': 'NULL',
+        'MaximumGeheugengrootte': 'NULL',
+        'HardeschijfBus': 'NULL',
+        'CardInterface': 'NULL',
+        'AantalPCI-ex16Slots': 'NULL',
+        'LinkInterfaceATiCrossfireATiCrossfire': 'NULL',
+        'VerbindingEthernet': 'NULL',
+        'Netwerkchip': 'NULL',
+        'BluetoothAanwezig': 'NULL',
+        'VerbindingUSBFW': 'NULL',
+        'VideoUit': 'NULL',
+        'Verbinding': 'NULL',
+        'AudioKanalen': 'NULL',
+        'AudioUitgangen': 'NULL',
+        'Audiochip': 'NULL'
     }
 
 
 class RAM():
     properties = {
-        'ModelID': 'null',
-        'Merk': 'null',  # Crucial
-        'Name': 'null',
-        'serie': 'null',  # Ballistix
-        'Geheugengrootte': 'null',  #8GB
-        'Aantal': 'null',  #2x
-        'Modulegrootte': 'null',  #4GB
-        'GeheugenType': 'null',  #DDR3
-        'GeheugenSpecificatie': 'null',  #PC3-12800 (DDR3-1600)
-        'LowVoltageDDR': 'null',  #Nee
-        'GeheugenCASLatency': 'null',
+        'ModelID': 'NULL',
+        'Merk': 'NULL',  # Crucial
+        'Name': 'NULL',
+        'serie': 'NULL',  # Ballistix
+        'Geheugengrootte': 'NULL',  #8GB
+        'Aantal': 'NULL',  #2x
+        'Modulegrootte': 'NULL',  #4GB
+        'GeheugenType': 'NULL',  #DDR3
+        'GeheugenSpecificatie': 'NULL',  #PC3-12800 (DDR3-1600)
+        'LowVoltageDDR': 'NULL',  #Nee
+        'GeheugenCASLatency': 'NULL',
     }
 
 
 
 class Storage():
     properties = {
-        'ModelID': 'null',
-        'Merk': 'null',  # WD
-        'serie': 'null',  # Red
-        'Name': 'null',  #WD Red SATA 6 Gb/s
-        'Opslagcapactiteit': 'null',  #3TB
-        'HardeschijfBusIntern': 'null',  #SATA-600
-        'Hoogte': 'null',  #26,1mm
-        'Lezen':'null',
-        'Schrijven':'null',
-        'RotatieSnelheid': 'null',  #5.400
-        'DriveCache': 'null',  #64MB
-        'CommandQueuing': 'null',  #Native Command Queuing
-        'ReadSeekTime':'null',
-        'StroomverbruikLezen': 'null',  #4,5W
-        'StroomverbruikSchrijven': 'null',  #4,5W
+        'ModelID': 'NULL',
+        'Merk': 'NULL',  # WD
+        'serie': 'NULL',  # Red
+        'Name': 'NULL',  #WD Red SATA 6 Gb/s
+        'Opslagcapactiteit': 'NULL',  #3TB
+        'HardeschijfBusIntern': 'NULL',  #SATA-600
+        'Hoogte': 'NULL',  #26,1mm
+        'Lezen':'NULL',
+        'Schrijven':'NULL',
+        'RotatieSnelheid': 'NULL',  #5.400
+        'DriveCache': 'NULL',  #64MB
+        'CommandQueuing': 'NULL',  #Native Command Queuing
+        'ReadSeekTime':'NULL',
+        'StroomverbruikLezen': 'NULL',  #4,5W
+        'StroomverbruikSchrijven': 'NULL',  #4,5W
     }
 
 
