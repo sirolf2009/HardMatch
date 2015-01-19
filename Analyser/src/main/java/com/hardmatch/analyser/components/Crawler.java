@@ -11,7 +11,6 @@ public class Crawler implements IComponent {
 	
 	private long amount;
 	
-	private long workingTime;
 	private long errorCount;
 	private Map<String, Map<Long, Product>> productPriceHistory;
 	

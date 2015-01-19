@@ -3834,7 +3834,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -4623,7 +4623,11 @@ a.badge:focus {
   padding: 30px 15px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #eee;
+  background-color: #ddd;
+
+  background: url("/static/img/graphbg.jpg") left bottom;
+  height: 150px;
+  background-repeat: repeat-x;
 }
 .jumbotron h1,
 .jumbotron .h1 {

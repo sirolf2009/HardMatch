@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block jumbotron %}
+
+    <div class="jumbotron" style="color:#f60">
+    </div>
+{% endblock %}
+
+
+
+
+{% block body %}
+	<script type="text/javascript">
+    var data = {{ Data }};
+
+
+$(function () {
+        $('#container').highcharts({
+            title: {
+                text: 'Monthly Average Temperature',
+                x: -20 //center
+            },
+            chart: {
+	            type: 'spline'
+            },
+            subtitle: {
+                text: 'Source: WorldClimate.com',
+                x: -20
+            },
+            xAxis: {
+                categories: ['10-01', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'weff']
+            },
+            yAxis: {
+                title: {
+                    text: 'Temperature (C)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'C'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Tokyo',
+                data: data
+            }]
+        });
+    });
+    
+
+		</script>
+		
+		<div id="container" style="height: 400px;"></div>
+
+
+
+
+    {% if pageType == 'Coolblue' %}
+        <p>Dit is ProcessoreStore</p>
+    {% elif pageType == 'Informatique' %}
+        <p>Dit is Informatique</p>
+    {% elif pageType == 'Alternate' %}
+        <p>Dit is Alternate</p>
+    {% else %}
+        <p>If you are seeing this message, something probably gone REALLY REALLY BAD! go back to index</p>
+    {% endif %}
+    
+    
+{% endblock %}

@@ -41,6 +41,10 @@
     });
   } );
 
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
   </script>
 
 		<!--[if lt IE 9]>
@@ -49,13 +53,16 @@
     </head>
 
     <?php
-    ini_set('display_errors',1);
-    require_once "HTML/Template/IT.php";
     require('vendor/autoload.php');
+    require('NodeExtension.php');
 
     $client = new Everyman\Neo4j\Client('localhost', 7474);
     $client->getTransport()
     ->setAuth('username', 'password');
+
+    $loader = new Twig_Loader_Filesystem('./templates/');
+    $twig = new Twig_Environment($loader);
+    $twig->addExtension(new NodeExtension());
     ?>
 
     <body>
@@ -142,89 +149,19 @@
           </p>
 
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Processor
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
-                  <?php                      
-                  $tpl = new HTML_Template_IT("./templates");
+            <?php
+            $template = $twig->loadTemplate('panels-tables.twig');
 
-                  $queryString = "MATCH (n:Processor) RETURN n";
-                  $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-                  $result = $query->getResultSet();
+            $queryString = "MATCH (n:Processor) RETURN n";
+            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            $processorResult = $query->getResultSet();
+            echo $template->render(array('number' => 'One', 'name' => 'Processor', 'table' => 'processors', 'nodes' => $processorResult));
 
-                  $tpl->loadTemplatefile("processor_table.html", true, true);
-
-                  foreach ($result as $row) {
-                    $tpl->setCurrentBlock("row") ;
-                    $tpl->setVariable("ID", $row['n']->getId()) ;
-                    $tpl->setVariable("NAME", $row['n']->getProperty('name')) ;
-                    $tpl->setVariable("DESC", $row['n']->getProperty('description')) ;
-                    $tpl->setVariable("PRICE", $row['n']->getProperty('price')) ;
-                    $tpl->parseCurrentBlock("row") ;
-                  }
-
-                  $tpl->show();
-
-                  ?>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingTwo">
-                <h4 class="panel-title">
-                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Videokaart
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
-                  <?php
-                  $tpl = new HTML_Template_IT("./templates");
-
-                  $queryString = "MATCH (n:Videokaart) RETURN n";
-                  $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-                  $result = $query->getResultSet();
-
-                  $tpl->loadTemplatefile("videokaart_table.html", true, true);
-
-                  foreach ($result as $row) {
-                    $tpl->setCurrentBlock("row") ;
-                    $tpl->setVariable("ID", $row['n']->getId()) ;
-                    $tpl->setVariable("NAME", $row['n']->getProperty('name')) ;
-                    $tpl->setVariable("DESC", $row['n']->getProperty('description')) ;
-                    $tpl->setVariable("PRICE", $row['n']->getProperty('price')) ;
-                    $tpl->parseCurrentBlock("row") ;
-                  }
-
-                  $tpl->show();
-
-                  ?>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title">
-                  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Geheugen
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
-                  Geheugen  
-                </div>
-              </div>
-            </div>
+            $queryString = "MATCH (n:Videokaart) RETURN n";
+            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            $videokaartResult = $query->getResultSet();
+            echo $template->render(array('number' => 'Two', 'name' => 'Videokaart', 'table' => 'videokaarten', 'nodes' => $videokaartResult));
+            ?>
           </div>
 
 
@@ -277,27 +214,92 @@
             Een lijst met alle geselecteerde componenten en de daarbij horende goedkoopste winkel.
           </p>
 
-          <p class="text-center">
-            <a id="prev3" class="btn btn-success btn-outline-rounded green prevtab"><span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span>vorige stap</a>
-            <a id="next3" href="#overzicht" id="nexttab" class="btn btn-success btn-outline-rounded green nexttab">klaar<span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></a>
-          </p>
-        </div>
+          <div class="gdk-winkel">
+            <img src="./images/icons/processor.png" class="gdk-img">
+            <div class="info">
+              <div class="details">
+                <div class="details-title">Productnaam</div>
+                <p> Beschrijving
+                </div>
 
-        <div class="tab-pane fade" id="afronding">
-          <h3 class="head text-center">Klaar</h3>
-          <div class="text-center">
-            <a id="prev4" class="btn btn-success btn-outline-rounded green prevtab"><span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span>vorige stap</a>
-          </div> 
-        </div>
+                <div class="store">
+                  <div class="store-title">Goedkoopste winkel</div>
+                  <img src="./images/shops/alternate.png" class="store-img">
+                </div>
+              </div>
+              <div class="extra">
+                <div class="extra-info" data-toggle="tooltip" data-placement="bottom" title="Bekijk product op Alternate">
+                  <span class="fa fa-globe"></span>
+                  Website
+                </div>
 
-        <div class="clearfix"></div>
-      </div>
+                <div class="extra-info" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Voor 23.59 besteld,<br>morgen in huis.">
+                  <span class="fa fa-check"></span>
+                  Op Voorraad
+                </div>
+
+                <div class="extra-info" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Betaalmogelijkheden:<br>
+                  iDeal, PayPal, Creditcard">
+                  <span class="fa fa-tag"></span>
+                  €150,00
+                </div>
+              </div>
+            </div>
+
+            <div class="gdk-winkel">
+              <img src="./images/icons/videokaart.png" class="gdk-img">
+              <div class="info">
+                <div class="details">
+                  <div class="details-title">Productnaam</div>
+                  <p> Beschrijving
+                  </div>
+
+                  <div class="store">
+                    <div class="store-title">Goedkoopste winkel</div>
+                    <img src="./images/shops/coolblue.png" class="store-img">
+                  </div>
+                </div>
+                <div class="extra">
+                  <a href="#">
+                    <div class="extra-info" data-toggle="tooltip" data-placement="bottom" title="Bekijk product op Coolblue">
+                      <span class="fa fa-globe"></span>
+                      Website
+                    </div>
+                  </a>
+                  <div class="extra-info" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Voor 23.59 besteld,<br>morgen in huis.">
+                    <span class="fa fa-check"></span>
+                    Op Voorraad
+                  </div>
+
+                  <div class="extra-info" data-html="true" data-toggle="tooltip" data-placement="bottom" title="Betaalmogelijkheden:<br>
+                    iDeal, PayPal, Creditcard">
+                    <span class="fa fa-tag"></span>
+                    €150,00
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-center">
+                <a id="prev3" class="btn btn-success btn-outline-rounded green prevtab"><span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span>vorige stap</a>
+                <a id="next3" href="#overzicht" id="nexttab" class="btn btn-success btn-outline-rounded green nexttab">klaar<span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></a>
+              </p>
+            </div>
+
+            <div class="tab-pane fade" id="afronding">
+              <h3 class="head text-center">Klaar</h3>
+              <div class="text-center">
+                <a id="prev4" class="btn btn-success btn-outline-rounded green prevtab"><span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span>vorige stap</a>
+              </div> 
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+
+        </div>
+      </section>
 
     </div>
-  </section>
 
-</div>
-
-<script src="js/scripts.js"></script>
-</body>
-</html>
+    <script src="js/scripts.js"></script>
+  </body>
+  </html>

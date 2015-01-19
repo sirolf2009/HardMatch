@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 from py2neo import neo4j, Node, Relationship, Graph
 
-
 class Category():
     name = ''
     subs = []
@@ -30,16 +29,14 @@ class Category():
         for i in range(len(self.subs)):
             print(self.subs[i])
 
-
 def getCategories():
     c1 = Category('Moederbord', ['Intel', 'AMD'])
     c2 = Category('Processor', ['Intel Desktop', 'AMD Desktop'])
-    c3 = Category('Video', ['NVIDIA', 'AMD'])
-    c4 = Category('Geheugenmodules', ['DDR4', 'DDR3', 'DDR2'])
-    c5 = Category('Harddisks', ['SATA', 'inch', 'Solid State Drive'])
+    c3 = Category('Video', ['NVIDIA','AMD'])
+    c4 = Category('Geheugenmodules', ['DDR4','DDR3','DDR2'])
+    c5 = Category('Harddisks', ['SATA','inch', 'Solid State Drive'])
     categories = [c1, c2, c3, c4, c5]
     return categories
-
 
 def determineProductType(subcat):
     if subcat in 'Controllers':
@@ -76,14 +73,12 @@ def determineProductType(subcat):
         type = 'Optical drive'
     return type
 
-
 def getHTML(url):
     # print(url)
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
     return soup
-
 
 def topLevelSpider(url, categories):
     soup = getHTML(url)
@@ -94,7 +89,6 @@ def topLevelSpider(url, categories):
                 link = 'http://www.informatique.nl' + (td.find('a')['href'])
                 midLevelSpider(link, categories[i].getSubs())
 
-
 def midLevelSpider(url, subs):
     soup = getHTML(url)
     for td in soup.findAll('td', {'class': 'kopsf'}):
@@ -104,7 +98,6 @@ def midLevelSpider(url, subs):
                 link = 'http://www.informatique.nl' + (td.find('a')['href'])
                 label = determineProductType(subs[i])
                 lowLevelSpider(link, label)
-
 
 def lowLevelSpider(url, label):
     soup = getHTML(url)
@@ -123,7 +116,6 @@ def lowLevelSpider(url, label):
     if getNextPage(url) is not None:
         lowLevelSpider(getNextPage(url), label)
 
-
 def getNextPage(link):
     soup = getHTML(link)
     currentPage = soup.find('a', {'id': 'active'})
@@ -138,7 +130,6 @@ def getNextPage(link):
                     url = 'http://www.informatique.nl/' + adress
                     return url
     return None
-
 
 class CPU():
     properties = {
@@ -298,7 +289,6 @@ def graphicsCardParser(detailadress):
 
     saveComponent(gc.properties)
 
-
 class Motherboard():
     properties = {
         'label': 'Motherboard',
@@ -334,7 +324,6 @@ class Motherboard():
         #0610839181117, 4016138700787, 4054317892960, 4719543181119, 5053086113800, 5053460703757, 5053460854701, 5711045802461, 6108391811176
         'SKU': 'null'  #90-MIBG70-G0EAY00Z, 90-MIBG70-G0EAY0GZ, M5A78L-M/USB3
     }
-
 
 def motherBoardParser(detailadress):
     mb = Motherboard()
@@ -389,7 +378,7 @@ class RAM():
         'memoryCapacity': 'null',  #8GB
         'amount': 'null',  #2x
         'moduleCapacity': 'null',  #4GB
-        'pricePerGB': 'null',  #€7,869
+        'pricePerGB': 'null',  #7,869
         'memoryType': 'null',  #DDR3
         'memorySpecification': 'null',  #PC3-12800 (DDR3-1600)
         'lowVoltageDDR': 'null',  #Nee
@@ -399,7 +388,6 @@ class RAM():
         'EAN': 'null',  #0649528755940
         'SKU': 'null'  #BLS2CP4G3D1609DS1S00, BLS2CP4G3D1609DS1S00CEU
     }
-
 
 def RAMparser(detailadress):
     ram = RAM()
@@ -455,12 +443,11 @@ class Storage():
         'commandQueuing': 'null',  #Native Command Queuing
         'powerUsageRead': 'null',  #4,5W
         'powerUsageWrite': 'null',  #4,5W
-        'pricePerGB': 'null',  #€0,036
+        'pricePerGB': 'null',  #0,036
         'manufacturerGuarantee': 'null',  #3 jaar carry in
         'EAN': 'null',  #0718037799674, 5711045474873
         'SKU': 'null'  #WD30EFRX
     }
-
 
 def storageParser(detailadress):
     store = Storage()
@@ -491,12 +478,10 @@ def storageParser(detailadress):
 
     saveComponent(store.properties)
 
-
 def printProperties(properties):
     for x in properties:
         print(x)
         print(properties[x])
-
 
 def saveComponent(properties):
         cn = Node(properties['label'])

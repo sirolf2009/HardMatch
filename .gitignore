@@ -56,4 +56,10 @@ docs/_build/
 target/
 Crawler/.idea
 
+<<<<<<< HEAD
 *.xml
+=======
+.idea
+*.xml
+*.iml
+>>>>>>> FETCH_HEAD

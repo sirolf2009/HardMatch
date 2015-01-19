@@ -59,5 +59,10 @@
 			<artifactId>NeoUtil</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sirolf2009</groupId>
+			<artifactId>networking</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

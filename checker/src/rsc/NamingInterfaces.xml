@@ -1,0 +1,151 @@
+<NamingInterfaces>
+	<SOLD_AT>
+		<Price />
+		<InStock />
+		<ShippingCost />
+	</SOLD_AT>
+	<Store>
+		<Name />
+	</Store>
+	<Component>
+		<ModelID />
+	</Component>
+	<Motherboard>
+		<Socket />
+		<AantalSockets />
+		<FormFactor />
+		<BIOSofUEFI />
+		<DualofSingleBIOSUEFI />
+		<Moederbordchipset />
+		<Geheugentype />
+		<MaximumGeheugengrootte />
+		<HardeschijfBus />
+		<CardInterface />
+		<AantalPCI-ex16Slots />
+		<LinkInterfaceATiCrossfireATiCrossfire />
+		<VerbindingEthernet />
+		<Netwerkchip />
+		<BluetoothAanwezig />
+		<VerbindingUSBFW />
+		<VideoUit />
+		<Verbinding />
+		<AudioKanalen />
+		<AudioUitgangen />
+		<Audiochip />
+	</Motherboard>
+	<CPU>
+		<Socket />
+		<AantalCores />
+		<CPUSSpecNumber />
+		<Snelheid />
+		<MaximaleTurboFrequentie />
+		<GeheugenSpecificatie />
+		<BusSnelheid />
+		<Procestechnologie />
+		<ThermalDesignPower />
+		<GeïntegreerdeGraphics />
+		<Gpu />
+		<NominaleSnelheidVideochip />
+		<MaximaleSnelheidVideochip />
+		<CPUCacheLevel1 />
+		<CPUCacheLevel2 />
+		<CPUCacheLevel3 />
+		<Threads />
+		<Virtualisatie />
+		<VirtualisatieType />
+		<CPUMultiplier />
+		<CPUstepping />
+		<CPUInstructieset />
+		<TypeKoeling />
+	</CPU>
+	<CPUFan>
+		<Socket />
+		<AansluitingProcessorkoeling />
+		<Heatpipes />
+		<Prestaties />
+		<Geluidssterkte />
+		<RotatiesnelheidMin />
+		<RotatiesnelheidMax />
+		<TypeKoeling />
+		<Hoogte />
+		<Diameter />
+		<Kleuren />
+		<Materialen />
+	</CPUFan>
+	<GraphicsCard>
+		<Videochip />
+		<ChipsetGeneratie />
+		<Videochipfabrikant />
+		<NominaleSnelheidVideochip />
+		<MaximaleTurboFrequentie />
+		<Rekenkernen />
+		<Geheugengrootte />
+		<GeheugenType />
+		<GeheugenSnelheid />
+		<GeheugenBusbreedte />
+		<CardInterface />
+		<VideoUit />
+		<HoogsteHDMIVersie />
+		<HoogsteDisplayPortVersie />
+		<VideoAdapter />
+		<DirectXVersie />
+		<OpenGLVersie />
+		<ShaderModel />
+		<MaximaleResolutie />
+		<Lengte />
+		<Hoogte />
+		<Breedte />
+		<AantalSlots />
+		<AantalPins />
+		<Aantal6Pins />
+		<Aantal8Pins />
+		<Stroomverbruik />
+		<TypeKoeling />
+		<LinkInterface />
+	</GraphicsCard>
+	<RAM>
+		<Geheugengrootte />
+		<Aantal />
+		<Modulegrootte />
+		<Geheugentype />
+		<GeheugenSpecificatie />
+		<LowVoltageDDR />
+		<GeheugenCASLatency />
+	</RAM>
+	<Case>
+		<Behuizingtype />
+		<FormFactor />
+		<BehuizingPanel />
+		<Materialen />
+		<GrafischeKaartMaximumLengte />
+		<CPUKoelerMaximumHoogte />
+		<Kleuren />
+		<BehuizingBayIntern />
+		<BehuizingBayExtern />
+		<AansluitingenVoorzijde />
+		<VoedingPlaats />
+		<VoedingFormFactor />
+		<FanPoorten />
+		<MeegeleverdeFans />
+		<Kabelmanagement />
+		<Hoogte />
+		<Breedte />
+		<Diepte />
+		<Volume />
+		<Gewicht />
+	</Case>
+	<Storage>
+		<Opslagcapaciteit />
+		<HardeschijfBusIntern />
+		<BehuizingBayIntern />
+		<Hoogte />
+		<Lezen />
+		<Schrijven />
+		<Rotatiesnelheid />
+		<DriveCache />
+		<CommandQueuing />
+		<ReadSeekTime />
+		<StroomverbruikLezen />
+		<StroomverbruikSchrijven />
+	</Storage>
+</NamingInterfaces>
