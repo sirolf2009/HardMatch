@@ -65,15 +65,15 @@
     </head>
 
     <?php
-    require('vendor/autoload.php');
-    require('NodeExtension.php');
+    // require('vendor/autoload.php');
+    // require('NodeExtension.php');
 
-    $client = new Everyman\Neo4j\Client('localhost', 7474);
-    $client->getTransport()->setAuth('username', 'password');
+    // $client = new Everyman\Neo4j\Client('localhost', 7474);
+    // $client->getTransport()->setAuth('username', 'password');
 
-    $loader = new Twig_Loader_Filesystem('./templates/');
-    $twig = new Twig_Environment($loader);
-    $twig->addExtension(new NodeExtension());
+    // $loader = new Twig_Loader_Filesystem('./templates/');
+    // $twig = new Twig_Environment($loader);
+    // $twig->addExtension(new NodeExtension());
     ?>
 
     <body>
@@ -162,47 +162,47 @@
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <?php
 
-            $template = $twig->loadTemplate('panels/motherboard.twig');
-            $queryString = "MATCH (n:Motherboard) RETURN n";
-            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $motherboardResult = $query->getResultSet();
-            echo $template->render(array('name' => 'Moederbord', 'table' => 'motherboard', 'nodes' => $motherboardResult));
+            // $template = $twig->loadTemplate('panels/motherboard.twig');
+            // $queryString = "MATCH (n:Motherboard) RETURN n";
+            // $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            // $motherboardResult = $query->getResultSet();
+            // echo $template->render(array('name' => 'Moederbord', 'table' => 'motherboard', 'nodes' => $motherboardResult));
 
-            $template = $twig->loadTemplate('panels/cpu.twig');
-            $queryString = "MATCH (n:CPU) RETURN n";
-            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $cpuResult = $query->getResultSet();
-            echo $template->render(array('name' => 'Processor', 'table' => 'cpu', 'nodes' => $cpuResult));
+            // $template = $twig->loadTemplate('panels/cpu.twig');
+            // $queryString = "MATCH (n:CPU) RETURN n";
+            // $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            // $cpuResult = $query->getResultSet();
+            // echo $template->render(array('name' => 'Processor', 'table' => 'cpu', 'nodes' => $cpuResult));
 
-            $template = $twig->loadTemplate('panels/cpufan.twig');
-            $queryString = "MATCH (n:CPUFan) RETURN n";
-            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $cpufanResult = $query->getResultSet();
-            echo $template->render(array('name' => 'Processor Fan', 'table' => 'cpufan', 'nodes' => $cpufanResult));
+            // $template = $twig->loadTemplate('panels/cpufan.twig');
+            // $queryString = "MATCH (n:CPUFan) RETURN n";
+            // $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            // $cpufanResult = $query->getResultSet();
+            // echo $template->render(array('name' => 'Processor Fan', 'table' => 'cpufan', 'nodes' => $cpufanResult));
 
-            $template = $twig->loadTemplate('panels/graphicscard.twig');
-            $queryString = "MATCH (n:GraphicsCard) RETURN n";
-            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $graphicscardResult = $query->getResultSet();
-            echo $template->render(array('name' => 'Videokaart', 'table' => 'graphicscard', 'nodes' => $graphicscardResult));
+            // $template = $twig->loadTemplate('panels/graphicscard.twig');
+            // $queryString = "MATCH (n:GraphicsCard) RETURN n";
+            // $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            // $graphicscardResult = $query->getResultSet();
+            // echo $template->render(array('name' => 'Videokaart', 'table' => 'graphicscard', 'nodes' => $graphicscardResult));
 
-            $template = $twig->loadTemplate('panels/ram.twig');
-            $queryString = "MATCH (n:RAM) RETURN n";
-            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $ramResult = $query->getResultSet();
-            echo $template->render(array('name' => 'Geheugen', 'table' => 'ram', 'nodes' => $ramResult));
+            // $template = $twig->loadTemplate('panels/ram.twig');
+            // $queryString = "MATCH (n:RAM) RETURN n";
+            // $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            // $ramResult = $query->getResultSet();
+            // echo $template->render(array('name' => 'Geheugen', 'table' => 'ram', 'nodes' => $ramResult));
 
-            $template = $twig->loadTemplate('panels/case.twig');
-            $queryString = "MATCH (n:Case) RETURN n";
-            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $caseResult = $query->getResultSet();
-            echo $template->render(array('name' => 'Behuizing', 'table' => 'case', 'nodes' => $caseResult));
+            // $template = $twig->loadTemplate('panels/case.twig');
+            // $queryString = "MATCH (n:Case) RETURN n";
+            // $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            // $caseResult = $query->getResultSet();
+            // echo $template->render(array('name' => 'Behuizing', 'table' => 'case', 'nodes' => $caseResult));
 
-            $template = $twig->loadTemplate('panels/storage.twig');
-            $queryString = "MATCH (n:Storage) RETURN n";
-            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $storageResult = $query->getResultSet();
-            echo $template->render(array('name' => 'Opslag', 'table' => 'storage', 'nodes' => $storageResult));
+            // $template = $twig->loadTemplate('panels/storage.twig');
+            // $queryString = "MATCH (n:Storage) RETURN n";
+            // $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            // $storageResult = $query->getResultSet();
+            // echo $template->render(array('name' => 'Opslag', 'table' => 'storage', 'nodes' => $storageResult));
 
             ?>
           </div>
