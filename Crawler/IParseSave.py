@@ -236,6 +236,12 @@ class Storage():
     }
 
 
+class store_object():
+    def create_store(self, name, storeUrl):
+        n = Node(name, Name=storeUrl)
+        return n
+
+
 def printProperties(properties):
     for x in properties:
         print(x)

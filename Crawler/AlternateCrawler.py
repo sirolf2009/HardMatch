@@ -11,13 +11,22 @@ from pymongo import MongoClient
 
 import IParseSave
 
-neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
-store = Node('Store', name='www.alternate.nl')
 
-if bool(neo4j_db.cypher.execute_one('MATCH (node {name: "www.alternate.nl"}) RETURN node')):
-    neo4j_db.merge(store)
+class store_object():
+    def create_store(self, name, storeUrl):
+        n = Node(name, Name=storeUrl)
+        return n
+
+neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
+
+
+if bool(neo4j_db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.alternate.nl" RETURN n')):
+    pass
 else:
+    store = store_object.create_store(store_object(), 'Store', 'www.alternate.nl')
     neo4j_db.create(store)
+
+store = neo4j_db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.alternate.nl" RETURN n')
 
 
 def get_page_soup(url):
@@ -122,39 +131,31 @@ def get_CPU(detail_pages):
             modelID = x['content'].replace('"', "")
             cpu.properties['ModelID'] = modelID
         except AttributeError:
-           cpu.properties['ModelID'] ="NULL"
+            cpu.properties['ModelID'] ="NULL"
         try:
-            brand = soup.find('meta', {"itemprop": "brand"})
+            brand = soup.find('span', {"itemprop": "brand"}).text
             cpu.properties['Merk'] = brand
         except AttributeError:
             cpu.properties['Merk'] = "NULL"
         try:
             name = soup.find('meta', {"itemprop": "name"})
-            test = name['content'].encode('utf-8')
-            lol = str(test)
+            x = name['content'].encode('utf-8').text
             sep = ','
-            rest = lol.split(sep, 1)[0]
-            print(test)
-            print(brand.txt + " " + rest)
-            cpu.properties['Name'] = name['content'].encode('utf-8')
-
+            rest = x.split(sep, 1)[0].replace("b'", "")
+            final = brand + " " + rest
+            cpu.properties['Name'] = final
         except AttributeError:
             cpu.properties['Name'] = "NULL"
         try:
             serie = soup.find('td', text="Socket").next_sibling.text
             cpu.properties['Serie'] = serie
         except AttributeError:
-           cpu.properties['Serie'] = "NULL"
-        try:
-            socket = soup.find('td', text="Socket").next_sibling.text
-            cpu.properties['Socket'] = socket
-        except AttributeError:
-            print("NULL")
+            cpu.properties['Serie'] = "NULL"
         try:
             aantal_cores = soup.find('td', text="Aantal").next_sibling.text
             cpu.properties['AantalCores'] = aantal_cores
         except AttributeError:
-           cpu.properties['AantalCores'] = "NULL"
+            cpu.properties['AantalCores'] = "NULL"
         try:
             snelheid = soup.find('td', text="CPU snelheid").next_sibling.text
             cpu.properties['Snelheid'] = snelheid
@@ -164,7 +165,7 @@ def get_CPU(detail_pages):
             geheugen_specificatie = soup.find('td', text="Standaarden").next_sibling.text
             cpu.properties['GeheugenSpecificatie'] = geheugen_specificatie
         except AttributeError:
-           cpu.properties['GeheugenSpecificatie'] = "NULL"
+            cpu.properties['GeheugenSpecificatie'] = "NULL"
         try:
             CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
             cpu.properties['CPUCacheLevel1'] = CPU_cache_level1
@@ -176,15 +177,18 @@ def get_CPU(detail_pages):
         except AttributeError:
             cpu.properties['CPUCacheLevel2'] = "NULL"
         try:
-            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
+        '''
         try:
-            x = soup.find('div', {"id": "cheapestShippingCosts"})
-            shipping_costs = price_parser(x.text)
+            x = soup.find('div', {"class": "availability"}).get_children.text
+            print(x)
+            test = price_parser(x.text)
         except AttributeError:
-            shipping_costs = "NULL"
+            test = "NULL"
+        '''
 
         inStock = "NULL"
         saveComponent(cpu.properties, label, price, inStock, link)
@@ -429,8 +433,6 @@ def get_Case(detail_pages):
             shipping_costs = "NULL"
 
         inStock = "NULL"
-        # link = cpu.properties
-        # print(motherboard.properties)
         saveComponent(cpu_fan.properties, label, price, inStock, link)
 
 
@@ -561,7 +563,8 @@ def saveComponent(properties, label, price, voorraad, link):
         cn.push()
 
     rel = Relationship(cn, 'SOLD_AT', store, Price=price, inStock=voorraad, productUrl=link)
-    neo4j_db.create_unique(rel)
+    neo4j_db.create(rel)
+
 
 # index = neo4j_db.get_or_create_index(neo4j.Node, "alternate")
 # neo4j_db.add_indexed_node(index, 'name', 'www.alternate.nl', store)
@@ -632,11 +635,11 @@ processors_output_sublinks_l4 = get_subLevel4_url(processors_output_sublinks, ur
 all_processors = get_all_product_links(processors_output_sublinks_l4, url)
 
 get_CPU(all_processors)
-# get_Motherboard(all_moederborden)
-# get_CPU_Fan(all_koeling)
-# get_Case(all_behuizing)
-# get_Storage(all_opslag)
-# get_GPU(all_grafische_kaarten)
+get_Motherboard(all_moederborden)
+get_CPU_Fan(all_koeling)
+get_Case(all_behuizing)
+get_Storage(all_opslag)
+get_GPU(all_grafische_kaarten)
 
 print(len(all_behuizing) + len(all_grafische_kaarten) +
       len(all_koeling) + len(all_moederborden) + len(all_opslag) +
