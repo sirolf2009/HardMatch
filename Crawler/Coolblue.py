@@ -656,33 +656,5 @@ class productNode():
 
 
 
-
-<<<<<<< HEAD
-class Database:
-
-    def local(self):
-        db = Graph("http://localhost:7474/db/data/")
-        return db
-
-    def online(self):
-        db = Graph("http://localhost:7484/db/data/")
-        return db
-=======
-'''
-<<<<<<< Updated upstream
-def htmlOld(sourceCode):
-    # wanneer gaat om Tables
-    print(sourceCode)
-    print("*******************************")
-    # TODO: Check alle tabellen <DL>
-    #for tech in sourceCode.product-specs--item-title #product-specs--item-spec
-=======
->>>>>>> Stashed changes
-'''
->>>>>>> FETCH_HEAD
-
-
-
-
 if __name__ == '__main__':
     main()
