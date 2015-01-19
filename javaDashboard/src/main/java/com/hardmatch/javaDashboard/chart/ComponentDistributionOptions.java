@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.googlecode.wickedcharts.highcharts.options.SeriesType;
+import com.googlecode.wickedcharts.highcharts.options.Title;
 import com.googlecode.wickedcharts.highcharts.options.series.PointSeries;
 import com.hardmatch.javaDashboard.WicketApplication;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
@@ -17,6 +18,7 @@ public class ComponentDistributionOptions extends PieChartOptions {
 	public ComponentDistributionOptions() {
 		super();		
 		PointSeries series = new PointSeries();
+		setTitle(new Title("Component distribution"));
 		series.setType(SeriesType.PIE).setName("Component Share");
 		RestAPI rest = WicketApplication.getRest();
 		JSONObject object = rest.sendCypher("MATCH (n:Component) RETURN DISTINCT LABELS(n), COUNT(n)");

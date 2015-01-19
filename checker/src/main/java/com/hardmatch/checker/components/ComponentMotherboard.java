@@ -5,9 +5,9 @@ import org.json.simple.JSONObject;
 public class ComponentMotherboard extends AbstractComponent {
 
 	public String socket;
-	public String connectorInterfaceStorage;
 	public String connectorInterfaceGraphicsCard;
 	public String memoryType;
+	public String formFactor;
 
 	public ComponentMotherboard(String labels, Long ID) {
 		super(labels, ID);
@@ -15,17 +15,17 @@ public class ComponentMotherboard extends AbstractComponent {
 
 	public void populateProperties(JSONObject object) {
 		super.populateProperties(object);
-		if(object.containsKey(SOCKET_LABEL)) {
-			socket = object.get(SOCKET_LABEL).toString();
+		if(object.containsKey(MOTHERBOARD_SOCKET)) {
+			socket = object.get(MOTHERBOARD_SOCKET).toString();
 		}
-		if(object.containsKey(INTERFACE_STORAGE_LABEL)) {
-			connectorInterfaceStorage = object.get(INTERFACE_STORAGE_LABEL).toString();
+		if(object.containsKey(MOTHERBOARD_CARDINTERFACE)) {
+			connectorInterfaceGraphicsCard= object.get(MOTHERBOARD_CARDINTERFACE).toString();
 		}
-		if(object.containsKey(INTERFACE_GRAPHICS_CARD_LABEL)) {
-			connectorInterfaceGraphicsCard= object.get(INTERFACE_GRAPHICS_CARD_LABEL).toString();
+		if(object.containsKey(MOTHERBOARD_MEMORYTYPE)) {
+			memoryType = object.get(MOTHERBOARD_MEMORYTYPE).toString();
 		}
-		if(object.containsKey(MEMORY_TYPE_LABEL)) {
-			memoryType = object.get(MEMORY_TYPE_LABEL).toString();
+		if(object.containsKey(MOTHERBOARD_FORMFACTOR)) {
+			formFactor = object.get(MOTHERBOARD_FORMFACTOR).toString();
 		}
 	}
 }

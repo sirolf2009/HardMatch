@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.googlecode.wickedcharts.highcharts.options.SeriesType;
+import com.googlecode.wickedcharts.highcharts.options.Title;
 import com.googlecode.wickedcharts.highcharts.options.series.PointSeries;
 import com.hardmatch.javaDashboard.WicketApplication;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
@@ -16,9 +17,10 @@ public class ComponentsPerStoreOptions extends PieChartOptions {
 
 	public ComponentsPerStoreOptions() {
 		PointSeries series = new PointSeries();
+		setTitle(new Title("Stores with most components"));
 		series.setType(SeriesType.PIE).setName("Store Share");
 		RestAPI rest = WicketApplication.getRest();
-		JSONObject object = rest.sendCypher("MATCH (n:Store)-[r:SOLD_AT]-(m:Component) RETURN n.name, COUNT(r)");
+		JSONObject object = rest.sendCypher("MATCH (n:Store)-[r:SOLD_AT]-(m:Component) RETURN n.Name, COUNT(r)");
 		List<JSONArray> results = rest.json.getRowsFromQuery(object);
 		for (int i = 0; i < results.size(); i++) {
 			JSONArray row = results.get(i);

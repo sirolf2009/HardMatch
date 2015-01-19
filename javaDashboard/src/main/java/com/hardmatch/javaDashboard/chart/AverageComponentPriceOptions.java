@@ -18,7 +18,7 @@ public class AverageComponentPriceOptions extends ColumnChartOptions {
 		setTitle(new Title("Average Component Prices"));
 		
 		RestAPI rest = WicketApplication.getRest();
-		JSONObject object = rest.sendCypher("MATCH (n:Component)-[r:SOLD_AT]->(:Store) RETURN DISTINCT LABELS(n), AVG(r.price)");
+		JSONObject object = rest.sendCypher("MATCH (n:Component)-[r:SOLD_AT]->(:Store) RETURN DISTINCT LABELS(n), AVG(r.Price)");
 		List<JSONArray> rows = rest.json.getRowsFromQuery(object);
 		for(JSONArray row : rows) {
 			String name = row.get(0).toString().replace("Component", "").replace("\"", "").replace("[", "").replace("]", "").replace(",", "").trim();

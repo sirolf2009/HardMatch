@@ -1,0 +1,1 @@
+thrift -gen -o src\main java MatcherPHPHandler.thrift

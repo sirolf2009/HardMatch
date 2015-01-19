@@ -16,6 +16,10 @@ import com.hardmatch.checker.components.ComponentStorage;
 import com.hardmatch.checker.components.IComponent;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
 
+import static com.hardmatch.checker.interfaces.InterfaceStore.*;
+import static com.hardmatch.checker.interfaces.InterfaceRelations.*;
+import static com.hardmatch.checker.interfaces.InterfaceComponent.*;
+
 public class ComponentChecker {
 
 	private List<IComponent> CPUs;
@@ -26,6 +30,8 @@ public class ComponentChecker {
 
 	public RestAPI restTemp;
 	public RestAPI restFinal;
+
+	public static int ThreadCounter = 0;
 
 	public ComponentChecker(Checker checker) {
 		restTemp = checker.restTemp;
@@ -52,40 +58,84 @@ public class ComponentChecker {
 	}
 
 	public void crossCheckAll() {
-		Checker.log.info("checking motherboards on CPU");
-		crossCheck(Motherboards, CPUs);
-		Checker.log.info("checking motherboards on RAM");
-		crossCheck(Motherboards, RAM);
-		Checker.log.info("checking motherboards on Graphics Cards");
-		crossCheck(Motherboards, Graphicscards);
-		Checker.log.info("checking motherboards on Storage");
-		crossCheck(Motherboards, Storage);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Checker.log.info("checking motherboards on CPU");
+				crossCheck(Motherboards, CPUs, "Motherboard -> CPU");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Checker.log.info("checking motherboards on RAM");
+				crossCheck(Motherboards, RAM, "Motherboard -> RAM");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Checker.log.info("checking motherboards on GFX");
+				crossCheck(Motherboards, Graphicscards, "Motherboard -> GFX");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Checker.log.info("checking motherboards on Storage");
+				crossCheck(Motherboards, Storage, "Motherboard -> STR");
+			}
+		}).start();
+		do {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} while(ThreadCounter != 0);
+		Checker.log.info("done");
 	}
 
-	public void crossCheck(List<IComponent> list1, List<IComponent> list2) {
-		for(IComponent component1 : list1) {
-			for(IComponent component2 : list2) {
-				try {
-					boolean compatible = component1.isCompatibleWith(component2);
-					URI startNodeFinal = getOrCreateNode(component1);
-					URI endNodeFinal = getOrCreateNode(component2);
-					createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component1.getID())), startNodeFinal);
-					createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component2.getID())), endNodeFinal);
-					if(compatible) {
-						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "COMPATIBLE");
-					} else {
-						restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, "NOT_COMPATIBLE");
+	public void crossCheck(List<IComponent> list1, final List<IComponent> list2, String threadName) {
+		Checker.log.info(threadName+" checking "+list1.size()+" Motherboards on "+list2.size()+" nodes");
+		for(int i = 0; i < list1.size(); i++) {
+			final IComponent component1 = list1.get(i);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					for(final IComponent component2 : list2) {
+						while(ThreadCounter >= 100) { 
+							try {
+								Thread.sleep(1);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							} 
+						}
+						ThreadCounter++;
+						doCheck(component1, component2);
+						ThreadCounter--;
 					}
-				} catch(URISyntaxException e) {
-					e.printStackTrace();
 				}
-			}
+			}).start();
+		}
+	}
+
+	public void doCheck(IComponent component1, IComponent component2) {
+		boolean compatible = component1.isCompatibleWith(component2);
+		URI startNodeFinal = restFinal.nodes.fromID(component1.getID());
+		URI endNodeFinal = restFinal.nodes.fromID(component2.getID());
+		//createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component1.getID())), startNodeFinal);
+		//createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component2.getID())), endNodeFinal);
+		if(compatible) {
+			restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, COMPATIBLE);
+		} else {
+			restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, NOT_COMPATIBLE);
 		}
 	}
 
 	public URI getOrCreateNode(IComponent component) throws URISyntaxException {
 		URI node = null;
-		String cypher = "MATCH (n:Component) WHERE n.modelID=\\\""+component.getModelID()+"\\\" RETURN id(n)";
+		String cypher = "MATCH (n:Component) WHERE n."+MODEL_ID+"=\\\""+component.getModelID()+"\\\" RETURN id(n)";
 		JSONObject answer = restFinal.sendCypher(cypher);
 		JSONArray result = (JSONArray) answer.get("results");
 		if(result.size() == 0 || ((JSONArray) ((JSONObject) result.get(0)).get("data")).size() == 0) {
@@ -106,13 +156,13 @@ public class ComponentChecker {
 			try {
 				JSONObject existingRelationship = (JSONObject) obj;
 				URI endNode = new URI(existingRelationship.get("end").toString());
-				String storeName = restTemp.nodes.getProperties(endNode).get("name").toString();
+				String storeName = restTemp.nodes.getProperties(endNode).get(STORE_NAME).toString();
 				boolean hasRelation = false;
 				for(Object objRelation : restFinal.relationship.getRelationships(component)) {
 					JSONObject storeRelationship = (JSONObject) objRelation;
-					if(storeRelationship.get("type").toString().equals("SOLD_AT")) {
+					if(storeRelationship.get("type").toString().equals(SOLD_AT)) {
 						URI storeNode = new URI(storeRelationship.get("end").toString());
-						if(restFinal.nodes.getProperties(storeNode).get("name").toString().equals(storeName)) {
+						if(restFinal.nodes.getProperties(storeNode).get(STORE_NAME).toString().equals(storeName)) {
 							hasRelation = true;
 							break;
 						}
@@ -121,14 +171,14 @@ public class ComponentChecker {
 				if(hasRelation) {
 					continue;
 				}
-				JSONObject answer = (JSONObject)restFinal.sendCypher("MATCH (store:Store) WHERE store.name=\\\""+storeName+"\\\" RETURN store, id(store)");
+				JSONObject answer = (JSONObject)restFinal.sendCypher("MATCH (store:Store) WHERE store."+STORE_NAME+"=\\\""+storeName+"\\\" RETURN store, id(store)");
 				JSONArray results = (JSONArray) answer.get("results");
 				JSONObject firstHit = (JSONObject) results.get(0);
 				JSONArray data = (JSONArray) firstHit.get("data");
 				URI store = null;
 				if(data.size() == 0) {
 					store = restFinal.nodes.createNode();
-					restFinal.nodes.addLabelToNode(store, "Store");
+					restFinal.nodes.addLabelToNode(store, LABEL_STORE);
 					restFinal.nodes.setNodeProperties(store, restTemp.nodes.getRawProperties(endNode));
 				} else {
 					JSONObject firstDataHit = (JSONObject) data.get(0);
@@ -136,7 +186,7 @@ public class ComponentChecker {
 					long storeID = Long.parseLong(row.get(1).toString());
 					store = restFinal.nodes.fromID(storeID);
 				}
-				URI relationship = restFinal.relationship.addRelationship(component, store, "SOLD_AT");
+				URI relationship = restFinal.relationship.addRelationship(component, store, SOLD_AT);
 				restFinal.relationship.setRelationshipProperties(relationship, restTemp.relationship.getRelationshipProperties(new URI(existingRelationship.get("self").toString())));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();

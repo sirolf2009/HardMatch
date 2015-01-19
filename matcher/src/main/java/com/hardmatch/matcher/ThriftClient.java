@@ -1,7 +1,6 @@
 package com.hardmatch.matcher;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.thrift.TException;
@@ -10,6 +9,9 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+
+import com.hardmatch.matcher.thrift.Component;
+import com.hardmatch.matcher.thrift.MatcherPHPHandler;
 
 public class ThriftClient {
 
@@ -25,8 +27,8 @@ public class ThriftClient {
 			MatcherPHPHandler.Client client = new MatcherPHPHandler.Client(protocol);
 			
 			List<Component> components = new ArrayList<Component>();
-			components.add(new Component("xyz1", new HashMap<String, String>()));
-			components.add(new Component("xyz2", new HashMap<String, String>()));
+			components.add(new Component("X99 KILLER"));
+			components.add(new Component("90-MIBGW0-G0EAY00Z"));
 
 			System.out.println(client.match(components));
 

@@ -1,23 +1,28 @@
 package com.hardmatch.matcher;
 
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.hardmatch.matcher.thrift.Component;
+import com.hardmatch.matcher.thrift.ComponentPriced;
+import com.hardmatch.matcher.thrift.Store;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
 
 public class Matcher {
 	
 	private RestAPI rest;
+	private ThriftHandler handler;
 	
-	public Matcher() throws URISyntaxException {
-    	rest = new RestAPI("http://localhost:7474/db/data");
+	public Matcher(ThriftHandler handler) throws URISyntaxException {
+    	rest = new RestAPI("http://149.210.188.74:7474/db/data");
+    	this.handler = handler;
 	}
 
-	//TODO HOLY FUCK this must be simplified
-    public Store getCheapestStoreForComponent(Component componentToBuy) {
-    	String cypher = "MATCH (component:Component {modelID:\\\""+componentToBuy.name+"\\\"})-[relation:SOLD_AT]->(store) RETURN store ORDER BY relation.price";
+    public MatchingResult getCheapestStoreForComponent(Component componentToBuy) {
+    	String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy.name+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price ORDER BY relation.Price";
     	JSONObject response = rest.sendCypher(cypher);
     	JSONArray results = (JSONArray) response.get("results");
     	JSONObject rows = (JSONObject) results.get(0);
@@ -25,17 +30,22 @@ public class Matcher {
     	JSONObject firstRow = (JSONObject)moarRows.get(0);
     	JSONArray firstRowData = (JSONArray)firstRow.get("row");
     	JSONObject firstRowDataRow = (JSONObject) firstRowData.get(0);
-    	String store = firstRowDataRow.get("name").toString();
-    	return new Store(store);
+    	double componentPrice = Double.parseDouble(firstRowData.get(1).toString());
+    	String storeName = firstRowDataRow.get("Name").toString();
+    	Store store = handler.getOrCreateStore(storeName);
+    	ComponentPriced priced = new ComponentPriced(componentToBuy.name, componentPrice);
+    	store.soldItems.put(componentToBuy.name, priced);
+    	return new MatchingResult(priced, store);
     }
     
-    public static void main(String[] args) {
-		Component component = new Component("xyz1", null);
-		try {
-			new Matcher().getCheapestStoreForComponent(component);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+    class MatchingResult {
+    	public ComponentPriced componentPriced;
+    	public Store store;
+    	
+    	public MatchingResult(ComponentPriced componentPriced, Store store) {
+    		this.componentPriced = componentPriced;
+    		this.store = store;
 		}
-	}
+    }
 
 }

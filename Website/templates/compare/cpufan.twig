@@ -1,0 +1,60 @@
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th class="compare-table"></th>
+            {% for item in nodes %}
+                <th>{{ getNodeProperty(item, 'Name') }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="compare-table">Hoogte: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'Hoogte') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Diameter: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'Diameter') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Rotatiesnelheid (Min): </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'RotatiesnelheidMin') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Rotatiesnelheid (Max): </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'RotatiesnelheidMax') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Geluidssterkte: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'Geluidssterkte') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Sockets: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'Socket') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Merk: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'Merk') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Artikelnummer: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'ModelID') }}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>

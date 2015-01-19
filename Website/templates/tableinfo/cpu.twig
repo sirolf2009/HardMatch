@@ -1,0 +1,36 @@
+<td>
+    <table border="0">
+        <tr>
+            <td style="width:200px">Naam:</td>
+            <td>{{ getNodeProperty(node, 'product') }}</td>
+        </tr>
+        <tr>
+            <td>Snelheid:</td>
+            <td>{{ getNodeProperty(node, 'Snelheid') }}</td>
+        </tr>
+        <tr>
+            <td>Aantal Cores:</td>
+            <td>{{ getNodeProperty(node, 'AantalCores') }}</td>
+        </tr>
+        <tr>
+            <td>Cache Level:</td>
+            <td>{{ getNodeProperty(node, 'CPUCacheLevel3') }}</td>
+        </tr>
+        <tr>
+            <td>Serie:</td>
+            <td>{{ getNodeProperty(node, 'serie') }}</td>
+        </tr>
+        <tr>
+            <td>Power:</td>
+            <td>{{ getNodeProperty(node, 'ThermalDesignPower') }}</td>
+        </tr>
+        <tr>
+            <td>Merk:</td>
+            <td>{{ getNodeProperty(node, 'brand') }}</td>
+        </tr>
+        <tr>
+            <td>Artikelnummer:</td>
+            <td>{{ getNodeProperty(node, 'ModelID') }}</td>
+        </tr>
+    </table>
+</td>

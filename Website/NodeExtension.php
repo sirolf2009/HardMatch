@@ -17,38 +17,15 @@ class NodeExtension extends Twig_Extension
 				}				
 			}),
 
-			new Twig_SimpleFunction("getNodeName", function ($node, $option=null) {
+			new Twig_SimpleFunction("getNodeProperty", function ($node, $property, $option=null) {
 				if ($option === null){
-					return $node->getProperty('name');					
+					return $node->getProperty($property);					
 				} else{
-					return $node[$option]->getProperty('name');
+					return $node[$option]->getProperty($property);
 				}
 			}),
 
-			new Twig_SimpleFunction("getNodeDesc", function ($node, $option=null) {
-				if ($option === null){
-					return $node->getProperty('description');
-				} else {
-					return $node[$option]->getProperty('description');
-				}				
-			}),
-
-			new Twig_SimpleFunction("getNodeCat", function ($node, $option=null) {
-				if ($option === null){
-					return $node->getProperty('category');
-				} else {
-					return $node[$option]->getProperty('category');
-				}				
-			}),
-
-			new Twig_SimpleFunction("getNodePrice", function ($node, $option=null) {
-				if ($option === null){
-					return $node->getProperty('price');
-				} else {
-					return $node[$option]->getProperty('price');
-				}				
-			}),
 			);
-}
+	}
 }
 ?>

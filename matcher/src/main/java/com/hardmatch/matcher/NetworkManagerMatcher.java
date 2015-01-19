@@ -2,7 +2,7 @@ package com.hardmatch.matcher;
 
 import java.util.Observable;
 
-import com.hardmatch.matcher.packets.PacketHeartbeat;
+import com.hardmatch.matcher.packets.PacketHeartbeatMatcher;
 import com.sirolf2009.networking.AbstractClient;
 
 public class NetworkManagerMatcher extends AbstractClient {
@@ -19,12 +19,14 @@ public class NetworkManagerMatcher extends AbstractClient {
 	public void onConnected() {
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					Thread.sleep(1000*60);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				while(true) {
+					sendPacket(new PacketHeartbeatMatcher());
+					try {
+						Thread.sleep(1000*30);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-				sendPacket(new PacketHeartbeat());
 			}
 		}).start();
 	}
