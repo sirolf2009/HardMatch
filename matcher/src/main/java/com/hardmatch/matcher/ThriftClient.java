@@ -11,6 +11,9 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
+import com.hardmatch.matcher.thrift.Component;
+import com.hardmatch.matcher.thrift.MatcherPHPHandler;
+
 public class ThriftClient {
 
 	public static void main(String[] args) {
@@ -25,8 +28,8 @@ public class ThriftClient {
 			MatcherPHPHandler.Client client = new MatcherPHPHandler.Client(protocol);
 			
 			List<Component> components = new ArrayList<Component>();
-			components.add(new Component("xyz1", new HashMap<String, String>()));
-			components.add(new Component("xyz2", new HashMap<String, String>()));
+			components.add(new Component("X99 KILLER", new HashMap<String, String>()));
+			components.add(new Component("90-MIBGW0-G0EAY00Z", new HashMap<String, String>()));
 
 			System.out.println(client.match(components));
 

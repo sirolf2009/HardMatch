@@ -7,10 +7,15 @@ import java.util.Map;
 
 import org.apache.thrift.TException;
 
-public class ThriftHandler implements MatcherPHPHandler.Iface {
+import com.hardmatch.matcher.thrift.Component;
+import com.hardmatch.matcher.thrift.MatcherPHPHandler.Iface;
+import com.hardmatch.matcher.thrift.Store;
+
+public class ThriftHandler implements Iface {
 
 	@Override
 	public Map<String, Store> match(List<Component> components) throws TException {
+		System.out.println("Matching");
 		Map<String, Store> cheapyStores = new HashMap<String, Store>();
 		Matcher matcher = null;
 		try {
@@ -22,7 +27,7 @@ public class ThriftHandler implements MatcherPHPHandler.Iface {
 		for(Component component : components) {
 			cheapyStores.put(component.getName(), matcher.getCheapestStoreForComponent(component));
 		}
-
+		System.out.println("Matched "+cheapyStores);
 		return cheapyStores;
 	}
 

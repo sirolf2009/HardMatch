@@ -6,6 +6,7 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 
 import com.hardmatch.matcher.packets.PacketHeartbeatMatcher;
+import com.hardmatch.matcher.thrift.MatcherPHPHandler;
 import com.sirolf2009.networking.Packet;
 
 public class ThriftServerMatcher {
