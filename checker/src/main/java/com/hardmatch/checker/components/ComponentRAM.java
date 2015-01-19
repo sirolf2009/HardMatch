@@ -12,8 +12,8 @@ public class ComponentRAM extends AbstractComponent {
 
 	public void populateProperties(JSONObject object) {
 		super.populateProperties(object);
-		if(object.containsKey(MEMORY_TYPE_LABEL)) {
-			memoryType = object.get(MEMORY_TYPE_LABEL).toString();
+		if(object.containsKey(RAM_MEMORYTYPE)) {
+			memoryType = object.get(RAM_MEMORYTYPE).toString();
 		}
 	}
 

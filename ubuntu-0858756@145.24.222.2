@@ -1,0 +1,33 @@
+__author__ = 'gokhankacan'
+from subprocess import call
+import time
+import shlex
+import threading as t
+
+def func():
+
+    # call(shlex.split('reboot'))
+    # print('Rebooting')
+
+    call(["ls", "-l"])
+    print("Next go into map")
+    time.sleep(3)
+
+    call(shlex.split('ifconfig'))
+    print("Printed IFconig")
+    time.sleep(5)
+
+
+    call(shlex.split('cd Analyser'), )
+    print('Done')
+
+
+
+def thr():
+
+    startBTCData = t.Thread(target=bi.main(), name="Getting BTC Data")
+    startBTCData.start()
+    startBTCData.join()
+
+
+

@@ -5,6 +5,7 @@ __author__ = 'Basit'
 
 
 import time
+import datetime
 import requests
 from bs4 import BeautifulSoup
 from py2neo import Node, Relationship, Graph, neo4j, schema
@@ -24,6 +25,25 @@ def imgFinder(link):
     imgLink = img.get('src')
     return imgLink
 
+def cardInterfaceBuilder(link):
+    soup = getHTML(link)
+    specs = soup.findAll('td',{'class': 'right'})
+
+    dict = {
+        'interfaces': ''
+    }
+
+    if specs is not None:
+        for x in specs:
+            if 'PCI' in x.string:
+                rawValue = x.string
+                roughValue = rawValue.split(' ')
+                roughValue = roughValue[1]
+                dict['interfaces'] += ' '+ roughValue + ' ' + x.findNextSibling('td').string.replace(' ','')
+
+    return(dict['interfaces'])
+
+
 def printProperties(properties):
     for x in properties:
         print(x)
@@ -33,12 +53,16 @@ def voorraadChecker(url):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
+<<<<<<< HEAD
     voorraad = 'NULL'
+=======
+    voorraad = 'Niet op voorraad'
+>>>>>>> FETCH_HEAD
     substring = 'Online op voorraad'
     for x in soup.find('td', {'style': 'padding:5px 4px 5px 4px;line-height:2'}):
         if x is not None:
             if substring in x.text:
-                voorraad = 'ja'
+                voorraad = 'Op voorraad'
     return voorraad
 
 def saveComponent(properties, label, price, voorraad,link, winkel):
@@ -55,25 +79,45 @@ def saveComponent(properties, label, price, voorraad,link, winkel):
         cn.add_labels('Component')
         cn.push()
 
-    rel = Relationship(cn, 'SOLD_AT', winkel, Price=price, in_stock=voorraad,link=link)
+    rel = Relationship(cn, 'SOLD_AT', winkel, Price=price, inStock=voorraad, productURL=link)
     graph.create(rel)
-    saveMetaData(properties['Name'], modelID,price,'www.Informatique.nl', [label, 'Component'])
+    saveMetaData(winkel.properties['Name'], properties['Name'], modelID, price, properties['Merk'],'www.Informatique.nl', label)
 
 
-def saveMetaData(productName, modelID, price, store, labels):
+def saveMetaData(dbname,productName, modelID, price, merk, store, label):
     try:
         client = pymongo.MongoClient()
-        db = client.MetaData
-        collection = db.MetaDataCollection
-        millis = int(round(time.time() * 1000))
+
+        if dbname == 'www.informatique.nl':
+            db = client.informatique
+        else:
+            db = client.alternate
+
+        now = datetime.datetime.now()
         metadata = {
             'Store': store,
-            'productName': productName,
             'ModelID': '(Fabrikantcode('+modelID+')',
-            'productPrice': price,
-            'Timestamp [EPOC]': millis,
-            'nodeLabels':labels
+            'Name': productName,
+            'Price': price,
+            'Brand': merk,
+            'productType': label,
+            'Timestamp': int(time.mktime(now.timetuple()))
         }
+
+        #determine the right collection to insert the post in to
+        if label == 'CPU': collection = db.CPU
+        elif label == 'Motherboard': collection = db.Motherboard
+        elif label == 'CPUFan': collection = db.CPUFan
+        elif label == 'GraphicsCard': collection = db.GraphicsCard
+        elif label == 'RAM': collection = db.RAM
+        elif label == 'Case': collection = db.Case
+        elif label == 'PSU': collection =db.PSU
+        elif label == 'Barebones':collection = db.Barebones
+        elif label == 'Storage-HDD':collection = db.HDD
+        elif label == 'Storage-SSD': collection =db.SSD
+        elif label == 'Storage': collection =db.Storage
+        else: collection = db.MISC
+
         collection.insert(metadata)
     except pymongo.errors.ConnectionFailure:
         print('No connection could be made with MongoDB')
@@ -108,6 +152,7 @@ class CPU():
         'CPUStepping': 'NULL',
         'CPUInstructieset ': 'NULL',
         'TypeKoeling': 'NULL'
+<<<<<<< HEAD
     }
 
 
@@ -129,6 +174,8 @@ class Case():
         'Serie': 'NULL',
         'FormFactor': 'NULL',
         'VoedingFormFactor': 'NULL'
+=======
+>>>>>>> FETCH_HEAD
     }
 
 
@@ -186,7 +233,11 @@ class Motherboard():
         'HardeschijfBus': 'NULL',
         'CardInterface': 'NULL',
         'AantalPCI-ex16Slots': 'NULL',
+<<<<<<< HEAD
         'LinkInterfaceATiCrossfireATiCrossfire': 'NULL',
+=======
+        'LinkInterfaceATiCrossfireATiCrossfire ': 'NULL',
+>>>>>>> FETCH_HEAD
         'VerbindingEthernet': 'NULL',
         'Netwerkchip': 'NULL',
         'BluetoothAanwezig': 'NULL',
@@ -246,3 +297,4 @@ def printProperties(properties):
     for x in properties:
         print(x)
         print(properties[x])
+

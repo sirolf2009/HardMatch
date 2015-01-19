@@ -12,8 +12,8 @@ public class ComponentGraphicsCard extends AbstractComponent {
 
 	public void populateProperties(JSONObject object) {
 		super.populateProperties(object);
-		if(object.containsKey(INTERFACE_GRAPHICS_CARD_LABEL)) {
-			connectorInterface = object.get(INTERFACE_GRAPHICS_CARD_LABEL).toString();
+		if(object.containsKey(GFX_INTERFACE)) {
+			connectorInterface = object.get(GFX_INTERFACE).toString();
 		}
 	}
 }

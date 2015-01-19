@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block jumbotron %}
+
+    <div class="jumbotron" style="color:#f60">
+    </div>
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="page-header">
+      <h1 style="font-size:48px; text-align:right;">Dashboard</h1>
+    </div>
+
+
+
+
+
+    <div class="page-header">
+      <h1>Intel vs AMD <small> - The Battle of the CPU's</small></h1>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Number of Products</h3>
+              </div>
+              <div class="panel-body">
+<script type="text/javascript">
+$(function () {
+    $('#cpuNumbers').highcharts({
+        
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        credits: {
+	        enabled: false,
+	        text: 'HardMatch'
+        },
+        exporting: {
+	        buttons: {
+	        	contextButton: {
+		        	enabled: false
+	        	}
+	        }
+        },
+        title: {
+            text: 'Meeste processoren is van:',
+            align: 'center',
+            verticalAlign: 'top',
+            y: 50
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            innerSize: '50%',
+            data: [
+                ['Intel',   55.0],
+                ['AMD',       45.0]
+            ]
+        }]
+    });
+});
+</script>
+
+                	<div id="cpuNumbers" style="height: 300px;"></div>
+
+              </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Average Price</h3>
+              </div>
+              <div class="panel-body">
+<script type="text/javascript">
+$(function () {
+    $('#cpuAvgPrice').highcharts({
+        
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        credits: {
+	        enabled: false,
+	        text: 'HardMatch'
+        },
+        exporting: {
+	        buttons: {
+	        	contextButton: {
+		        	enabled: false
+	        	}
+	        }
+        },
+        title: {
+            text: 'Meeste processoren is van:',
+            align: 'center',
+            verticalAlign: 'top',
+            y: 50
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            innerSize: '50%',
+            data: [
+                ['Intel',   55.0],
+                ['AMD',       45.0]
+            ]
+        }]
+    });
+});
+</script>
+
+                	<div id="cpuAvgPrice" style="height: 300px;"></div>
+                	
+                	
+              </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    <!-- CpuProperties-START -->
+    <div class="page-header">
+      <h1>Intel vs AMD <small> - Properties</small></h1>
+    </div>
+    <div class="row">
+		<script type="text/javascript">
+		$(function () {
+			Highcharts.setOptions({
+				colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']});
+		    $('#cpuProperties').highcharts({
+		        data: {
+		            table: document.getElementById('datatable')
+		        },
+		        chart: {
+		            type: 'column'
+		        },
+		        credits: {
+			        enabled: false,
+			        text: 'HardMatch'
+		        },
+		        exporting: {
+			        buttons: {
+			        	contextButton: {
+				        	enabled: false
+			        	}
+			        }
+		        },
+		        title: {
+		            text: 'Data extracted from a HTML table in the page'
+		        },
+		        yAxis: {
+		            allowDecimals: false,
+		            title: {
+		                text: 'Units'
+		            }
+		        },
+		        tooltip: {
+		            formatter: function() {
+		                return '<b>'+ this.series.name +'</b><br/>'+
+		                    this.point.y +' '+ this.point.name.toLowerCase();
+		            }
+		        }
+		    });
+		});
+		</script>
+    	<div class="col-md-3">
+    	
+    	<table id="datatable" class="table table-hover">
+    		<thead>
+    			<tr>
+    				<th></th>
+	    			<th>Intel</th>
+	    			<th>AMD</th>
+    			</tr>	    		
+    		</thead>
+    		<tbody>
+    			<tr>
+	    			<th>Single-Core</th>
+	    			<td>16</td>
+	    			<td>14</td>
+    			</tr>
+    			<tr>
+	    			<th>Dual-Core</th>
+	    			<td>16</td>
+	    			<td>14</td>
+    			</tr>
+    			<tr>
+	    			<th>Quad-Core</th>
+	    			<td>16</td>
+	    			<td>14</td>
+    			</tr>
+    			<tr>
+	    			<th>Octa-Core</th>
+	    			<td>16</td>
+	    			<td>14</td>
+    			</tr>
+    		</tbody>
+	    </table>
+	    	    	
+    	</div>
+    	<div class="col-md-9">
+	    	<div id="cpuProperties" style="height: 400px;"></div>
+    	</div>
+    </div> <!-- CpuProperties-END -->
+
+
+
+
+
+
+
+    <div class="page-header">
+      <h1>Database <small> - Control The Flow and Get The Data</small></h1>
+    </div>
+
+
+    <p>Crawler Average Time crawling</p>
+
+
+
+
+
+    <div class="page-header">
+      <h1>Crawler Control <small> - Who controls Spiderman Controls the World.Wide.Web</small></h1>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <img src="/static/img/spidy.jpeg" width="255px" height="auto">
+      </div>
+
+      <div class="col-md-3">
+         <div class="thumbnail">
+          <div class="caption">
+            <img src="/static/img/logo_informatique_240x50.jpg" alt="Alternate Crawler">
+            <a href="http://www.informatique.nl" target="_blank"><h3>informatique.nl</h3></a>
+            <p>Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum   </p>
+            <p><a href="#" class="btn btn-primary" role="button">SimSalaBim</a> <a href="#" class="btn btn-default" role="button">Stop it!</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <div class="caption">
+            <img src="/static/img/logo_processorstore_240x50.jpg" alt="Alternate Crawler">
+            <a href="http://www.processorstore.nl" target="_blank"><h3>processorstore.nl</h3></a>
+            <p>Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum   </p>
+            <p><a href="#" class="btn btn-primary" role="button">SimSalaBim</a> <a href="#" class="btn btn-default" role="button">Stop it!</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <div class="caption">
+            <img src="/static/img/logo_alternate_240x50.jpg" alt="Alternate Crawler">
+            <a href="http://www.alternate.nl" target="_blank"><h3>alternate.nl</h3></a>
+            <p>Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum   </p>
+            <p><a href="#" class="btn btn-primary" role="button">SimSalaBim</a> <a href="#" class="btn btn-default" role="button">Stop it!</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="page-header">
+      <h1>Front-End Control <small> - Our Front-desk Sales</small></h1>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="page-header">
+      <h1>Server Control <small> - Control The Machine Like a Beast</small></h1>
+    </div>
+
+        <div class="row">
+      <div class="col-md-3">
+        <img src="/static/img/linux_as_beast.png" width="255px" height="auto">
+      </div>
+
+      <div class="col-md-3">
+         <div class="thumbnail">
+          <div class="caption">
+            <img src="/static/img/logo_informatique_240x50.jpg" alt="Alternate Crawler">
+            <a href="http://www.informatique.nl" target="_blank"><h3>informatique.nl</h3></a>
+            <p>Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum   </p>
+            <p><a href="#" class="btn btn-primary" role="button">SimSalaBim</a> <a href="#" class="btn btn-default" role="button">Stop it!</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <div class="caption">
+            <img src="/static/img/logo_processorstore_240x50.jpg" alt="Alternate Crawler">
+            <a href="http://www.processorstore.nl" target="_blank"><h3>processorstore.nl</h3></a>
+            <p>Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum   </p>
+            <p><a href="#" class="btn btn-primary" role="button">SimSalaBim</a> <a href="#" class="btn btn-default" role="button">Stop it!</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <div class="caption">
+            <img src="/static/img/logo_alternate_240x50.jpg" alt="Alternate Crawler">
+            <a href="http://www.alternate.nl" target="_blank"><h3>alternate.nl</h3></a>
+            <p>Lorem ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum ipsum   </p>
+            <p><a href="#" class="btn btn-primary" role="button">SimSalaBim</a> <a href="#" class="btn btn-default" role="button">Stop it!</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    {% if pageType == 'about' %}
+        <p>Dit is een ABOUT pagina</p>
+    {% else %}
+        <p>Dit is index</p>
+    {% endif %}
+
+{% endblock %}
+

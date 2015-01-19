@@ -4,5 +4,5 @@
 	<SynonymList delimeter=",">PCI-e 2.1 x16,PCIe 2.1 x16,PCI-Express 2.1 x16,PCIExpress 2.1 x16,PCI Express 2.1 x16</SynonymList>
 	<SynonymList delimeter=",">PCI-e 3.0 x16,PCIe 3.0 x16,PCI-Express 3.0 x16,PCIExpress 3.0 x16,PCI Express 3.0 x16</SynonymList>
 	<SynonymList delimeter=",">PCI-e 3.1 x16,PCIe 3.1 x16,PCI-Express 3.1 x16,PCIExpress 3.1 x16,PCI Express 3.1 x16</SynonymList>
-	<SynonymList delimeter=",">SATA,Serieel ATA,Serieel-ATA</SynonymList>
+	<SynonymList delimeter=",">SATA,Serieel ATA,Serieel-ATA,S-ATA,S-ATA3,S-ATA (III)</SynonymList>
 </Synonyms>

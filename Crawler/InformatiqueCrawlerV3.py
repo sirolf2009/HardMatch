@@ -268,12 +268,17 @@ class Motherboard(IParseSave.Motherboard):
         price = price.replace(',', '.')
         price = float(price[2:])
 
+        mb.properties['CardInterface']= IParseSave.cardInterfaceBuilder(detailadress)
+
         mb.properties['Img'] = IParseSave.imgFinder(detailadress)
 
         breadCrumbvariables = soup.findAll('span', {'itemprop': 'title'})
+
         for x in breadCrumbvariables:
             if 'Socket' in x.string:
                 mb.properties['socket'] = x.string
+
+        interfaces = ''
 
         if specs is not None:
             for x in specs:
@@ -290,6 +295,7 @@ class Motherboard(IParseSave.Motherboard):
                         mb.properties['Geheugentype'] = x.findNextSibling('td').string
                     elif 'PCI-E x16 sloten' in x.string:
                         mb.properties['AantalPCI-ex16Slots'] = x.findNextSibling('td').string
+
 
         voorraad = IParseSave.voorraadChecker(detailadress)
         IParseSave.saveComponent(mb.properties, label, price,voorraad, detailadress, winkel)

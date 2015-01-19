@@ -37,10 +37,22 @@ public abstract class AbstractComponent implements IComponent {
 	}
 
 	public static final String MODEL_ID = "ModelID";
-	public static final String SOCKET_LABEL = "Socket";
-	public static final String CAPACITY_LABEL = "Opslagcapaciteit";
-	public static final String INTERFACE_STORAGE_LABEL = "HardeschijfBusIntern"; 
-	public static final String INTERFACE_GRAPHICS_CARD_LABEL = "CardInterface"; 
-	public static final String MEMORY_TYPE_LABEL = "Geheugentype"; 
 
+	public static final String MOTHERBOARD_SOCKET = "Socket";
+	public static final String MOTHERBOARD_FORMFACTOR = "FormFactor";
+	public static final String MOTHERBOARD_CARDINTERFACE = "CardInterface";
+	public static final String MOTHERBOARD_MEMORYTYPE = "GeheugenType";
+
+	public static final String CPU_SOCKET = "Socket";
+
+	public static final String GFX_INTERFACE = "CardInterface";
+	
+	public static final String RAM_MEMORYTYPE = "GeheugenType";
+
+	public static final String CPUFAN_SOCKET = "Socket";
+	
+	public static final String CASE_MOTHERBOARD_FORMFACTOR = "FormFactor";
+
+	public static final String STORAGE_BAY = "BehuizingBayIntern";
+	
 }

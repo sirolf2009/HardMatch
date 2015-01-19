@@ -1,0 +1,126 @@
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Bootstrap -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respoespond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/modules/data.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+
+</head>
+<body>
+
+
+
+
+    <header>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">HardMatch Control Panel</a>
+            </div>
+
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Dashboard <span class="sr-only">(current)</span></a></li>
+
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Crawlers <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Alternate</a></li>
+                    <li><a href="/coolblue/">Cooblue</a></li>
+                    <li><a href="#">Informatique</a></li>
+                    <li><a href="#">Media Markt</a></li>
+                    <li><a href="#">Azerty</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Crawler Data</a></li>
+                  </ul>
+                </li>
+
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Price History <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                        <li><a href="/priceCoolblue/">Coolblue</a></li>
+                        <li><a href="/priceAlternate/">Informatique</a></li>
+                        <li><a href="/priceInformatique/">Alternate</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                  <a href="/graphs" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Databases <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="/charts">Neo4J</a></li>
+                    <li><a href="#">MongoDB</a></li>
+                    <li><a href="#">Neo4J Backup</a></li>
+                  </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" role="button">Front-End</a>
+                </li>
+
+
+                <li class="dropdown">
+                  <a href="#" role="button">Server</a>
+                </li>
+
+              </ul>
+
+
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/about">Over ons</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+
+
+    {% block jumbotron %}{% endblock %}
+
+    <div class="container">
+        <div class="row">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+
+
+
+
+
+    <script rel="script" src="{{url_for('static', filename='graph.js')}}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script rel="script" src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+
+</body>
+</html>

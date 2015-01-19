@@ -12,8 +12,8 @@ public class ComponentCPU extends AbstractComponent {
 
 	public void populateProperties(JSONObject object) {
 		super.populateProperties(object);
-		if(object.containsKey(SOCKET_LABEL)) {
-			socket = object.get(SOCKET_LABEL).toString();
+		if(object.containsKey(CPU_SOCKET)) {
+			socket = object.get(CPU_SOCKET).toString();
 		}
 	}
 
