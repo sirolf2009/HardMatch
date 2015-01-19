@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+  <div class="panel-heading" role="tab" id="heading{{ table }}">
+    <h4 class="panel-title">
+      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ table }}" aria-expanded="false" aria-controls="collapse{{ table }}">
+        {{ name }}
+      </a>
+    </h4>
+  </div>
+  <div id="collapse{{ table }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ table }}">
+    <div class="panel-body">
+      <table id="{{ table }}" class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="hidden">id</th>
+            <th style="width: 1px">
+              <button type="button" class="btn btn-default vergelijkButton">Vergelijk</button>
+            </th>
+            <th>Naam</th>
+            <th>Opslagcapactiteit</th>
+            <th style="width: 75px">Acties</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for item in nodes %}
+          <tr>
+            <td class='hidden'>{{ getNodeID(item, 'n') }}</td>
+
+            <td class='text-center'>
+              <input type='checkbox' class='table-checkbox'>
+            </td>
+            <td>{{ getNodeProperty(item, 'product', 'n') }}</td>
+            <td>{{ getNodeProperty(item, 'Opslagcapactiteit', 'n') }}</td>
+            <td>
+              <button type='button' class='btn btn-warning'>
+                <span class='glyphicon glyphicon-list-alt'></span>
+              </button>
+              <button type='button' class='btn btn-success margin'>
+                <span class='glyphicon glyphicon-plus'></span>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

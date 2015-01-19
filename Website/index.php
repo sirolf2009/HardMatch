@@ -19,7 +19,8 @@
   <script type="text/javascript">
 
   $(document).ready(function() {
-    $('#processors').DataTable({
+    $('#motherboard, #cpu, #cpufan, #graphicscard')
+    .DataTable({
       "language": {
         "url": "dutch.json"
       },
@@ -29,12 +30,26 @@
         "class":'details-control'
       } ]
     });
-    $('#videokaarten').DataTable({
+
+    $('#ram, #storage')
+    .DataTable({
       "language": {
         "url": "dutch.json"
       },
       "columnDefs": [ {
-        "targets": [1,5],
+        "targets": [1,4],
+        "orderable": false,
+        "class":'details-control'
+      } ]
+    });
+
+    $('#case')
+    .DataTable({
+      "language": {
+        "url": "dutch.json"
+      },
+      "columnDefs": [ {
+        "targets": [1,6],
         "orderable": false,
         "class":'details-control'
       } ]
@@ -47,18 +62,14 @@
 
   </script>
 
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
     </head>
 
     <?php
     require('vendor/autoload.php');
     require('NodeExtension.php');
 
-    $client = new Everyman\Neo4j\Client('localhost', 7474);
-    $client->getTransport()
-    ->setAuth('username', 'password');
+    $client = new Everyman\Neo4j\Client('149.210.188.74', 7474);
+    $client->getTransport()->setAuth('username', 'password');
 
     $loader = new Twig_Loader_Filesystem('./templates/');
     $twig = new Twig_Environment($loader);
@@ -150,17 +161,49 @@
 
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <?php
-            $template = $twig->loadTemplate('panels-tables.twig');
 
-            $queryString = "MATCH (n:Processor) RETURN n";
+            $template = $twig->loadTemplate('panels/motherboard.twig');
+            $queryString = "MATCH (n:Motherboard) RETURN n";
             $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $processorResult = $query->getResultSet();
-            echo $template->render(array('number' => 'One', 'name' => 'Processor', 'table' => 'processors', 'nodes' => $processorResult));
+            $motherboardResult = $query->getResultSet();
+            echo $template->render(array('name' => 'Moederbord', 'table' => 'motherboard', 'nodes' => $motherboardResult));
 
-            $queryString = "MATCH (n:Videokaart) RETURN n";
+            $template = $twig->loadTemplate('panels/cpu.twig');
+            $queryString = "MATCH (n:CPU) RETURN n";
             $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
-            $videokaartResult = $query->getResultSet();
-            echo $template->render(array('number' => 'Two', 'name' => 'Videokaart', 'table' => 'videokaarten', 'nodes' => $videokaartResult));
+            $cpuResult = $query->getResultSet();
+            echo $template->render(array('name' => 'Processor', 'table' => 'cpu', 'nodes' => $cpuResult));
+
+            $template = $twig->loadTemplate('panels/cpufan.twig');
+            $queryString = "MATCH (n:CPUFan) RETURN n";
+            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            $cpufanResult = $query->getResultSet();
+            echo $template->render(array('name' => 'Processor Fan', 'table' => 'cpufan', 'nodes' => $cpufanResult));
+
+            $template = $twig->loadTemplate('panels/graphicscard.twig');
+            $queryString = "MATCH (n:GraphicsCard) RETURN n";
+            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            $graphicscardResult = $query->getResultSet();
+            echo $template->render(array('name' => 'Videokaart', 'table' => 'graphicscard', 'nodes' => $graphicscardResult));
+
+            $template = $twig->loadTemplate('panels/ram.twig');
+            $queryString = "MATCH (n:RAM) RETURN n";
+            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            $ramResult = $query->getResultSet();
+            echo $template->render(array('name' => 'Geheugen', 'table' => 'ram', 'nodes' => $ramResult));
+
+            $template = $twig->loadTemplate('panels/case.twig');
+            $queryString = "MATCH (n:Case) RETURN n";
+            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            $caseResult = $query->getResultSet();
+            echo $template->render(array('name' => 'Behuizing', 'table' => 'case', 'nodes' => $caseResult));
+
+            $template = $twig->loadTemplate('panels/storage.twig');
+            $queryString = "MATCH (n:Storage) RETURN n";
+            $query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+            $storageResult = $query->getResultSet();
+            echo $template->render(array('name' => 'Opslag', 'table' => 'storage', 'nodes' => $storageResult));
+
             ?>
           </div>
 
@@ -188,15 +231,6 @@
                 </div>
                 <div class="panel-body overzicht-componenten">
                 </div>
-<!--                 <div class="panel-footer">
-                  <div class="row text-center">
-                    <div class="col-xs-4">
-                      <button type="button" class="btn btn-success btn-block">
-                        Verder
-                      </button>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
           </p>

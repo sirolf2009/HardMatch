@@ -1,0 +1,48 @@
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th class="compare-table"></th>
+            {% for item in nodes %}
+                <th>{{ getNodeProperty(item, 'product') }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="compare-table">Aantal PCI-e Slots: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'AantalPCI-ex16Slots') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Geheugentype: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'Geheugentype') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Socket: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'socket') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Aantal Sockets: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'AantalSockets') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Merk: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'brand') }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="compare-table">Artikelnummer: </td>
+            {% for item in nodes %}
+                <td>{{ getNodeProperty(item, 'ModelID') }}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
