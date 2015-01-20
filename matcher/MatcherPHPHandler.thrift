@@ -1,8 +1,11 @@
 namespace java com.hardmatch.matcher.thrift
 
 struct Store {
-1: string name
-2: double price
+1: string product
+2: string store
+3: double price
+4: string url
+5: string category
 }
 
 service MatcherPHPHandler {

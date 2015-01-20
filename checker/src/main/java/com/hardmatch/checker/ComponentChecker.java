@@ -126,10 +126,11 @@ public class ComponentChecker {
 		URI endNodeFinal = restFinal.nodes.fromID(component2.getID());
 		//createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component1.getID())), startNodeFinal);
 		//createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component2.getID())), endNodeFinal);
-		if(compatible) {
-			restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, COMPATIBLE);
-		} else {
-			restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, NOT_COMPATIBLE);
+		URI relationship = restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, COMPATABILITY);
+		try {
+			restFinal.relationship.setRelationshipProperties(relationship, "compatability", compatible);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -38,8 +38,11 @@ import org.slf4j.LoggerFactory;
 public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, java.io.Serializable, Cloneable, Comparable<Store> {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Store");
 
-  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField PRICE_FIELD_DESC = new org.apache.thrift.protocol.TField("price", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
+  private static final org.apache.thrift.protocol.TField PRODUCT_FIELD_DESC = new org.apache.thrift.protocol.TField("product", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField STORE_FIELD_DESC = new org.apache.thrift.protocol.TField("store", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField PRICE_FIELD_DESC = new org.apache.thrift.protocol.TField("price", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField CATEGORY_FIELD_DESC = new org.apache.thrift.protocol.TField("category", org.apache.thrift.protocol.TType.STRING, (short)5);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -47,13 +50,19 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
     schemes.put(TupleScheme.class, new StoreTupleSchemeFactory());
   }
 
-  public String name; // required
+  public String product; // required
+  public String store; // required
   public double price; // required
+  public String url; // required
+  public String category; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    NAME((short)1, "name"),
-    PRICE((short)2, "price");
+    PRODUCT((short)1, "product"),
+    STORE((short)2, "store"),
+    PRICE((short)3, "price"),
+    URL((short)4, "url"),
+    CATEGORY((short)5, "category");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -68,10 +77,16 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // NAME
-          return NAME;
-        case 2: // PRICE
+        case 1: // PRODUCT
+          return PRODUCT;
+        case 2: // STORE
+          return STORE;
+        case 3: // PRICE
           return PRICE;
+        case 4: // URL
+          return URL;
+        case 5: // CATEGORY
+          return CATEGORY;
         default:
           return null;
       }
@@ -117,10 +132,16 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.PRODUCT, new org.apache.thrift.meta_data.FieldMetaData("product", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.STORE, new org.apache.thrift.meta_data.FieldMetaData("store", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.PRICE, new org.apache.thrift.meta_data.FieldMetaData("price", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.CATEGORY, new org.apache.thrift.meta_data.FieldMetaData("category", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Store.class, metaDataMap);
   }
@@ -129,13 +150,19 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
   }
 
   public Store(
-    String name,
-    double price)
+    String product,
+    String store,
+    double price,
+    String url,
+    String category)
   {
     this();
-    this.name = name;
+    this.product = product;
+    this.store = store;
     this.price = price;
     setPriceIsSet(true);
+    this.url = url;
+    this.category = category;
   }
 
   /**
@@ -143,10 +170,19 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
    */
   public Store(Store other) {
     __isset_bitfield = other.__isset_bitfield;
-    if (other.isSetName()) {
-      this.name = other.name;
+    if (other.isSetProduct()) {
+      this.product = other.product;
+    }
+    if (other.isSetStore()) {
+      this.store = other.store;
     }
     this.price = other.price;
+    if (other.isSetUrl()) {
+      this.url = other.url;
+    }
+    if (other.isSetCategory()) {
+      this.category = other.category;
+    }
   }
 
   public Store deepCopy() {
@@ -155,32 +191,59 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
 
   @Override
   public void clear() {
-    this.name = null;
+    this.product = null;
+    this.store = null;
     setPriceIsSet(false);
     this.price = 0.0;
+    this.url = null;
+    this.category = null;
   }
 
-  public String getName() {
-    return this.name;
+  public String getProduct() {
+    return this.product;
   }
 
-  public Store setName(String name) {
-    this.name = name;
+  public Store setProduct(String product) {
+    this.product = product;
     return this;
   }
 
-  public void unsetName() {
-    this.name = null;
+  public void unsetProduct() {
+    this.product = null;
   }
 
-  /** Returns true if field name is set (has been assigned a value) and false otherwise */
-  public boolean isSetName() {
-    return this.name != null;
+  /** Returns true if field product is set (has been assigned a value) and false otherwise */
+  public boolean isSetProduct() {
+    return this.product != null;
   }
 
-  public void setNameIsSet(boolean value) {
+  public void setProductIsSet(boolean value) {
     if (!value) {
-      this.name = null;
+      this.product = null;
+    }
+  }
+
+  public String getStore() {
+    return this.store;
+  }
+
+  public Store setStore(String store) {
+    this.store = store;
+    return this;
+  }
+
+  public void unsetStore() {
+    this.store = null;
+  }
+
+  /** Returns true if field store is set (has been assigned a value) and false otherwise */
+  public boolean isSetStore() {
+    return this.store != null;
+  }
+
+  public void setStoreIsSet(boolean value) {
+    if (!value) {
+      this.store = null;
     }
   }
 
@@ -207,13 +270,69 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __PRICE_ISSET_ID, value);
   }
 
+  public String getUrl() {
+    return this.url;
+  }
+
+  public Store setUrl(String url) {
+    this.url = url;
+    return this;
+  }
+
+  public void unsetUrl() {
+    this.url = null;
+  }
+
+  /** Returns true if field url is set (has been assigned a value) and false otherwise */
+  public boolean isSetUrl() {
+    return this.url != null;
+  }
+
+  public void setUrlIsSet(boolean value) {
+    if (!value) {
+      this.url = null;
+    }
+  }
+
+  public String getCategory() {
+    return this.category;
+  }
+
+  public Store setCategory(String category) {
+    this.category = category;
+    return this;
+  }
+
+  public void unsetCategory() {
+    this.category = null;
+  }
+
+  /** Returns true if field category is set (has been assigned a value) and false otherwise */
+  public boolean isSetCategory() {
+    return this.category != null;
+  }
+
+  public void setCategoryIsSet(boolean value) {
+    if (!value) {
+      this.category = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
-    case NAME:
+    case PRODUCT:
       if (value == null) {
-        unsetName();
+        unsetProduct();
       } else {
-        setName((String)value);
+        setProduct((String)value);
+      }
+      break;
+
+    case STORE:
+      if (value == null) {
+        unsetStore();
+      } else {
+        setStore((String)value);
       }
       break;
 
@@ -225,16 +344,41 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
       }
       break;
 
+    case URL:
+      if (value == null) {
+        unsetUrl();
+      } else {
+        setUrl((String)value);
+      }
+      break;
+
+    case CATEGORY:
+      if (value == null) {
+        unsetCategory();
+      } else {
+        setCategory((String)value);
+      }
+      break;
+
     }
   }
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
-    case NAME:
-      return getName();
+    case PRODUCT:
+      return getProduct();
+
+    case STORE:
+      return getStore();
 
     case PRICE:
       return Double.valueOf(getPrice());
+
+    case URL:
+      return getUrl();
+
+    case CATEGORY:
+      return getCategory();
 
     }
     throw new IllegalStateException();
@@ -247,10 +391,16 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
     }
 
     switch (field) {
-    case NAME:
-      return isSetName();
+    case PRODUCT:
+      return isSetProduct();
+    case STORE:
+      return isSetStore();
     case PRICE:
       return isSetPrice();
+    case URL:
+      return isSetUrl();
+    case CATEGORY:
+      return isSetCategory();
     }
     throw new IllegalStateException();
   }
@@ -268,12 +418,21 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
     if (that == null)
       return false;
 
-    boolean this_present_name = true && this.isSetName();
-    boolean that_present_name = true && that.isSetName();
-    if (this_present_name || that_present_name) {
-      if (!(this_present_name && that_present_name))
+    boolean this_present_product = true && this.isSetProduct();
+    boolean that_present_product = true && that.isSetProduct();
+    if (this_present_product || that_present_product) {
+      if (!(this_present_product && that_present_product))
         return false;
-      if (!this.name.equals(that.name))
+      if (!this.product.equals(that.product))
+        return false;
+    }
+
+    boolean this_present_store = true && this.isSetStore();
+    boolean that_present_store = true && that.isSetStore();
+    if (this_present_store || that_present_store) {
+      if (!(this_present_store && that_present_store))
+        return false;
+      if (!this.store.equals(that.store))
         return false;
     }
 
@@ -286,6 +445,24 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
         return false;
     }
 
+    boolean this_present_url = true && this.isSetUrl();
+    boolean that_present_url = true && that.isSetUrl();
+    if (this_present_url || that_present_url) {
+      if (!(this_present_url && that_present_url))
+        return false;
+      if (!this.url.equals(that.url))
+        return false;
+    }
+
+    boolean this_present_category = true && this.isSetCategory();
+    boolean that_present_category = true && that.isSetCategory();
+    if (this_present_category || that_present_category) {
+      if (!(this_present_category && that_present_category))
+        return false;
+      if (!this.category.equals(that.category))
+        return false;
+    }
+
     return true;
   }
 
@@ -293,15 +470,30 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
   public int hashCode() {
     List<Object> list = new ArrayList<Object>();
 
-    boolean present_name = true && (isSetName());
-    list.add(present_name);
-    if (present_name)
-      list.add(name);
+    boolean present_product = true && (isSetProduct());
+    list.add(present_product);
+    if (present_product)
+      list.add(product);
+
+    boolean present_store = true && (isSetStore());
+    list.add(present_store);
+    if (present_store)
+      list.add(store);
 
     boolean present_price = true;
     list.add(present_price);
     if (present_price)
       list.add(price);
+
+    boolean present_url = true && (isSetUrl());
+    list.add(present_url);
+    if (present_url)
+      list.add(url);
+
+    boolean present_category = true && (isSetCategory());
+    list.add(present_category);
+    if (present_category)
+      list.add(category);
 
     return list.hashCode();
   }
@@ -314,12 +506,22 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
 
     int lastComparison = 0;
 
-    lastComparison = Boolean.valueOf(isSetName()).compareTo(other.isSetName());
+    lastComparison = Boolean.valueOf(isSetProduct()).compareTo(other.isSetProduct());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetName()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, other.name);
+    if (isSetProduct()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.product, other.product);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetStore()).compareTo(other.isSetStore());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetStore()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.store, other.store);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -330,6 +532,26 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
     }
     if (isSetPrice()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.price, other.price);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetUrl()).compareTo(other.isSetUrl());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetUrl()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, other.url);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetCategory()).compareTo(other.isSetCategory());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetCategory()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.category, other.category);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -354,16 +576,40 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
     StringBuilder sb = new StringBuilder("Store(");
     boolean first = true;
 
-    sb.append("name:");
-    if (this.name == null) {
+    sb.append("product:");
+    if (this.product == null) {
       sb.append("null");
     } else {
-      sb.append(this.name);
+      sb.append(this.product);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("store:");
+    if (this.store == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.store);
     }
     first = false;
     if (!first) sb.append(", ");
     sb.append("price:");
     sb.append(this.price);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("url:");
+    if (this.url == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.url);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("category:");
+    if (this.category == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.category);
+    }
     first = false;
     sb.append(")");
     return sb.toString();
@@ -410,18 +656,42 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
           break;
         }
         switch (schemeField.id) {
-          case 1: // NAME
+          case 1: // PRODUCT
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.name = iprot.readString();
-              struct.setNameIsSet(true);
+              struct.product = iprot.readString();
+              struct.setProductIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 2: // PRICE
+          case 2: // STORE
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.store = iprot.readString();
+              struct.setStoreIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 3: // PRICE
             if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
               struct.price = iprot.readDouble();
               struct.setPriceIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 4: // URL
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.url = iprot.readString();
+              struct.setUrlIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 5: // CATEGORY
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.category = iprot.readString();
+              struct.setCategoryIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
@@ -441,14 +711,29 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      if (struct.name != null) {
-        oprot.writeFieldBegin(NAME_FIELD_DESC);
-        oprot.writeString(struct.name);
+      if (struct.product != null) {
+        oprot.writeFieldBegin(PRODUCT_FIELD_DESC);
+        oprot.writeString(struct.product);
+        oprot.writeFieldEnd();
+      }
+      if (struct.store != null) {
+        oprot.writeFieldBegin(STORE_FIELD_DESC);
+        oprot.writeString(struct.store);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldBegin(PRICE_FIELD_DESC);
       oprot.writeDouble(struct.price);
       oprot.writeFieldEnd();
+      if (struct.url != null) {
+        oprot.writeFieldBegin(URL_FIELD_DESC);
+        oprot.writeString(struct.url);
+        oprot.writeFieldEnd();
+      }
+      if (struct.category != null) {
+        oprot.writeFieldBegin(CATEGORY_FIELD_DESC);
+        oprot.writeString(struct.category);
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -467,32 +752,62 @@ public class Store implements org.apache.thrift.TBase<Store, Store._Fields>, jav
     public void write(org.apache.thrift.protocol.TProtocol prot, Store struct) throws org.apache.thrift.TException {
       TTupleProtocol oprot = (TTupleProtocol) prot;
       BitSet optionals = new BitSet();
-      if (struct.isSetName()) {
+      if (struct.isSetProduct()) {
         optionals.set(0);
       }
-      if (struct.isSetPrice()) {
+      if (struct.isSetStore()) {
         optionals.set(1);
       }
-      oprot.writeBitSet(optionals, 2);
-      if (struct.isSetName()) {
-        oprot.writeString(struct.name);
+      if (struct.isSetPrice()) {
+        optionals.set(2);
+      }
+      if (struct.isSetUrl()) {
+        optionals.set(3);
+      }
+      if (struct.isSetCategory()) {
+        optionals.set(4);
+      }
+      oprot.writeBitSet(optionals, 5);
+      if (struct.isSetProduct()) {
+        oprot.writeString(struct.product);
+      }
+      if (struct.isSetStore()) {
+        oprot.writeString(struct.store);
       }
       if (struct.isSetPrice()) {
         oprot.writeDouble(struct.price);
+      }
+      if (struct.isSetUrl()) {
+        oprot.writeString(struct.url);
+      }
+      if (struct.isSetCategory()) {
+        oprot.writeString(struct.category);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, Store struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(2);
+      BitSet incoming = iprot.readBitSet(5);
       if (incoming.get(0)) {
-        struct.name = iprot.readString();
-        struct.setNameIsSet(true);
+        struct.product = iprot.readString();
+        struct.setProductIsSet(true);
       }
       if (incoming.get(1)) {
+        struct.store = iprot.readString();
+        struct.setStoreIsSet(true);
+      }
+      if (incoming.get(2)) {
         struct.price = iprot.readDouble();
         struct.setPriceIsSet(true);
+      }
+      if (incoming.get(3)) {
+        struct.url = iprot.readString();
+        struct.setUrlIsSet(true);
+      }
+      if (incoming.get(4)) {
+        struct.category = iprot.readString();
+        struct.setCategoryIsSet(true);
       }
     }
   }
