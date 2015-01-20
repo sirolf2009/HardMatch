@@ -53,11 +53,7 @@ def voorraadChecker(url):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
-<<<<<<< HEAD
-    voorraad = 'NULL'
-=======
     voorraad = 'Niet op voorraad'
->>>>>>> FETCH_HEAD
     substring = 'Online op voorraad'
     for x in soup.find('td', {'style': 'padding:5px 4px 5px 4px;line-height:2'}):
         if x is not None:
@@ -152,30 +148,6 @@ class CPU():
         'CPUStepping': 'NULL',
         'CPUInstructieset ': 'NULL',
         'TypeKoeling': 'NULL'
-<<<<<<< HEAD
-    }
-
-
-class CPUFan():
-    properties = {
-        'ModelID': 'NULL',
-        'Name': 'NULL',
-        'Merk': 'NULL',
-        'Serie': 'NULL',
-        'Socket': 'NULL',
-    }
-
-
-class Case():
-    properties = {
-        'ModelID': 'NULL',
-        'Name': 'NULL',
-        'Merk': 'NULL',
-        'Serie': 'NULL',
-        'FormFactor': 'NULL',
-        'VoedingFormFactor': 'NULL'
-=======
->>>>>>> FETCH_HEAD
     }
 
 
@@ -233,11 +205,7 @@ class Motherboard():
         'HardeschijfBus': 'NULL',
         'CardInterface': 'NULL',
         'AantalPCI-ex16Slots': 'NULL',
-<<<<<<< HEAD
-        'LinkInterfaceATiCrossfireATiCrossfire': 'NULL',
-=======
         'LinkInterfaceATiCrossfireATiCrossfire ': 'NULL',
->>>>>>> FETCH_HEAD
         'VerbindingEthernet': 'NULL',
         'Netwerkchip': 'NULL',
         'BluetoothAanwezig': 'NULL',
@@ -285,12 +253,6 @@ class Storage():
         'StroomverbruikLezen': 'NULL',  #4,5W
         'StroomverbruikSchrijven': 'NULL',  #4,5W
     }
-
-
-class store_object():
-    def create_store(self, name, storeUrl):
-        n = Node(name, Name=storeUrl)
-        return n
 
 
 def printProperties(properties):
