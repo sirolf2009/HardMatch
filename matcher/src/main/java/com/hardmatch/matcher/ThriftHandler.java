@@ -1,5 +1,6 @@
 package com.hardmatch.matcher;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,10 @@ public class ThriftHandler implements Iface {
 			matcher = new Matcher();
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		for(String component : components) {

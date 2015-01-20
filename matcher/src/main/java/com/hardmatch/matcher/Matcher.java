@@ -1,6 +1,11 @@
 package com.hardmatch.matcher;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -11,8 +16,9 @@ public class Matcher {
 	
 	private RestAPI rest;
 	
-	public Matcher() throws URISyntaxException {
-    	rest = new RestAPI("http://149.210.188.74:7474/db/data");
+	public Matcher() throws URISyntaxException, NumberFormatException, IOException {
+		int port = Integer.parseInt(Files.readAllLines(new File("/usr/local/bin/HardMatch/neo4JPort.txt").toPath(), Charset.defaultCharset()).get(0));
+    	rest = new RestAPI("http://149.210.188.74:"+port+"/db/data");
 	}
 
     public Store getCheapestStoreForComponent(String componentToBuy) {
