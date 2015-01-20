@@ -9,10 +9,20 @@ public class ComponentFactory {
 	private static final String STORAGE_LABEL = "Storage";
 	private static final String RAM_LABEL = "RAM";
 	private static final String GRAPHICS_CARD_LABEL = "GraphicsCard";
+	private static final String CASE_LABEL = "Case";
+	private static final String CPU_FAN_LABEL = "CPUFan";
 	
 	public static IComponent getComponent(JSONObject object, String labels, Long ID) throws UnknownComponentException {
 		if(labels.contains(CPU_LABEL)) {
 			ComponentCPU component = new ComponentCPU(labels, ID);
+			component.populateProperties(object);
+			return component;
+		} if(labels.contains(CASE_LABEL)) {
+			ComponentCase component = new ComponentCase(labels, ID);
+			component.populateProperties(object);
+			return component;
+		} if(labels.contains(CPU_FAN_LABEL)) {
+			ComponentCPUFan component = new ComponentCPUFan(labels, ID);
 			component.populateProperties(object);
 			return component;
 		} else if(labels.contains(MOTHERBOARD_LABEL)) {
