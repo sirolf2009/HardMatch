@@ -4,12 +4,18 @@ __license__ = "GPL"
 __version__ = "0.1"
 __status__ = "Development"
 
+import time
 import requests, re
+from datetime import datetime
 from bs4 import BeautifulSoup
 from py2neo import neo4j, Node, Relationship
 from pymongo import MongoClient
 
 import IParseSave
+
+
+client = MongoClient('localhost', 27017)
+mongodb = client.alternate
 
 
 class store_object():
@@ -220,7 +226,7 @@ def get_Motherboard(detail_pages):
         except AttributeError:
             motherboard.properties['Merk'] = "NULL"
         try:
-            socket = table.find('td', {"class": "c4"}).text # Temporary fix
+            socket = table.find('td', {"class": "c4"}).text
             motherboard.properties['Socket'] = socket
         except AttributeError:
             motherboard.properties['Socket'] = "NULL"
@@ -235,20 +241,12 @@ def get_Motherboard(detail_pages):
             motherboard.properties['FormFactor'] = form_factor
         except AttributeError:
             motherboard.properties['FormFactor'] = "NULL"
-
-        # 'BIOSofUEFI': 'null',
-        # 'DualofSingleBIOSUEFI': 'null',
-        # 'Moederbordchipset': 'null'
-
         try:
             tr_tag = table.find('td', {"class": "c2"}, text="Type geheugen")
             geheugen_type = tr_tag.findNext('td', {"class": "c4"}).text
             motherboard.properties['Geheugentype'] = geheugen_type
         except AttributeError:
             motherboard.properties['Geheugentype'] = "NULL"
-        # 'MaximumGeheugengrootte': 'null',
-        # 'HardeschijfBus': 'null',
-
         try:
             tr_tag = soup.find('td', text="Sloten").parent
             card_interface = tr_tag.findNext('td', {"class": "c4"}).text
@@ -276,7 +274,7 @@ def get_Motherboard(detail_pages):
         except AttributeError:
             motherboard.properties['CPUCacheLevel2'] = "NULL"
         try:
-            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
@@ -344,7 +342,7 @@ def get_RAM(detail_pages):
         source_code = requests.get(detail_page)
         plain_text = source_code.text
         soup = BeautifulSoup(plain_text)
-        table = soup.find('table', {'class': 'techDataTable'})
+        table = soup.find('div', {'class': 'techData'})
         link = detail_page
         try:
             x = soup.find('meta', {"itemprop": "name"})
@@ -363,14 +361,13 @@ def get_RAM(detail_pages):
         except AttributeError:
             ram.properties['Merk'] = "NULL"
         try:
-            tr_tag = table.find('td', {"class": "techDataCol1"}, text="Socket")
-            text = tr_tag.parent.table.tr.text
-            socket = text[4:]
-            ram.properties['Socket'] = socket
+            tr_tag = table.find('td', {"class": "c1"}, text="Type")
+            print(tr_tag.parent)
+            ram.properties['Socket'] = 'lol'
         except AttributeError:
             ram.properties['Socket'] = "NULL"
         try:
-            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
@@ -469,7 +466,7 @@ def get_Storage(detail_pages):
         except AttributeError:
             case.properties['Socket'] = "NULL"
         try:
-            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
@@ -518,7 +515,6 @@ def get_GPU(detail_pages):
         try:
             tr_tag = table.find('td', text="Aansluiting")
             text = tr_tag.parent.table.tr.text
-            print(text)
             # socket = text[4:]
             graphicsCard.properties['CardInterface'] = text
         except AttributeError:
@@ -565,16 +561,28 @@ def saveComponent(properties, label, price, voorraad, link):
     rel = Relationship(cn, 'SOLD_AT', store, Price=price, inStock=voorraad, productUrl=link)
     neo4j_db.create(rel)
 
+    # MongoDB
+    now = datetime.now()
 
-# index = neo4j_db.get_or_create_index(neo4j.Node, "alternate")
-# neo4j_db.add_indexed_node(index, 'name', 'www.alternate.nl', store)
+    post = {'ModelID': properties['ModelID'],
+            'Name': properties['Name'],
+            'Price': price,
+            'Brand': properties['Merk'],
+            'Type': label,
+            'Timestamp': int(time.mktime(now.timetuple()))}
 
+    if label == 'CPU': mongodb.CPU.insert(post)
+    elif label == 'Motherboard': mongodb.Motherboard.insert(post)
+    elif label == 'CPUFan': mongodb.CPUFan.insert(post)
+    elif label == 'GraphicsCard': mongodb.GraphicsCard.insert(post)
+    elif label == 'RAM': mongodb.RAM.insert(post)
+    elif label == 'Case': mongodb.Case.insert(post)
+    elif label == 'PSU': mongodb.PSU.insert(post)
+    elif label == 'Barebones': mongodb.Barebones.insert(post)
+    elif label == 'Storage-HDD': mongodb.HDD.insert(post)
+    elif label == 'Storage-SSD': mongodb.SSD.insert(post)
+    else: mongodb.MISC.insert(post)
 
-'''
-if bool(neo4j_db.cypher.execute_one('MATCH (node {name: "www.alternate.nl"}) RETURN node')):
-    store = Node('Store', name='www.alternate.nl')
-    neo4j_db.create(store)
-'''
 
 behuizing = ['Behuizingen']
 geheugen = ["Geheugen"]
@@ -585,7 +593,7 @@ moederborden = ['Moederborden']
 processors = ['Processoren']
 
 behuizing_L3 = ['Desktop']
-geheugen_L3 = ['']
+geheugen_L3 = ['DDR4', 'DDR3', 'DDR2', 'DDR']
 grafische_kaarten_L3 = ["PCIe kaarten Matrox", "AGP kaarten", "PCI kaarten"]
 opslag_L3 = ["SATA"] # , "SAS", "Hybride", "SSD's"]
 koeling_L3 = ["CPU"]
@@ -595,13 +603,6 @@ processors_L3 = ["Desktop"]
 processors_L4 = ["Alles bekijken"]
 
 
-def get_person(name):
-    """ A simple, nïeve function to fetch the first person indexed with a
-    particular name.
-    """
-    person_nodes = neo4j_db.get("name", name)
-    return person_nodes[0]
-
 url = "http://www.alternate.nl"
 hardware = "http://www.alternate.nl/html/highlights/page.html?tk=7&lk=7&hgid=189&tgid=906"
 
@@ -609,13 +610,13 @@ behuizing_output = get_subLevel2_url(hardware, url, behuizing)
 behuizing_sublinks = get_subLevel3_url(behuizing_output, url, behuizing_L3)
 all_behuizing = get_all_product_links(behuizing_sublinks, url)
 
-# geheugen_output = get_subLevel2_url(hardware, url, geheugen)
-# print("Geheugen:")
-# print(geheugen_output)
-
 grafische_kaarten_output = get_subLevel2_url(hardware, url, grafische_kaarten)
 grafische_kaarten_sublinks = get_subLevel3_url(grafische_kaarten_output, url, grafische_kaarten_L3)
 all_grafische_kaarten = get_all_product_links(grafische_kaarten_sublinks, url)
+
+geheugen_output = get_subLevel2_url(hardware, url, geheugen)
+geheugen_sublinks = get_subLevel3_url(geheugen_output, url, geheugen_L3)
+all_geheugen = get_all_product_links(geheugen_sublinks, url)
 
 opslag_output = get_subLevel2_url(hardware, url, opslag)
 opslag_sublinks = get_subLevel3_url(opslag_output, url, opslag_L3)
@@ -634,12 +635,16 @@ processors_output_sublinks = get_subLevel3_url(processors_output, url, processor
 processors_output_sublinks_l4 = get_subLevel4_url(processors_output_sublinks, url, processors_L4)
 all_processors = get_all_product_links(processors_output_sublinks_l4, url)
 
+
+get_RAM(all_geheugen)
+'''
 get_CPU(all_processors)
 get_Motherboard(all_moederborden)
 get_CPU_Fan(all_koeling)
 get_Case(all_behuizing)
 get_Storage(all_opslag)
 get_GPU(all_grafische_kaarten)
+'''
 
 print(len(all_behuizing) + len(all_grafische_kaarten) +
       len(all_koeling) + len(all_moederborden) + len(all_opslag) +

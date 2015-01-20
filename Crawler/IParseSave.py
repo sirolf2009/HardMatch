@@ -27,7 +27,7 @@ def imgFinder(link):
 
 def cardInterfaceBuilder(link):
     soup = getHTML(link)
-    specs = soup.findAll('td',{'class': 'right'})
+    specs = soup.findAll('td', {'class': 'right'})
 
     dict = {
         'interfaces': ''
@@ -53,11 +53,8 @@ def voorraadChecker(url):
     source_code = requests.get(url)
     plain_text = source_code.text
     soup = BeautifulSoup(plain_text)
-<<<<<<< HEAD
     voorraad = 'NULL'
-=======
     voorraad = 'Niet op voorraad'
->>>>>>> FETCH_HEAD
     substring = 'Online op voorraad'
     for x in soup.find('td', {'style': 'padding:5px 4px 5px 4px;line-height:2'}):
         if x is not None:
@@ -152,7 +149,6 @@ class CPU():
         'CPUStepping': 'NULL',
         'CPUInstructieset ': 'NULL',
         'TypeKoeling': 'NULL'
-<<<<<<< HEAD
     }
 
 
@@ -174,8 +170,6 @@ class Case():
         'Serie': 'NULL',
         'FormFactor': 'NULL',
         'VoedingFormFactor': 'NULL'
-=======
->>>>>>> FETCH_HEAD
     }
 
 
@@ -216,7 +210,6 @@ class GraphicsCard():
     }
 
 
-
 class Motherboard():
     properties = {
         'ModelID': 'NULL',
@@ -233,11 +226,8 @@ class Motherboard():
         'HardeschijfBus': 'NULL',
         'CardInterface': 'NULL',
         'AantalPCI-ex16Slots': 'NULL',
-<<<<<<< HEAD
         'LinkInterfaceATiCrossfireATiCrossfire': 'NULL',
-=======
         'LinkInterfaceATiCrossfireATiCrossfire ': 'NULL',
->>>>>>> FETCH_HEAD
         'VerbindingEthernet': 'NULL',
         'Netwerkchip': 'NULL',
         'BluetoothAanwezig': 'NULL',
@@ -264,7 +254,6 @@ class RAM():
         'LowVoltageDDR': 'NULL',  #Nee
         'GeheugenCASLatency': 'NULL',
     }
-
 
 
 class Storage():
