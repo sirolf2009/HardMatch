@@ -6,10 +6,11 @@ import static com.hardmatch.checker.interfaces.InterfaceStore.LABEL_STORE;
 import static com.hardmatch.checker.interfaces.InterfaceStore.STORE_NAME;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.apache.commons.cli.BasicParser;
@@ -20,12 +21,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.logging.impl.SimpleLog;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -42,7 +37,7 @@ public class Checker {
 	public static String NEO4J_TEMP_IP = "http://localhost";
 	public static int NEO4J_TEMP_PORT = 7484;
 	public static boolean SHOULD_CONNECT = false;
-	public static String SERVER_PORT_FILE_LOC = "/usr/local/bin/HardMatch/neo4JPort.xml";
+	public static String SERVER_PORT_FILE_LOC = "/usr/local/bin/HardMatch/neo4JPort.txt";
 	public static SimpleLog log = new SimpleLog("checker");
 
 	public RestAPI restTemp;
@@ -250,35 +245,31 @@ public class Checker {
 			log.fatal(NEO4J_TEMP_IP+":"+NEO4J_TEMP_PORT+" is not a valid URI", e);
 			System.exit(-2);
 		}
-		SAXBuilder builder = new SAXBuilder();
-		Element element = new Element("port").setText("UNDEFINED");
+		int port = -1;
 		try {
 			File file = new File(SERVER_PORT_FILE_LOC);
 			if(!file.exists()) {
 				file.createNewFile();
 			}
-			Document document = (Document) builder.build(file);
-			element = document.getRootElement().getChild("port");
-			if(element == null) {
-				element = new Element("port").setText("7474");
-				document.addContent(element);
-				XMLOutputter xmlOutput = new XMLOutputter();
-				xmlOutput.setFormat(Format.getPrettyFormat());
-				xmlOutput.output(document, new FileWriter(SERVER_PORT_FILE_LOC));
-			}
-			log.info("Setting Neo4J Final root to "+NEO4J_FINAL_IP+":"+Integer.parseInt(element.getText())+"/db/data/");
-			restFinal = new RestAPI(new URI(NEO4J_FINAL_IP+":"+Integer.parseInt(element.getText())+"/db/data/"));
-		} catch (JDOMException e) {
-			log.fatal(SERVER_PORT_FILE_LOC+" is not an XML file", e);
-			System.exit(-3);
+			
+			port = Integer.parseInt(Files.readAllLines(file.toPath(), Charset.defaultCharset()).get(0));
+			
+			log.info("Setting Neo4J Final root to "+NEO4J_FINAL_IP+":"+port+"/db/data/");
+			restFinal = new RestAPI(new URI(NEO4J_FINAL_IP+":"+port+"/db/data/"));
 		} catch (IOException e) {
 			log.fatal(SERVER_PORT_FILE_LOC+" could not be read", e);
-			System.exit(-4);
+			System.exit(-3);
 		} catch (URISyntaxException e) {
-			log.fatal(NEO4J_FINAL_IP+":"+element.getText()+"/db/data/ is not a valid URI", e);
+			log.fatal(NEO4J_FINAL_IP+":"+port+"/db/data/ is not a valid URI", e);
 			System.exit(-4);
 		}
-		changePortsInXML();
+		try {
+			changePorts();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		new SynonymChecker();
 		if(SHOULD_CONNECT) {
 			new Thread(new Runnable() {
@@ -291,22 +282,11 @@ public class Checker {
 		}
 	}
 
-	public void changePortsInXML() {
-		try {
-			SAXBuilder builder = new SAXBuilder();
-			Document document = (Document) builder.build(new File(SERVER_PORT_FILE_LOC));
-			Element element = document.getRootElement().getChild("port");
-			if(element.getText().equals("7474")) {
-				element.setText("7494");
-			} else {
-				element.setText("7474");
-			}
-			XMLOutputter xmlOutput = new XMLOutputter();
-			xmlOutput.setFormat(Format.getPrettyFormat());
-			xmlOutput.output(document, new FileWriter(SERVER_PORT_FILE_LOC));
-		} catch (JDOMException | IOException e) {
-			log.error("An error occured during changing the ports file", e);
-		}
+	public void changePorts() throws NumberFormatException, IOException {
+		File file = new File(SERVER_PORT_FILE_LOC);
+		int currentPort = Integer.parseInt(Files.readAllLines(file.toPath(), Charset.defaultCharset()).get(0));
+		int newPort = currentPort == 7474 ? 7494 : 7474;
+		Files.write(file.toPath(), new String(newPort+"").getBytes());
 	}
 
 	public static void main(String[] args) {
