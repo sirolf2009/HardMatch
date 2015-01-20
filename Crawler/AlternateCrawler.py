@@ -23,7 +23,7 @@ class store_object():
         n = Node(name, Name=storeUrl)
         return n
 
-neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
+neo4j_db = neo4j.Graph("http://localhost:7484/db/data/")
 
 
 if bool(neo4j_db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.alternate.nl" RETURN n')):
