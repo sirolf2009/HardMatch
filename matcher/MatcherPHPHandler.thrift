@@ -1,17 +1,11 @@
 namespace java com.hardmatch.matcher.thrift
 
-struct Component {
-1: string name
-}
-
-struct ComponentPriced {
-1: string name
-2: double price
-}
-
 struct Store {
-1: string name
-3: map<string, ComponentPriced> soldItems
+1: string product
+2: string store
+3: double price
+4: string url
+5: string category
 }
 
 service MatcherPHPHandler {
@@ -21,6 +15,6 @@ service MatcherPHPHandler {
    * @param components - a list of components to be matched
    * @return a map with components name as key and the according store as value
    */
-   map<string, Store> match(1: list<Component> components)
+   map<string, Store> match(1: list<string> components)
 
 }

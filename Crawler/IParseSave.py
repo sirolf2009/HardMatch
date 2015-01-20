@@ -184,9 +184,9 @@ class Case():
         'Merk': 'NULL',
         'Serie': 'NULL',
         'FormFactor': 'NULL',
-        'VoedingFormFactor': 'NULL'
+        'VoedingFormFactor': 'NULL',
+        'TypeKoeling': 'NULL'
     }
-
 
 class GraphicsCard():
     properties = {
@@ -242,17 +242,7 @@ class Motherboard():
         'HardeschijfBus': 'NULL',
         'CardInterface': 'NULL',
         'AantalPCI-ex16Slots': 'NULL',
-        'LinkInterfaceATiCrossfireATiCrossfire': 'NULL',
-        'LinkInterfaceATiCrossfireATiCrossfire ': 'NULL',
-        'VerbindingEthernet': 'NULL',
-        'Netwerkchip': 'NULL',
-        'BluetoothAanwezig': 'NULL',
-        'VerbindingUSBFW': 'NULL',
-        'VideoUit': 'NULL',
-        'Verbinding': 'NULL',
-        'AudioKanalen': 'NULL',
-        'AudioUitgangen': 'NULL',
-        'Audiochip': 'NULL'
+        'LinkInterfaceATiCrossfireATiCrossfire': 'NULL'
     }
 
 
@@ -290,12 +280,6 @@ class Storage():
         'StroomverbruikLezen': 'NULL',  #4,5W
         'StroomverbruikSchrijven': 'NULL',  #4,5W
     }
-
-
-class store_object():
-    def create_store(self, name, storeUrl):
-        n = Node(name, Name=storeUrl)
-        return n
 
 
 def printProperties(properties):

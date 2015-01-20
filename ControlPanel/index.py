@@ -44,9 +44,7 @@ def priceHistoryCoolblue():
 
     title = "Price History"
     pageType = "Coolblue"
-    Datat = {'Name': 'Intel core', 'Price': '324.34', 'Store': 'Coolblue', 'Project': 'Hardmatch'}
     Data = [234, 543, 675, 34, 564, 5436, 343, 233, 45, 565, 3434, 43]
-    Days = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 
 
@@ -61,7 +59,7 @@ def priceHistoryCoolblue():
 
 
     try:
-        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data, Days=Days)
+        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data)
     except Exception as e:
         return str("Exception is been handled at Price-History Coolblue: ", e)
 
@@ -72,13 +70,14 @@ def priceHistoryInformatique():
     title = "Price History"
     pageType = "Informatique"
     Data = [345, 456, 978, 232, 67, 45, 879, 34, 45, 678, 678, 345]
-    Days = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 
     try:
-        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data, Days=Days)
+        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data)
     except Exception as e:
         return str("Exception is been handled at Price-History Informatique: ", e)
+
+
 
 
 @app.route('/priceAlternate/')
@@ -87,12 +86,12 @@ def priceHistoryAlternate():
     title = "Price History"
     pageType = "Alternate"
     Data = [34534, 5345, 345, 345, 3345, 45, 345, 4354, 3456, 654, 34, 6565]
-    Days = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
+    tijd = ["Jan"]
+    Test = 5
 
 
     try:
-        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data, Days=Days)
+        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data, Time=tijd, Test=Test)
     except Exception as e:
         return str("Exception is been handled at Price-History Alternate: ", e)
 

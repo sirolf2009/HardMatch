@@ -1,51 +1,54 @@
 package com.hardmatch.matcher;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.hardmatch.matcher.thrift.Component;
-import com.hardmatch.matcher.thrift.ComponentPriced;
 import com.hardmatch.matcher.thrift.Store;
 import com.sirolf2009.util.neo4j.rest.RestAPI;
 
 public class Matcher {
 	
 	private RestAPI rest;
-	private ThriftHandler handler;
 	
-	public Matcher(ThriftHandler handler) throws URISyntaxException {
-    	rest = new RestAPI("http://149.210.188.74:7474/db/data");
-    	this.handler = handler;
+	public Matcher() throws URISyntaxException, NumberFormatException, IOException {
+		int port = Integer.parseInt(Files.readAllLines(new File("/usr/local/bin/HardMatch/neo4JPort.txt").toPath(), Charset.defaultCharset()).get(0));
+    	rest = new RestAPI("http://149.210.188.74:"+port+"/db/data");
 	}
 
-    public MatchingResult getCheapestStoreForComponent(Component componentToBuy) {
-    	String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy.name+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price ORDER BY relation.Price";
+    public Store getCheapestStoreForComponent(String componentToBuy) {
+    	String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price, relation.productUrl, component.Name, labels(component) ORDER BY relation.Price";
     	JSONObject response = rest.sendCypher(cypher);
     	JSONArray results = (JSONArray) response.get("results");
     	JSONObject rows = (JSONObject) results.get(0);
     	JSONArray moarRows = (JSONArray)rows.get("data");
     	JSONObject firstRow = (JSONObject)moarRows.get(0);
     	JSONArray firstRowData = (JSONArray)firstRow.get("row");
-    	JSONObject firstRowDataRow = (JSONObject) firstRowData.get(0);
+    	JSONObject storeObject = (JSONObject) firstRowData.get(0);
+    	JSONArray labels = (JSONArray) firstRowData.get(4);
+    	
     	double componentPrice = Double.parseDouble(firstRowData.get(1).toString());
-    	String storeName = firstRowDataRow.get("Name").toString();
-    	Store store = handler.getOrCreateStore(storeName);
-    	ComponentPriced priced = new ComponentPriced(componentToBuy.name, componentPrice);
-    	store.soldItems.put(componentToBuy.name, priced);
-    	return new MatchingResult(priced, store);
+    	String storeName = storeObject.get("Name").toString();
+    	String componentUrl = firstRowData.get(2).toString();
+    	String componentName = firstRowData.get(3).toString();
+    	String category = getLabel(labels);
+    	
+    	Store store = new Store(componentName, storeName, componentPrice, componentUrl, category);
+    	return store;
     }
     
-    class MatchingResult {
-    	public ComponentPriced componentPriced;
-    	public Store store;
-    	
-    	public MatchingResult(ComponentPriced componentPriced, Store store) {
-    		this.componentPriced = componentPriced;
-    		this.store = store;
-		}
+    public String getLabel(JSONArray labels) {
+    	for(Object string : labels) {
+    		if(!string.equals("Component")) {
+    			return string.toString();
+    		}
+    	}
+    	return "UNKNOWN";
     }
 
 }
