@@ -2,7 +2,7 @@
 require('vendor/autoload.php');
 require('NodeExtension.php');
 
-$client = new Everyman\Neo4j\Client('149.210.188.74', 7474);
+$client = new Everyman\Neo4j\Client('localhost', 7474);
 $client->getTransport()->setAuth('username', 'password');
 
 $loader = new Twig_Loader_Filesystem('./templates/');

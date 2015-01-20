@@ -11,6 +11,7 @@
 		<ModelID />
 	</Component>
 	<Motherboard>
+        <Merk />
 		<Socket />
 		<AantalSockets />
 		<FormFactor />
