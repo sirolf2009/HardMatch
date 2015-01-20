@@ -13,11 +13,12 @@
 
 
 {% block body %}
+
 	<script type="text/javascript">
     var data = {{ Data }};
+    /*var t = {{ Time }}; */
 
-
-$(function () {
+    $(function () {
         $('#container').highcharts({
             title: {
                 text: 'Monthly Average Temperature',
@@ -31,8 +32,7 @@ $(function () {
                 x: -20
             },
             xAxis: {
-                categories: ['10-01', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'weff']
+                categories: {{ Test }}
             },
             yAxis: {
                 title: {
@@ -70,10 +70,13 @@ $(function () {
 
     {% if pageType == 'Coolblue' %}
         <p>Dit is ProcessoreStore</p>
+
     {% elif pageType == 'Informatique' %}
         <p>Dit is Informatique</p>
+
     {% elif pageType == 'Alternate' %}
         <p>Dit is Alternate</p>
+        {{ Test }}
     {% else %}
         <p>If you are seeing this message, something probably gone REALLY REALLY BAD! go back to index</p>
     {% endif %}
