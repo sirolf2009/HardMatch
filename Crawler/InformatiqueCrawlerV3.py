@@ -389,7 +389,7 @@ class Storage(IParseSave.Storage):
         IParseSave.saveComponent(store.properties, label, price, voorraad, detailadress, winkel)
 
 
-graph = Graph("http://localhost:7474/db/data/")
+graph = Graph("http://localhost:7484/db/data/")
 winkel = Node('Store', Name='www.informatique.nl')
 graph.create(winkel)
 
