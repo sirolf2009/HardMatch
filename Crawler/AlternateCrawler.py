@@ -137,7 +137,7 @@ def get_CPU(detail_pages):
             modelID = x['content'].replace('"', "")
             cpu.properties['ModelID'] = modelID
         except AttributeError:
-            cpu.properties['ModelID'] ="NULL"
+            cpu.properties['ModelID'] = "NULL"
         try:
             brand = soup.find('span', {"itemprop": "brand"}).text
             cpu.properties['Merk'] = brand
@@ -187,17 +187,13 @@ def get_CPU(detail_pages):
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
-        '''
         try:
-            x = soup.find('div', {"class": "availability"}).get_children.text
-            print(x)
-            test = price_parser(x.text)
+            x = soup.find('div', {"class": "availability"})
+            InStock = x.p.text
         except AttributeError:
-            test = "NULL"
-        '''
+            InStock = "NULL"
 
-        inStock = "NULL"
-        saveComponent(cpu.properties, label, price, inStock, link)
+        saveComponent(cpu.properties, label, price, InStock, link)
 
 
 def get_Motherboard(detail_pages):
@@ -361,11 +357,11 @@ def get_RAM(detail_pages):
         except AttributeError:
             ram.properties['Merk'] = "NULL"
         try:
-            tr_tag = table.find('td', {"class": "c1"}, text="Type")
-            print(tr_tag.parent)
-            ram.properties['Socket'] = 'lol'
+            x = table.find('td', {"class": "c1"}, text="Type")
+            type = x.parent.findNext('td', {"class": "c4"}).text
+            ram.properties['GeheugenType'] = type
         except AttributeError:
-            ram.properties['Socket'] = "NULL"
+            ram.properties['GeheugenType'] = "NULL"
         try:
             x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
@@ -390,39 +386,33 @@ def get_Case(detail_pages):
         soup = BeautifulSoup(plain_text)
         table = soup.find('table', {'class': 'techDataTable'})
         link = detail_page
-        # MODELID
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
             cpu_fan.properties['ModelID'] = modelID
         except AttributeError:
             cpu_fan.properties['ModelID'] = "NULL"
-        # NAME
         try:
             name = soup.find('meta', {"itemprop": "name"})
             cpu_fan.properties['Name'] = name['content'].encode('utf-8')
         except AttributeError:
             cpu_fan.properties['Name'] = "NULL"
-        # BRAND
         try:
             brand = soup.find('meta', {"itemprop": "brand"})
             cpu_fan.properties['Merk'] = brand
         except AttributeError:
             cpu_fan.properties['Merk'] = "NULL"
-        # Socket
         try:
             tr_tag = table.find('td', {"class": "techDataCol1"}, text="Formaat")
             form_factor = tr_tag.parent.table.tr.text
             cpu_fan.properties['FormFactor'] = form_factor
         except AttributeError:
             cpu_fan.properties['FormFactor'] = "NULL"
-        # price
         try:
-            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
-        #
         try:
             x = soup.find('div', {"id": "cheapestShippingCosts"})
             shipping_costs = price_parser(x.text)
@@ -508,19 +498,17 @@ def get_GPU(detail_pages):
         try:
             tr_tag = table.find('td', text="Type")
             text = tr_tag.parent.table.tr.text
-            # socket = text[4:]
             graphicsCard.properties['GeheugenType'] = text
         except AttributeError:
             graphicsCard.properties['Socket'] = "NULL"
         try:
             tr_tag = table.find('td', text="Aansluiting")
             text = tr_tag.parent.table.tr.text
-            # socket = text[4:]
             graphicsCard.properties['CardInterface'] = text
         except AttributeError:
             graphicsCard.properties['Socket'] = "NULL"
         try:
-            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
@@ -558,7 +546,7 @@ def saveComponent(properties, label, price, voorraad, link):
         cn.add_labels('Component')
         cn.push()
 
-    rel = Relationship(cn, 'SOLD_AT', store, Price=price, inStock=voorraad, productUrl=link)
+    rel = Relationship(cn, 'SOLD_AT', store, Price=price, InStock=voorraad, productUrl=link)
     neo4j_db.create(rel)
 
     # MongoDB
@@ -637,14 +625,13 @@ all_processors = get_all_product_links(processors_output_sublinks_l4, url)
 
 
 get_RAM(all_geheugen)
-'''
 get_CPU(all_processors)
 get_Motherboard(all_moederborden)
 get_CPU_Fan(all_koeling)
 get_Case(all_behuizing)
 get_Storage(all_opslag)
 get_GPU(all_grafische_kaarten)
-'''
+
 
 print(len(all_behuizing) + len(all_grafische_kaarten) +
       len(all_koeling) + len(all_moederborden) + len(all_opslag) +
