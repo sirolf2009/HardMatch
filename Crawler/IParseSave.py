@@ -27,7 +27,7 @@ def imgFinder(link):
 
 def cardInterfaceBuilder(link):
     soup = getHTML(link)
-    specs = soup.findAll('td',{'class': 'right'})
+    specs = soup.findAll('td', {'class': 'right'})
 
     dict = {
         'interfaces': ''
@@ -50,6 +50,7 @@ def printProperties(properties):
         print(properties[x])
 
 def voorraadChecker(url):
+
     soup = getHTML(url)
     voorraad = 'Niet op voorraad'
     substring = 'Online op voorraad'
@@ -120,6 +121,7 @@ def saveMetaData(dbname,productName, modelID, price, merk, store, label):
 class CPU():
     properties = {
         'ModelID': 'NULL',
+        'img': 'NULL',
         'Name': 'NULL',
         'Merk': 'NULL',
         'Serie': 'NULL',
@@ -145,12 +147,48 @@ class CPU():
         'CPUMultiplier': 'NULL',
         'CPUStepping': 'NULL',
         'CPUInstructieset ': 'NULL',
-        'TypeKoeling': 'NULL'
+        'TypeKoeling': 'NULL',
+        'Garantie': 'NULL',
+        'Garantietype': 'NULL'
     }
 
 
+class CPUFan():
+    properties = {
+        'img': 'NULL',
+        'ModelID': 'NULL',
+        'Name': 'NULL',
+        'Merk': 'NULL',
+        'Serie': 'NULL',
+        'Socket': 'NULL',
+        'AansluitingProcessorkoeling': 'NULL',
+        'Heatpipes': 'NULL',
+        'Prestaties': 'NULL',
+        'Geluidssterkte': 'NULL',
+        'RotatiesnelheidMin': 'NULL',
+        'RotatiesnelheidMax': 'NULL',
+        'TypeKoeling': 'NULL',
+        'Hoogte': 'NULL',
+        'Diameter': 'NULL',
+        'Kleuren': 'NULL',
+        'Materialen': 'NULL'
+    }
+
+
+class Case():
+    properties = {
+        'ModelID': 'NULL',
+        'Name': 'NULL',
+        'Merk': 'NULL',
+        'Serie': 'NULL',
+        'FormFactor': 'NULL',
+        'VoedingFormFactor': 'NULL',
+        'TypeKoeling': 'NULL'
+    }
+
 class GraphicsCard():
     properties = {
+        'img': 'NULL',
         'ModelID': 'NULL',
         'Merk': 'NULL',
         'Name': 'NULL',
@@ -186,7 +224,6 @@ class GraphicsCard():
     }
 
 
-
 class Motherboard():
     properties = {
         'ModelID': 'NULL',
@@ -203,16 +240,7 @@ class Motherboard():
         'HardeschijfBus': 'NULL',
         'CardInterface': 'NULL',
         'AantalPCI-ex16Slots': 'NULL',
-        'LinkInterfaceATiCrossfireATiCrossfire ': 'NULL',
-        'VerbindingEthernet': 'NULL',
-        'Netwerkchip': 'NULL',
-        'BluetoothAanwezig': 'NULL',
-        'VerbindingUSBFW': 'NULL',
-        'VideoUit': 'NULL',
-        'Verbinding': 'NULL',
-        'AudioKanalen': 'NULL',
-        'AudioUitgangen': 'NULL',
-        'Audiochip': 'NULL'
+        'LinkInterfaceATiCrossfireATiCrossfire': 'NULL'
     }
 
 
@@ -230,7 +258,6 @@ class RAM():
         'LowVoltageDDR': 'NULL',  #Nee
         'GeheugenCASLatency': 'NULL',
     }
-
 
 
 class Storage():
@@ -257,4 +284,3 @@ def printProperties(properties):
     for x in properties:
         print(x)
         print(properties[x])
-
