@@ -610,11 +610,8 @@ def model_id_parser(a):
 
 
 def name_parser(a):
-    print(a)
     b = str(a)
-    print(b)
     c = str(b.replace("b", "").replace("'", ""))
-    print(c)
     return c.split(",")[0]
 
 
