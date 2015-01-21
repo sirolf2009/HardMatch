@@ -1,12 +1,16 @@
 __author__ = 'gokhankacan'
 import flask, flask.views
 from py2neo import neo4j, Node, Relationship, Graph
-from pymongo import Connection
+from pymongo import Connection, MongoClient
 
 
 app = flask.Flask(__name__)
 app.secret_key = "FrEaKi"
-conn = Connection()
+
+client = MongoClient('localhost', 27017)
+db = client.coolblue
+
+ddd = [[1147651200000, 67.79], [1147737600000, 64.98], [1147824000000, 65.26], [1147910400000, 63.18], [1147996800000, 64.51], [1148256000000, 63.38], [1148342400000, 63.15], [1148428800000, 63.34], [1148515200000, 64.33], [1148601600000, 63.55], [1148947200000, 61.22], [1149033600000, 59.77]]
 
 
 @app.route('/')
@@ -44,13 +48,8 @@ def priceHistoryCoolblue():
 
     title = "Price History"
     pageType = "Coolblue"
-    Data = [234, 543, 675, 34, 564, 5436, 343, 233, 45, 565, 3434, 43]
 
-
-
-    # Check if Database exists IF not create
-    db = conn.coolblue
-    cpu = db.cpu
+    cpu = db.CPU.distinct( 'Name' )
 
     # cpu.insert({'Name': 'Intel i7', 'Price': '339.99'})
     # cpu.insert({'Name': 'AMD Black Edition', 'Price': '26.99', 'Stock': 'Op voorraad'})
@@ -59,7 +58,7 @@ def priceHistoryCoolblue():
 
 
     try:
-        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data)
+        return flask.render_template('pricHistory.html', title=title, pageType=pageType)
     except Exception as e:
         return str("Exception is been handled at Price-History Coolblue: ", e)
 
@@ -69,11 +68,10 @@ def priceHistoryInformatique():
 
     title = "Price History"
     pageType = "Informatique"
-    Data = [345, 456, 978, 232, 67, 45, 879, 34, 45, 678, 678, 345]
 
 
     try:
-        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data)
+        return flask.render_template('pricHistory.html', title=title, pageType=pageType, data=ddd)
     except Exception as e:
         return str("Exception is been handled at Price-History Informatique: ", e)
 
@@ -85,13 +83,11 @@ def priceHistoryAlternate():
 
     title = "Price History"
     pageType = "Alternate"
-    Data = [34534, 5345, 345, 345, 3345, 45, 345, 4354, 3456, 654, 34, 6565]
-    tijd = ["Jan"]
-    Test = 5
+
 
 
     try:
-        return flask.render_template('pricHistory.html', title=title, pageType=pageType, Data=Data, Time=tijd, Test=Test)
+        return flask.render_template('pricHistory.html', title=title, pageType=pageType, data=ddd)
     except Exception as e:
         return str("Exception is been handled at Price-History Alternate: ", e)
 

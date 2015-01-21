@@ -11,7 +11,7 @@ from queue import Queue
 
 # Static Value(s) voor the System
 class Statistic: productCount = 0
-db = Graph("http://localhost:7474/db/data/")
+db = Graph("http://localhost:7484/db/data/")
 
 # Mongo Client Connection
 client = MongoClient('localhost', 27017)
@@ -50,7 +50,7 @@ def soup_function(args):
 
 
 
-
+"""
 def categorieLevel(storeURL):
 
     start = True
@@ -70,9 +70,9 @@ def categorieLevel(storeURL):
 
     threadSubs(subCategoriesQueue)
     # productListingPages(subCategoriesQueue)
-
-
 """
+
+
 def categorieLevel(storeURL):
 
     start = True
@@ -90,11 +90,11 @@ def categorieLevel(storeURL):
             start = False
 
     productListingPages(subCategoriesArray)
+
+
+
+
 """
-
-
-
-
 def threadSubs(subCategoriesQueue):
 
 
@@ -105,8 +105,10 @@ def threadSubs(subCategoriesQueue):
             i = t.Thread(target=productListingPages(), name="SubcategoriesThreading")
             i.daemon = True
             i.start()
+"""
 
 
+"""
 def productListingPages():
 
         subUrl = subCategoriesQueue.get()  # Get url from Queue
@@ -119,11 +121,10 @@ def productListingPages():
 
         productListingLevel(int(maxPageNumbers), subUrl, componentTitle)
         subUrl.task_done()
-
-
-
-
 """
+
+
+
 def productListingPages(subCategoriesQueue):
 
     for index in subCategoriesQueue:
@@ -145,7 +146,7 @@ def productListingPages(subCategoriesQueue):
             maxPageNumbers = subCategoriePages.text.strip()
 
             productListingLevel(int(maxPageNumbers), categorie_url, componentTitle)
-"""
+
 
 
 

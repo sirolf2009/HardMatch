@@ -50,15 +50,13 @@ def printProperties(properties):
         print(properties[x])
 
 def voorraadChecker(url):
-    source_code = requests.get(url)
-    plain_text = source_code.text
-    soup = BeautifulSoup(plain_text)
-    voorraad = 'NULL'
+
+    soup = getHTML(url)
     voorraad = 'Niet op voorraad'
     substring = 'Online op voorraad'
     for x in soup.find('td', {'style': 'padding:5px 4px 5px 4px;line-height:2'}):
         if x is not None:
-            if substring in x.text:
+            if substring in x:
                 voorraad = 'Op voorraad'
     return voorraad
 
