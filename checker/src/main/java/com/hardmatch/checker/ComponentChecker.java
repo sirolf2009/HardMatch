@@ -67,7 +67,7 @@ public class ComponentChecker {
 			Case.add((ComponentCase) component);
 		}
 	}
-	
+
 	public int count() {
 		return CPUs.size()+Motherboards.size()+RAM.size()+Graphicscards.size()+Storage.size()+CPUFan.size()+Case.size();
 	}
@@ -122,10 +122,19 @@ public class ComponentChecker {
 				crossCheck(Motherboards, Case, "CPU -> CPF");
 			}
 		}).start();
+		int lastQueue = 0;
 		do {
 			try {
 				Thread.sleep(10);
 				System.out.println(ThreadQueue);
+				if(lastQueue == 0) {
+					lastQueue = ThreadQueue;
+				} else if(lastQueue != ThreadQueue) {
+					if(ThreadQueue % 10 == 0) {
+						Checker.log.info("Remaining threads: "+ThreadQueue);
+					}
+					lastQueue = ThreadQueue;
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -144,7 +153,7 @@ public class ComponentChecker {
 						ThreadQueue++;
 						while(ThreadCounter >= 10) { 
 							try {
-								Thread.sleep(1);
+								Thread.sleep(1000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							} 
@@ -163,8 +172,6 @@ public class ComponentChecker {
 		boolean compatible = component1.isCompatibleWith(component2);
 		URI startNodeFinal = restFinal.nodes.fromID(component1.getID());
 		URI endNodeFinal = restFinal.nodes.fromID(component2.getID());
-		//createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component1.getID())), startNodeFinal);
-		//createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component2.getID())), endNodeFinal);
 		URI relationship = restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, COMPATABILITY);
 		try {
 			restFinal.relationship.setRelationshipProperties(relationship, "compatability", compatible);

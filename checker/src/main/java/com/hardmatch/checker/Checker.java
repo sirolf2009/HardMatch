@@ -33,7 +33,6 @@ import com.sirolf2009.util.neo4j.rest.RestAPI;
 public class Checker {
 
 	public static String NEO4J_FINAL_IP = "http://localhost";
-	//public static int NEO4J_FINAL_PORT = 7474;
 	public static String NEO4J_TEMP_IP = "http://localhost";
 	public static int NEO4J_TEMP_PORT = 7484;
 	public static boolean SHOULD_CONNECT = false;
