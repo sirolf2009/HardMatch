@@ -1,7 +1,10 @@
 #!/bin/bash
+echo "Clearing DB"
 python3 clearTempDb.py
-cd Crawler
-python3 InformatiqueCrawlerV3.py
-cd ..
-cd checker
-sudo mvn exec:java -Dexec.mainClass="com.hardmatch.checker.Checker"
+echo "Starting informatique crawler"
+python3 Crawler/InformatiqueCrawlerV3.py
+echo "Starting Coolblue crawler"
+python3 Crawler/Coolblue.py
+
+echo "Starting checker"
+sudo mvn install exec:java -f checker/pom.xml -Dexec.mainClass="com.hardmatch.checker.Checker"
