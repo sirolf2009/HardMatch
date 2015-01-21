@@ -162,7 +162,7 @@ class CPU(IParseSave.CPU):
         price = price.replace(',', '.')
         price = float(price[2:])
 
-        cpu.properties['Img'] = IParseSave.imgFinder(detailadress)
+        cpu.properties['img'] = IParseSave.imgFinder(detailadress)
 
         if specs is not None:
             for x in specs:
@@ -213,7 +213,7 @@ class GraphicsCard(IParseSave.GraphicsCard):
         price = price.replace(',', '.')
         price = float(price[2:])
 
-        gc.properties['Img'] = IParseSave.imgFinder(detailadress)
+        gc.properties['img'] = IParseSave.imgFinder(detailadress)
 
         if specs is not None:
             for x in specs:
@@ -269,14 +269,13 @@ class Motherboard(IParseSave.Motherboard):
         price = float(price[2:])
 
         mb.properties['CardInterface']= IParseSave.cardInterfaceBuilder(detailadress)
-
-        mb.properties['Img'] = IParseSave.imgFinder(detailadress)
+        mb.properties['img'] = IParseSave.imgFinder(detailadress)
 
         breadCrumbvariables = soup.findAll('span', {'itemprop': 'title'})
 
         for x in breadCrumbvariables:
             if 'Socket' in x.string:
-                mb.properties['socket'] = x.string
+                mb.properties['Socket'] = x.string
 
         interfaces = ''
 
@@ -298,7 +297,8 @@ class Motherboard(IParseSave.Motherboard):
 
 
         voorraad = IParseSave.voorraadChecker(detailadress)
-        IParseSave.saveComponent(mb.properties, label, price,voorraad, detailadress, winkel)
+        if mb.properties['CardInterface'] is not None and mb.properties['ModelID'] is not None:
+            IParseSave.saveComponent(mb.properties, label, price,voorraad, detailadress, winkel)
 
 
 class RAM(IParseSave.RAM):
@@ -322,7 +322,7 @@ class RAM(IParseSave.RAM):
         price = price.replace(',', '.')
         price = float(price[2:])
 
-        ram.properties['Img'] = IParseSave.imgFinder(detailadress)
+        ram.properties['img'] = IParseSave.imgFinder(detailadress)
 
         type = soup.findAll('span', {'itemprop': 'title'})
         for x in type:
@@ -368,7 +368,7 @@ class Storage(IParseSave.Storage):
         price = price.replace(',', '.')
         price = float(price[2:])
 
-        store.properties['Img'] = IParseSave.imgFinder(detailadress)
+        store.properties['img'] = IParseSave.imgFinder(detailadress)
 
         if specs is not None:
             for x in specs:
