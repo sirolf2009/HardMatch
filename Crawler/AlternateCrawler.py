@@ -23,7 +23,7 @@ class store_object():
         n = Node(name, Name=storeUrl)
         return n
 
-neo4j_db = neo4j.Graph("http://localhost:7484/db/data/")
+neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
 
 
 if bool(neo4j_db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.alternate.nl" RETURN n')):
@@ -135,6 +135,7 @@ def get_CPU(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
+            print(modelID)
             cpu.properties['ModelID'] = modelID
         except AttributeError:
             cpu.properties['ModelID'] = "NULL"
@@ -279,9 +280,13 @@ def get_Motherboard(detail_pages):
             shipping_costs = price_parser(x.text)
         except AttributeError:
             shipping_costs = "NULL"
+        try:
+            x = soup.find('div', {"class": "availability"})
+            InStock = x.p.text
+        except AttributeError:
+            InStock = "NULL"
 
-        inStock = "NULL"
-        saveComponent(motherboard.properties, label, price, inStock, link)
+        saveComponent(motherboard.properties, label, price, InStock, link)
 
 
 def get_CPU_Fan(detail_pages):
@@ -317,7 +322,7 @@ def get_CPU_Fan(detail_pages):
         except AttributeError:
             cpu_fan.properties['Socket'] = "NULL"
         try:
-            x = soup.find('span', {"itemprop": "price"}) # DUURT HEEL LANG !
+            x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
@@ -326,9 +331,13 @@ def get_CPU_Fan(detail_pages):
             shipping_costs = price_parser(x.text)
         except AttributeError:
             shipping_costs = "NULL"
+        try:
+            x = soup.find('div', {"class": "availability"})
+            InStock = x.p.text
+        except AttributeError:
+            InStock = "NULL"
 
-        inStock = "NULL"
-        saveComponent(cpu_fan.properties, label, price, inStock, link)
+        saveComponent(cpu_fan.properties, label, price, InStock, link)
 
 
 def get_RAM(detail_pages):
@@ -372,9 +381,13 @@ def get_RAM(detail_pages):
             shipping_costs = price_parser(x.text)
         except AttributeError:
             shipping_costs = "NULL"
+        try:
+            x = soup.find('div', {"class": "availability"})
+            InStock = x.p.text
+        except AttributeError:
+            InStock = "NULL"
 
-        inStock = "NULL"
-        saveComponent(ram.properties, label, price, inStock, link)
+        saveComponent(ram.properties, label, price, InStock, link)
 
 
 def get_Case(detail_pages):
@@ -418,9 +431,13 @@ def get_Case(detail_pages):
             shipping_costs = price_parser(x.text)
         except AttributeError:
             shipping_costs = "NULL"
+        try:
+            x = soup.find('div', {"class": "availability"})
+            InStock = x.p.text
+        except AttributeError:
+            InStock = "NULL"
 
-        inStock = "NULL"
-        saveComponent(cpu_fan.properties, label, price, inStock, link)
+        saveComponent(cpu_fan.properties, label, price, InStock, link)
 
 
 def get_Storage(detail_pages):
@@ -465,9 +482,13 @@ def get_Storage(detail_pages):
             shipping_costs = price_parser(x.text)
         except AttributeError:
             shipping_costs = "NULL"
+        try:
+            x = soup.find('div', {"class": "availability"})
+            InStock = x.p.text
+        except AttributeError:
+            InStock = "NULL"
 
-        inStock = "NULL"
-        saveComponent(case.properties, label, price, inStock, link)
+        saveComponent(case.properties, label, price, InStock, link)
 
 
 def get_GPU(detail_pages):
@@ -518,9 +539,13 @@ def get_GPU(detail_pages):
             shipping_costs = price_parser(x.text)
         except AttributeError:
             shipping_costs = "NULL"
+        try:
+            x = soup.find('div', {"class": "availability"})
+            InStock = x.p.text
+        except AttributeError:
+            InStock = "NULL"
 
-        inStock = "NULL"
-        saveComponent(graphicsCard.properties, label, price, inStock, link)
+        saveComponent(graphicsCard.properties, label, price, InStock, link)
 
 
 def price_parser(line):
@@ -583,7 +608,7 @@ processors = ['Processoren']
 behuizing_L3 = ['Desktop']
 geheugen_L3 = ['DDR4', 'DDR3', 'DDR2', 'DDR']
 grafische_kaarten_L3 = ["PCIe kaarten Matrox", "AGP kaarten", "PCI kaarten"]
-opslag_L3 = ["SATA"] # , "SAS", "Hybride", "SSD's"]
+opslag_L3 = ["SATA"]
 koeling_L3 = ["CPU"]
 moederborden_L3 = ["AMD", "Intel"]
 processors_L3 = ["Desktop"]
@@ -624,13 +649,13 @@ processors_output_sublinks_l4 = get_subLevel4_url(processors_output_sublinks, ur
 all_processors = get_all_product_links(processors_output_sublinks_l4, url)
 
 
-get_RAM(all_geheugen)
+# get_RAM(all_geheugen)
 get_CPU(all_processors)
-get_Motherboard(all_moederborden)
-get_CPU_Fan(all_koeling)
-get_Case(all_behuizing)
-get_Storage(all_opslag)
-get_GPU(all_grafische_kaarten)
+# get_Motherboard(all_moederborden)
+# get_CPU_Fan(all_koeling)
+# get_Case(all_behuizing)
+# get_Storage(all_opslag)
+# get_GPU(all_grafische_kaarten)
 
 
 print(len(all_behuizing) + len(all_grafische_kaarten) +
