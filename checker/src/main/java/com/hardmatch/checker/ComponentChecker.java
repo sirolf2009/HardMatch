@@ -9,6 +9,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.hardmatch.checker.components.ComponentCPU;
+import com.hardmatch.checker.components.ComponentCPUFan;
+import com.hardmatch.checker.components.ComponentCase;
 import com.hardmatch.checker.components.ComponentGraphicsCard;
 import com.hardmatch.checker.components.ComponentMotherboard;
 import com.hardmatch.checker.components.ComponentRAM;
@@ -27,11 +29,14 @@ public class ComponentChecker {
 	private List<IComponent> Motherboards;
 	private List<IComponent> RAM;
 	private List<IComponent> Storage;
+	private List<IComponent> CPUFan;
+	private List<IComponent> Case;
 
 	public RestAPI restTemp;
 	public RestAPI restFinal;
 
 	public static int ThreadCounter = 0;
+	public static int ThreadQueue = 0;
 
 	public ComponentChecker(Checker checker) {
 		restTemp = checker.restTemp;
@@ -41,6 +46,8 @@ public class ComponentChecker {
 		Graphicscards = new ArrayList<IComponent>();
 		Storage = new ArrayList<IComponent>();
 		RAM = new ArrayList<IComponent>();
+		CPUFan = new ArrayList<IComponent>();
+		Case = new ArrayList<IComponent>();
 	}
 
 	public void addComponentToSetup(IComponent component) {
@@ -54,7 +61,15 @@ public class ComponentChecker {
 			Graphicscards.add((ComponentGraphicsCard) component);
 		} else if(component instanceof ComponentStorage) {
 			Storage.add((ComponentStorage) component);
+		} else if(component instanceof ComponentCPUFan) {
+			CPUFan.add((ComponentCPUFan) component);
+		} else if(component instanceof ComponentCase) {
+			Case.add((ComponentCase) component);
 		}
+	}
+	
+	public int count() {
+		return CPUs.size()+Motherboards.size()+RAM.size()+Graphicscards.size()+Storage.size()+CPUFan.size()+Case.size();
 	}
 
 	public void crossCheckAll() {
@@ -86,9 +101,31 @@ public class ComponentChecker {
 				crossCheck(Motherboards, Storage, "Motherboard -> STR");
 			}
 		}).start();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Checker.log.info("checking motherboards on CPUFans");
+				crossCheck(Motherboards, CPUFan, "Motherboard -> CPF");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Checker.log.info("checking motherboards on Case");
+				crossCheck(Motherboards, Case, "Motherboard -> CAS");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Checker.log.info("checking CPUs on CPUFan");
+				crossCheck(Motherboards, Case, "CPU -> CPF");
+			}
+		}).start();
 		do {
 			try {
 				Thread.sleep(10);
+				System.out.println(ThreadQueue);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -97,20 +134,22 @@ public class ComponentChecker {
 	}
 
 	public void crossCheck(List<IComponent> list1, final List<IComponent> list2, String threadName) {
-		Checker.log.info(threadName+" checking "+list1.size()+" Motherboards on "+list2.size()+" nodes");
+		Checker.log.info(threadName+" checking "+list1.size()+" components on "+list2.size()+" nodes");
 		for(int i = 0; i < list1.size(); i++) {
 			final IComponent component1 = list1.get(i);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					for(final IComponent component2 : list2) {
-						while(ThreadCounter >= 100) { 
+						ThreadQueue++;
+						while(ThreadCounter >= 10) { 
 							try {
 								Thread.sleep(1);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							} 
 						}
+						ThreadQueue--;
 						ThreadCounter++;
 						doCheck(component1, component2);
 						ThreadCounter--;

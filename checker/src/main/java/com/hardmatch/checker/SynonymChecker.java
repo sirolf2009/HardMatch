@@ -59,6 +59,9 @@ public class SynonymChecker {
 	}
 	
 	public boolean areEqual(String string1, String string2) {
+		if(string1.equals("NULL") || string2.equals("NULL")) {
+			return true;
+		}
 		for(List<String> synonymList : synonyms) {
 			if(synonymList.contains(string1) && synonymList.contains(string2)) {
 				return true;

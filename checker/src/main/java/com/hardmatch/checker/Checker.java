@@ -62,6 +62,7 @@ public class Checker {
 	}
 
 	public void transferDB() {
+		log.info("Getting nodes from temp DB");
 		JSONObject components = restTemp.sendCypher("MATCH (n:Component) RETURN n, labels(n), id(n)");
 		List<JSONArray> rows = restTemp.json.getRowsFromQuery(components);
 		log.info("Copying over "+rows.size()+" nodes");
@@ -70,7 +71,6 @@ public class Checker {
 			try {
 				IComponent component = ComponentFactory.getComponent((JSONObject) row.get(0), row.get(1).toString(), (Long)row.get(2));
 				URI node = getOrCreateNode(component);
-				//System.out.println(restTemp.relationship.getRelationships(restTemp.nodes.fromID((Long)row.get(2))));
 				createStoreLinks(restTemp.relationship.getRelationships(restTemp.nodes.fromID(component.getID())), node);
 			} catch (UnknownComponentException e) {
 				e.printStackTrace();
@@ -164,6 +164,7 @@ public class Checker {
 			} catch (UnknownComponentException e) {
 			}
 		}
+		log.info(setup.count()+" Components in setup");
 		return setup;
 	}
 
