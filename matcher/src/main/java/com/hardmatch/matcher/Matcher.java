@@ -22,7 +22,7 @@ public class Matcher {
 	}
 
     public Store getCheapestStoreForComponent(String componentToBuy) {
-    	String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price, relation.productUrl, component.Name, labels(component) ORDER BY relation.Price";
+    	String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price, relation.productUrl, component.Name, labels(component), relation.inStock ORDER BY relation.Price";
     	JSONObject response = rest.sendCypher(cypher);
     	JSONArray results = (JSONArray) response.get("results");
     	JSONObject rows = (JSONObject) results.get(0);
@@ -30,15 +30,16 @@ public class Matcher {
     	JSONObject firstRow = (JSONObject)moarRows.get(0);
     	JSONArray firstRowData = (JSONArray)firstRow.get("row");
     	JSONObject storeObject = (JSONObject) firstRowData.get(0);
-    	JSONArray labels = (JSONArray) firstRowData.get(4);
     	
     	double componentPrice = Double.parseDouble(firstRowData.get(1).toString());
     	String storeName = storeObject.get("Name").toString();
     	String componentUrl = firstRowData.get(2).toString();
     	String componentName = firstRowData.get(3).toString();
+    	JSONArray labels = (JSONArray) firstRowData.get(4);
     	String category = getLabel(labels);
+    	String stock = firstRowData.get(5).toString();
     	
-    	Store store = new Store(componentName, storeName, componentPrice, componentUrl, category);
+    	Store store = new Store(componentName, storeName, componentPrice, componentUrl, category, stock);
     	return store;
     }
     
