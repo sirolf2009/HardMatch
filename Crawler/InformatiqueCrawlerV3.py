@@ -237,9 +237,9 @@ class GraphicsCard(IParseSave.GraphicsCard):
                     elif 'Bus type' in x.string:
                         gc.properties['CardInterface'] = x.findNextSibling('td').string
                     elif 'DirectX' in x.string:
-                        gc.properties['DirectXversion'] = x.findNextSibling('td').string
+                        gc.properties['DirectXVersie'] = x.findNextSibling('td').string
                     elif 'OpenGL' in x.string:
-                        gc.properties['OpenGLversion'] = x.findNextSibling('td').string
+                        gc.properties['OpenGLVersie'] = x.findNextSibling('td').string
                     elif 'sloten' in x.string:
                         gc.properties['aantalSlots'] = x.findNextSibling('td').string
 

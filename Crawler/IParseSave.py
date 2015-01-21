@@ -76,7 +76,7 @@ def saveComponent(properties, label, price, voorraad,link, winkel):
         cn.add_labels('Component')
         cn.push()
 
-    rel = Relationship(cn, 'SOLD_AT', winkel, Price=price, inStock=voorraad, productUrl=link)
+    rel = Relationship(cn, 'SOLD_AT', winkel, Price=price, InStock=voorraad, productUrl=link)
     graph.create(rel)
     saveMetaData(winkel.properties['Name'], properties['Name'], modelID, price, properties['Merk'],'www.Informatique.nl', label)
 
@@ -172,8 +172,8 @@ class GraphicsCard():
         'HoogsteHDMIVersie': 'NULL',  # HDMI 2.0
         'HoogsteDisplayPortVersie': 'NULL',  # DisplayPort 1.2
         'VideoAdapter': 'NULL',  # DVI naar D-Sub adapter
-        'DirectXversion': 'NULL',  # 12.0
-        'OpenGLversion': 'NULL',  # 4.4
+        'DirectXVersie': 'NULL',  # 12.0
+        'OpenGLVersie': 'NULL',  # 4.4
         'ShaderModel': 'NULL',  # 5.0
         'MaximaleResolutie': 'NULL',  # 4096x2160 (Cinema 4K)
         'Lengte': 'NULL',  # 269mm
