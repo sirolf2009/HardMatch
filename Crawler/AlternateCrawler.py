@@ -135,8 +135,7 @@ def get_CPU(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            print(modelID)
-            cpu.properties['ModelID'] = modelID
+            cpu.properties['ModelID'] = modelID.split(",")[0]
         except AttributeError:
             cpu.properties['ModelID'] = "NULL"
         try:
@@ -209,7 +208,8 @@ def get_Motherboard(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            motherboard.properties['ModelID'] = modelID
+            # print(model_id_parser(modelID))
+            motherboard.properties['ModelID'] = model_id_parser(modelID)
         except AttributeError:
             motherboard.properties['ModelID'] = "NULL"
         try:
@@ -301,7 +301,7 @@ def get_CPU_Fan(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            cpu_fan.properties['ModelID'] = modelID
+            cpu_fan.properties['ModelID'] = model_id_parser(modelID)
         except AttributeError:
             cpu_fan.properties['ModelID'] = "NULL"
         try:
@@ -352,7 +352,8 @@ def get_RAM(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            ram.properties['ModelID'] = modelID
+            a = modelID[modelID.index("(") + 1:modelID.rindex(")")]
+            ram.properties['ModelID'] = model_id_parser(a)
         except AttributeError:
             ram.properties['ModelID'] = "NULL"
         try:
@@ -402,7 +403,7 @@ def get_Case(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            cpu_fan.properties['ModelID'] = modelID
+            cpu_fan.properties['ModelID'] = model_id_parser(modelID)
         except AttributeError:
             cpu_fan.properties['ModelID'] = "NULL"
         try:
@@ -452,6 +453,7 @@ def get_Storage(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
+            print(modelID)
             case.properties['ModelID'] = modelID
         except AttributeError:
             case.properties['ModelID'] = "NULL"
@@ -503,7 +505,7 @@ def get_GPU(detail_pages):
         try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            graphicsCard.properties['ModelID'] = modelID
+            graphicsCard.properties['ModelID'] = model_id_parser(modelID)
         except AttributeError:
             graphicsCard.properties['ModelID'] = "NULL"
         try:
@@ -556,6 +558,13 @@ def price_parser(line):
         replace("verzendkosten", "").\
         replace("va.", "")
     return x
+
+
+def model_id_parser(a):
+    b = a.split(",")[0]
+    c = b.split("(")[0]
+    modelID = c.split("/")[0]
+    return modelID
 
 
 def saveComponent(properties, label, price, voorraad, link):
@@ -649,13 +658,13 @@ processors_output_sublinks_l4 = get_subLevel4_url(processors_output_sublinks, ur
 all_processors = get_all_product_links(processors_output_sublinks_l4, url)
 
 
-# get_RAM(all_geheugen)
+get_RAM(all_geheugen)
 get_CPU(all_processors)
-# get_Motherboard(all_moederborden)
-# get_CPU_Fan(all_koeling)
-# get_Case(all_behuizing)
+get_Motherboard(all_moederborden)
+get_CPU_Fan(all_koeling)
+get_Case(all_behuizing)
 # get_Storage(all_opslag)
-# get_GPU(all_grafische_kaarten)
+get_GPU(all_grafische_kaarten)
 
 
 print(len(all_behuizing) + len(all_grafische_kaarten) +
