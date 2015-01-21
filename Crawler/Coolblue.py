@@ -182,18 +182,16 @@ def productListingLevel(max_pages, URL, componentTitle):
 
 def productPageLevel(title, href, price, componentTitle):
 
-    # Database Connect
-    # db = Graph("http://localhost:7484/db/data/")
 
 
     # CREATE STORE NODE
     # If Node exists in Database then Pass ELSE Create Store Node
-    if bool(db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.processorstore.nl" RETURN n')):
+    if bool(db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.test.nl" RETURN n')):
         pass
     else:
-        store = storeObject.createStore('Store', 'Store', 'ProcessorStore', 'Weena 664', '3012 CN', 'Rotterdam', 'www.processorstore.nl', '010-7988999')  # Setup Store Node (Coolblue)
+        store = storeObject.createStore('Store', 'Store', 'ProcessorStore', 'Weena 664', '3012 CN', 'Rotterdam', 'www.test.nl', '010-7988999')  # Setup Store Node (Coolblue)
         db.create(store)
-    store = db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.processorstore.nl" RETURN n')
+    store = db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.test.nl" RETURN n')
 
 
     # Make BS4 Object
@@ -527,9 +525,12 @@ def productPageLevel(title, href, price, componentTitle):
 
 
     else:
-        print('ModelID a.k.a. Fabrikantcode ALREADY exists in Database')
+        # print('ModelID a.k.a. Fabrikantcode ALREADY exists in Database')
         # print(db.cypher.execute_one('MATCH (n) WHERE n.ModelID = "{}" RETURN id(n), n'.format(PD['Fabrikantcode'])))
-
+        # nodeId = db.cypher.execute_one('MATCH (n) WHERE n.ModelID = "{}" RETURN id(n)'.format(PD['Fabrikantcode']))
+        product = db.cypher.execute_one('MATCH (n) WHERE n.ModelID = "{}" RETURN n'.format(PD['Fabrikantcode']))
+        rel = relationNode.rel('Relationship', product, store, price, stock, href)
+        db.create(rel)
 
 
 
@@ -545,7 +546,10 @@ def productPageLevel(title, href, price, componentTitle):
     if PD.get('Merk') is None: brand = "NULL"
     else: brand = PD['Merk']
 
-    post = {'ModelID': PD['Fabrikantcode'], 'Name': title, 'Price': price, 'Brand': brand, 'Type': productType[componentTitle], 'Timestamp': int(time.mktime(now.timetuple()))}
+    if PD.get('Fabrikantcode') is None: ModelID = "NULL"
+    else: ModelID = PD['Fabrikantcode']
+
+    post = {'ModelID': ModelID, 'Name': title, 'Price': price, 'Brand': brand, 'Type': productType[componentTitle], 'Timestamp': int(time.mktime(now.timetuple()))}
 
 
     if productType[componentTitle] == 'CPU': mongodb.CPU.insert(post)

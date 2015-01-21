@@ -23,7 +23,7 @@ class store_object():
         n = Node(name, Name=storeUrl)
         return n
 
-neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
+neo4j_db = neo4j.Graph("http://localhost:7484/db/data/")
 
 
 if bool(neo4j_db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.alternate.nl" RETURN n')):
@@ -133,55 +133,60 @@ def get_CPU(detail_pages):
         soup = BeautifulSoup(plain_text)
         link = detail_page
         try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            cpu.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
             cpu.properties['ModelID'] = modelID.split(",")[0]
         except AttributeError:
-            cpu.properties['ModelID'] = "NULL"
+            pass
         try:
             brand = soup.find('span', {"itemprop": "brand"}).text
             cpu.properties['Merk'] = brand
         except AttributeError:
-            cpu.properties['Merk'] = "NULL"
+            pass
         try:
             name = soup.find('meta', {"itemprop": "name"})
-            x = name['content'].encode('utf-8').text
+            x = str(name['content'].encode('utf-8'))
             sep = ','
             rest = x.split(sep, 1)[0].replace("b'", "")
-            final = brand + " " + rest
-            cpu.properties['Name'] = final
+            cpu.properties['Name'] = rest
         except AttributeError:
-            cpu.properties['Name'] = "NULL"
+            pass
         try:
-            serie = soup.find('td', text="Socket").next_sibling.text
-            cpu.properties['Serie'] = serie
+            socket = soup.find('td', text="Socket").next_sibling.text
+            cpu.properties['Socket'] = socket
         except AttributeError:
-            cpu.properties['Serie'] = "NULL"
+            pass
         try:
             aantal_cores = soup.find('td', text="Aantal").next_sibling.text
             cpu.properties['AantalCores'] = aantal_cores
         except AttributeError:
-            cpu.properties['AantalCores'] = "NULL"
+            pass
         try:
             snelheid = soup.find('td', text="CPU snelheid").next_sibling.text
             cpu.properties['Snelheid'] = snelheid
         except AttributeError:
-            cpu.properties['Snelheid'] = "NULL"
+            pass
         try:
             geheugen_specificatie = soup.find('td', text="Standaarden").next_sibling.text
             cpu.properties['GeheugenSpecificatie'] = geheugen_specificatie
         except AttributeError:
-            cpu.properties['GeheugenSpecificatie'] = "NULL"
+            pass
         try:
             CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
             cpu.properties['CPUCacheLevel1'] = CPU_cache_level1
         except AttributeError:
-           cpu.properties['CPUCacheLevel1'] = "NULL"
+            pass
         try:
             CPU_cache_level2 = soup.find('td', text="L2").next_sibling.text
             cpu.properties['CPUCacheLevel2'] = CPU_cache_level2
         except AttributeError:
-            cpu.properties['CPUCacheLevel2'] = "NULL"
+            pass
         try:
             x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
@@ -206,70 +211,76 @@ def get_Motherboard(detail_pages):
         table = soup.table
         link = detail_page
         try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            motherboard.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            # print(model_id_parser(modelID))
-            motherboard.properties['ModelID'] = model_id_parser(modelID)
+            y = model_id_parser(modelID)
+            motherboard.properties['ModelID'] = y
         except AttributeError:
-            motherboard.properties['ModelID'] = "NULL"
+            pass
         try:
             name = soup.find('meta', {"itemprop": "name"})
             motherboard.properties['Name'] = name['content'].encode('utf-8')
         except AttributeError:
-            motherboard.properties['Name'] = "NULL"
+            pass
         try:
-            brand = soup.find('meta', {"itemprop": "brand"})
+            brand = soup.find('span', {"itemprop": "brand"}).text
             motherboard.properties['Merk'] = brand
         except AttributeError:
-            motherboard.properties['Merk'] = "NULL"
+            pass
         try:
             socket = table.find('td', {"class": "c4"}).text
             motherboard.properties['Socket'] = socket
         except AttributeError:
-            motherboard.properties['Socket'] = "NULL"
+            pass
         try:
             amount_of_sockets = soup.find('td', text="Maximaal ondersteunde CPU's").next_sibling.text
             motherboard.properties['AantalSockets'] = amount_of_sockets
         except AttributeError:
-            motherboard.properties['AantalSockets'] = "NULL"
+            pass
         try:
             tr_tag = table.find('td', {"class": "c1"}, text="Formfactor").parent
             form_factor = tr_tag.findNext('td', {"class": "c4"}).text
             motherboard.properties['FormFactor'] = form_factor
         except AttributeError:
-            motherboard.properties['FormFactor'] = "NULL"
+            pass
         try:
             tr_tag = table.find('td', {"class": "c2"}, text="Type geheugen")
             geheugen_type = tr_tag.findNext('td', {"class": "c4"}).text
             motherboard.properties['Geheugentype'] = geheugen_type
         except AttributeError:
-            motherboard.properties['Geheugentype'] = "NULL"
+            pass
         try:
             tr_tag = soup.find('td', text="Sloten").parent
             card_interface = tr_tag.findNext('td', {"class": "c4"}).text
             motherboard.properties['CardInterface'] = card_interface
         except AttributeError:
-            motherboard.properties['CardInterface'] = "NULL"
+            pass
         try:
             snelheid = soup.find('td', text="CPU snelheid").next_sibling.text
             motherboard.properties['Snelheid'] = snelheid
         except AttributeError:
-            motherboard.properties['Snelheid'] = "NULL"
+            pass
         try:
             geheugen_specificatie = soup.find('td', text="Standaarden").next_sibling.text
             motherboard.properties['GeheugenSpecificatie'] = geheugen_specificatie
         except AttributeError:
-           motherboard.properties['GeheugenSpecificatie'] = "NULL"
+            pass
         try:
             CPU_cache_level1 = soup.find('td', text="L1").next_sibling.text
             motherboard.properties['CPUCacheLevel1'] = CPU_cache_level1
         except AttributeError:
-            motherboard.properties['CPUCacheLevel1'] = "NULL"
+            pass
         try:
             CPU_cache_level2 = soup.find('td', text="L2").next_sibling.text
             motherboard.properties['CPUCacheLevel2'] = CPU_cache_level2
         except AttributeError:
-            motherboard.properties['CPUCacheLevel2'] = "NULL"
+            pass
         try:
             x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
@@ -299,6 +310,18 @@ def get_CPU_Fan(detail_pages):
         table = soup.find('table', {'class': 'techDataTable'})
         link = detail_page
         try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            cpu_fan.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            cpu_fan.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
             cpu_fan.properties['ModelID'] = model_id_parser(modelID)
@@ -310,10 +333,10 @@ def get_CPU_Fan(detail_pages):
         except AttributeError:
             cpu_fan.properties['Name'] = "NULL"
         try:
-            brand = soup.find('meta', {"itemprop": "brand"})
+            brand = soup.find('span', {"itemprop": "brand"}).text
             cpu_fan.properties['Merk'] = brand
         except AttributeError:
-            cpu_fan.properties['Merk'] = "NULL"
+            pass
         try:
             tr_tag = table.find('td', {"class": "techDataCol1"}, text="Socket")
             text = tr_tag.parent.table.tr.text
@@ -350,22 +373,29 @@ def get_RAM(detail_pages):
         table = soup.find('div', {'class': 'techData'})
         link = detail_page
         try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            ram.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
             a = modelID[modelID.index("(") + 1:modelID.rindex(")")]
             ram.properties['ModelID'] = model_id_parser(a)
         except AttributeError:
-            ram.properties['ModelID'] = "NULL"
+            pass
         try:
-            name = soup.find('meta', {"itemprop": "name"})
-            ram.properties['Name'] = name['content'].encode('utf-8')
+            x = soup.find('meta', {"itemprop": "name"})
+            name = x['content'].encode('utf-8')
+            ram.properties['Name'] = name_parser(name)
         except AttributeError:
-            ram.properties['Name'] = "NULL"
+            pass
         try:
-            brand = soup.find('meta', {"itemprop": "brand"})
+            brand = soup.find('span', {"itemprop": "brand"}).text
             ram.properties['Merk'] = brand
         except AttributeError:
-            ram.properties['Merk'] = "NULL"
+            pass
         try:
             x = table.find('td', {"class": "c1"}, text="Type")
             type = x.parent.findNext('td', {"class": "c4"}).text
@@ -401,27 +431,34 @@ def get_Case(detail_pages):
         table = soup.find('table', {'class': 'techDataTable'})
         link = detail_page
         try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            cpu_fan.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
             cpu_fan.properties['ModelID'] = model_id_parser(modelID)
         except AttributeError:
-            cpu_fan.properties['ModelID'] = "NULL"
+            pass
         try:
             name = soup.find('meta', {"itemprop": "name"})
-            cpu_fan.properties['Name'] = name['content'].encode('utf-8')
+            a = name['content'].encode('utf-8')
+            cpu_fan.properties['Name'] = name_parser(name)
         except AttributeError:
-            cpu_fan.properties['Name'] = "NULL"
+            pass
         try:
-            brand = soup.find('meta', {"itemprop": "brand"})
+            brand = soup.find('span', {"itemprop": "brand"}).text
             cpu_fan.properties['Merk'] = brand
         except AttributeError:
-            cpu_fan.properties['Merk'] = "NULL"
+            pass
         try:
             tr_tag = table.find('td', {"class": "techDataCol1"}, text="Formaat")
             form_factor = tr_tag.parent.table.tr.text
             cpu_fan.properties['FormFactor'] = form_factor
         except AttributeError:
-            cpu_fan.properties['FormFactor'] = "NULL"
+            pass
         try:
             x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
@@ -451,29 +488,34 @@ def get_Storage(detail_pages):
         table = soup.find('table', {'class': 'techDataTable'})
         link = detail_page
         try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            case.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
-            print(modelID)
             case.properties['ModelID'] = modelID
         except AttributeError:
             case.properties['ModelID'] = "NULL"
         try:
-            name = soup.find('meta', {"itemprop": "name"})
-            case.properties['Name'] = name['content'].encode('utf-8')
+            x = soup.find('meta', {"itemprop": "name"})
+            name = x['content'].encode('utf-8')
+            case.properties['Name'] = name_parser(name)
         except AttributeError:
-            case.properties['Name'] = "NULL"
+            pass
         try:
-            brand = soup.find('meta', {"itemprop": "brand"})
+            brand = soup.find('span', {"itemprop": "brand"}).text
             case.properties['Merk'] = brand
         except AttributeError:
-            case.properties['Merk'] = "NULL"
+            pass
         try:
             tr_tag = table.find('td', {"class": "techDataCol1"}, text="Capaciteit")
             text = tr_tag.parent.table.tr.text
-            # socket = text[4:]
             case.properties['Opslagcapactiteit'] = text
         except AttributeError:
-            case.properties['Socket'] = "NULL"
+            pass
         try:
             x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
@@ -503,44 +545,44 @@ def get_GPU(detail_pages):
         table = soup.find('table', {'class': 'techDataTable'})
         link = detail_page
         try:
+            x = soup.find('span', {"id": "bigPic"})
+            img = (url + x.img['src'])
+            graphicsCard.properties['img'] = img
+        except AttributeError:
+            pass
+        try:
             x = soup.find('meta', {"itemprop": "name"})
             modelID = x['content'].replace('"', "")
             graphicsCard.properties['ModelID'] = model_id_parser(modelID)
         except AttributeError:
-            graphicsCard.properties['ModelID'] = "NULL"
+            pass
         try:
             name = soup.find('meta', {"itemprop": "name"})
             graphicsCard.properties['Name'] = name['content'].encode('utf-8')
         except AttributeError:
-            graphicsCard.properties['Name'] = "NULL"
+            pass
         try:
-            brand = soup.find('meta', {"itemprop": "brand"})
+            brand = soup.find('span', {"itemprop": "brand"}).text
             graphicsCard.properties['Merk'] = brand
         except AttributeError:
-            graphicsCard.properties['Merk'] = "NULL"
+            pass
         try:
             tr_tag = table.find('td', text="Type")
             text = tr_tag.parent.table.tr.text
             graphicsCard.properties['GeheugenType'] = text
         except AttributeError:
-            graphicsCard.properties['Socket'] = "NULL"
+            pass
         try:
             tr_tag = table.find('td', text="Aansluiting")
             text = tr_tag.parent.table.tr.text
             graphicsCard.properties['CardInterface'] = text
         except AttributeError:
-            graphicsCard.properties['Socket'] = "NULL"
+            pass
         try:
             x = soup.find('span', {"itemprop": "price"})
             price = price_parser(x.text)
         except AttributeError:
             price = "NULL"
-
-        try:
-            x = soup.find('div', {"id": "cheapestShippingCosts"})
-            shipping_costs = price_parser(x.text)
-        except AttributeError:
-            shipping_costs = "NULL"
         try:
             x = soup.find('div', {"class": "availability"})
             InStock = x.p.text
@@ -567,6 +609,12 @@ def model_id_parser(a):
     return modelID
 
 
+def name_parser(a):
+    b = str(a)
+    c = str(b.replace("b", "").replace("'", ""))
+    return c.split(",")[0]
+
+
 def saveComponent(properties, label, price, voorraad, link):
     modelID = properties['ModelID']
 
@@ -585,7 +633,6 @@ def saveComponent(properties, label, price, voorraad, link):
 
     # MongoDB
     now = datetime.now()
-
     post = {'ModelID': properties['ModelID'],
             'Name': properties['Name'],
             'Price': price,
