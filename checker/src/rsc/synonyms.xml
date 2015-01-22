@@ -5,4 +5,6 @@
 	<SynonymList delimeter=",">PCI-e 3.0 x16,PCIe 3.0 x16,PCI-Express 3.0 x16,PCIExpress 3.0 x16,PCI Express 3.0 x16</SynonymList>
 	<SynonymList delimeter=",">PCI-e 3.1 x16,PCIe 3.1 x16,PCI-Express 3.1 x16,PCIExpress 3.1 x16,PCI Express 3.1 x16</SynonymList>
 	<SynonymList delimeter=",">SATA,Serieel ATA,Serieel-ATA,S-ATA,S-ATA3,S-ATA (III)</SynonymList>
+	<SynonymList delimeter=",">2011,Socket 2011-3 (Intel),Socket 2011,2011-3,Socket 2011-3,2011 (Intel),2011-3 (Intel),2011(Intel),2011-3(Intel),Socket 2011-3(Intel), 2011-v3</SynonymList>
+	<SynonymList delimeter=",">1150,Socket 1150-3 (Intel),Socket 1150,1150-3,Socket 1150-3,1150 (Intel),1150-3 (Intel),1150(Intel),1150-3(Intel),Socket 1150-3(Intel)</SynonymList>
 </Synonyms>

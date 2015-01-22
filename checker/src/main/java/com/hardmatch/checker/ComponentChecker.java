@@ -138,8 +138,9 @@ public class ComponentChecker {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		} while(ThreadCounter != 0);
+		} while(ThreadCounter > 0);
 		Checker.log.info("done");
+		System.exit(0);
 	}
 
 	public void crossCheck(List<IComponent> list1, final List<IComponent> list2, String threadName) {
