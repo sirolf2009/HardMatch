@@ -174,7 +174,7 @@ public class ComponentChecker {
 		URI endNodeFinal = restFinal.nodes.fromID(component2.getID());
 		URI relationship = restFinal.relationship.addRelationship(startNodeFinal, endNodeFinal, COMPATABILITY);
 		try {
-			restFinal.relationship.setRelationshipProperties(relationship, "compatability", compatible);
+			restFinal.relationship.setRelationshipProperties(relationship, "compatability", compatible ? "true" : "false");
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
