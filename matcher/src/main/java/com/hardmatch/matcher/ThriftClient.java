@@ -26,9 +26,7 @@ public class ThriftClient {
 			MatcherPHPHandler.Client client = new MatcherPHPHandler.Client(protocol);
 			
 			List<String> components = new ArrayList<String>();
-			components.add("CP-9020046-EU");
-			components.add("KTA-MB1333/8G");
-			components.add("SCBSK-2100");
+			components.add("WD30EZRX");
 
 			System.out.println(client.match(components));
 

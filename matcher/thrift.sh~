@@ -1,1 +1,1 @@
-thrift -gen -o src\main java MatcherPHPHandler.thrift
+thrift -o "src/main" -gen java MatcherPHPHandler.thrift
