@@ -3,6 +3,7 @@
 
 # __author__ = 'Basit'
 import requests
+import time
 from bs4 import BeautifulSoup
 from py2neo import Node, Graph
 
@@ -95,7 +96,10 @@ def topLevelSpider(url, categories):
         content = td.find('a').contents[0]
         for i in range(len(categories)):
             if categories[i].getName() in content:
-                link = 'http://www.informatique.nl' + (td.find('a')['href'])
+                sublink = td.find('a')['href']
+                link = 'http://www.informatique.nl' + sublink
+                #print(link)
+                #print(sublink)
                 midLevelSpider(link, categories[i].getSubs())
 
 
@@ -126,6 +130,7 @@ def lowLevelSpider(url, label):
             Storage.storageParser(link)
     if getNextPage(url) is not None:
         lowLevelSpider(getNextPage(url), label)
+
 
 
 def getNextPage(link):
@@ -277,7 +282,7 @@ class Motherboard(IParseSave.Motherboard):
             if 'Socket' in x.string:
                 mb.properties['Socket'] = x.string
 
-        interfaces = ''
+
 
         if specs is not None:
             for x in specs:
