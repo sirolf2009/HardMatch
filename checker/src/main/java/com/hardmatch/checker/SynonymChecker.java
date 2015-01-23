@@ -16,7 +16,7 @@ public class SynonymChecker {
 	public List<List<String>> synonyms;
 	
 	public SynonymChecker() {
-		this("src/rsc/synonyms.xml");
+		this("checker/src/rsc/synonyms.xml");
 	}
 
 	public SynonymChecker(String file) {
