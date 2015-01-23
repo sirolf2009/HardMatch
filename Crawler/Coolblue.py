@@ -174,7 +174,7 @@ def productListingLevel(max_pages, URL, componentTitle):
 
         page += 1
 
-    print('Finished Completeeeeee!')
+    # print('Finished Completeeeeee!')
 
 
 
@@ -186,12 +186,12 @@ def productPageLevel(title, href, price, componentTitle):
 
     # CREATE STORE NODE
     # If Node exists in Database then Pass ELSE Create Store Node
-    if bool(db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.test.nl" RETURN n')):
+    if bool(db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.processorstore.nl" RETURN n')):
         pass
     else:
-        store = storeObject.createStore('Store', 'Store', 'ProcessorStore', 'Weena 664', '3012 CN', 'Rotterdam', 'www.test.nl', '010-7988999')  # Setup Store Node (Coolblue)
+        store = storeObject.createStore('Store', 'Store', 'ProcessorStore', 'Weena 664', '3012 CN', 'Rotterdam', 'www.processorstore.nl', '010-7988999')  # Setup Store Node (Coolblue)
         db.create(store)
-    store = db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.test.nl" RETURN n')
+    store = db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.processorstore.nl" RETURN n')
 
 
     # Make BS4 Object
@@ -523,6 +523,9 @@ def productPageLevel(title, href, price, componentTitle):
         db.create(rel)
         # print(db)
 
+        # Sleep 2 Seconds for Ban-Caution
+        time.sleep(2)
+
 
     else:
         # print('ModelID a.k.a. Fabrikantcode ALREADY exists in Database')
@@ -532,11 +535,14 @@ def productPageLevel(title, href, price, componentTitle):
         rel = relationNode.rel('Relationship', product, store, price, stock, href)
         db.create(rel)
 
+        # Sleep 2 Seconds for Ban-Caution
+        time.sleep(2)
+
 
 
     # PRINT OUT COMPLETE Dictionary of THIS product
     # print(PD)
-    print('Product Count: ', Statistic.productCount, PD)
+    # print('Product Count: ', Statistic.productCount, PD)
 
 
 
