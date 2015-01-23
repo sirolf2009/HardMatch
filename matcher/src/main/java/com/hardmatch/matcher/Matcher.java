@@ -17,12 +17,12 @@ public class Matcher {
 	private RestAPI rest;
 
 	public Matcher() throws URISyntaxException, NumberFormatException, IOException {
-		//int port = Integer.parseInt(Files.readAllLines(new File("/usr/local/bin/HardMatch/neo4JPort.txt").toPath(), Charset.defaultCharset()).get(0));
-		rest = new RestAPI("http://149.210.188.74:"+7474+"/db/data");
+		int port = Integer.parseInt(Files.readAllLines(new File("/usr/local/bin/HardMatch/neo4JPort.txt").toPath(), Charset.defaultCharset()).get(0));
+		rest = new RestAPI("http://149.210.188.74:"+port+"/db/data");
 	}
 
 	public Store getCheapestStoreForComponent(String componentToBuy) {
-		String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price, relation.productUrl, component.Name, labels(component), relation.inStock ORDER BY relation.Price";
+		String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price, relation.productUrl, component.Name, labels(component), relation.InStock ORDER BY relation.Price";
 		JSONObject response = rest.sendCypher(cypher);
 		JSONArray results = (JSONArray) response.get("results");
 		JSONObject rows = (JSONObject) results.get(0);
