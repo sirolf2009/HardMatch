@@ -23,7 +23,7 @@ class store_object():
         n = Node(name, Name=storeUrl)
         return n
 
-neo4j_db = neo4j.Graph("http://localhost:7484/db/data/")
+neo4j_db = neo4j.Graph("http://localhost:7474/db/data/")
 
 
 if bool(neo4j_db.cypher.execute_one('MATCH(n:Store) WHERE n.Name = "www.alternate.nl" RETURN n')):
@@ -595,6 +595,7 @@ def price_parser(line):
     x = line.replace("€", "").\
         replace("*", "").\
         replace(",", ".").\
+        replace("-", "").\
         replace(" ", "").\
         replace("verzendkosten", "").\
         replace("va.", "")
@@ -630,11 +631,12 @@ def saveComponent(properties, label, price, voorraad, link):
     rel = Relationship(cn, 'SOLD_AT', store, Price=price, InStock=voorraad, productUrl=link)
     neo4j_db.create(rel)
 
+    number = float(price)
     # MongoDB
     now = datetime.now()
     post = {'ModelID': properties['ModelID'],
             'Name': properties['Name'],
-            'Price': price,
+            'Price': number,
             'Brand': properties['Merk'],
             'Type': label,
             'Timestamp': int(time.mktime(now.timetuple()))}
