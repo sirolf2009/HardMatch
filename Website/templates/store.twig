@@ -1,0 +1,67 @@
+{% for key, component in components %}
+<div class="gdk-winkel">
+  <img src="{{ component.img }}" class="gdk-img">
+  <div class="info">
+    <div class="details">
+      <div class="details-title">{{ component.product }}</div>
+      <p> {% if component.category == "Motherboard" %}
+          Moederbord
+          {% elseif component.category == "CPU" %}
+          Processor
+          {% elseif component.category == "CPUFan" %}
+          Processor Fan
+          {% elseif component.category == "GraphicsCard" %}
+          Videokaart
+          {% elseif component.category == "RAM" %}
+          Geheugen
+          {% elseif component.category == "Case" %}
+          Behuizing
+          {% elseif component.category == "Storage" %}
+          Opslag
+          {% endif %}
+      </div>
+
+      <div class="store">
+        <div class="store-title">Goedkoopste winkel</div>
+        {% if component.store == "www.informatique.nl" %}
+        <img src="./images/shops/informatique.png" class="store-img">
+        {% elseif component.store == "www.processorstore.nl" %}
+        <img src="./images/shops/coolblue.png" class="store-img">
+        {% else %}
+        <img src="./images/icons/cpu.png" class="store-img">
+        {% endif %}
+        
+      </div>
+    </div>
+    <div class="extra">
+      <a href="{{ component.url }}" target="_blank">
+        <div class="extra-info" data-toggle="tooltip" data-placement="bottom" 
+        {% if component.store == "www.informatique.nl" %}
+        title="Bekijk product op Informatique"
+        {% elseif component.store == "www.processorstore.nl" %}
+        title="Bekijk product op Coolblue"
+        {% else %}
+        title="Bekijk product op Alternate"
+        {% endif %}>
+        <span class="fa fa-globe"></span>
+        Website
+      </div>
+    </a>
+
+    <div class="extra-info">
+      <span class="fa fa-shopping-cart"></span>
+      {{ component.stock }}
+    </div>
+
+    <div class="extra-info">
+      <span class="fa fa-tag"></span>
+      €{{ component.price }}
+    </div>
+  </div>
+</div>
+{% endfor %}
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>

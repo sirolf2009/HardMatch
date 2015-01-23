@@ -1,17 +1,17 @@
 <div id="storage-item">
     <div class="row component">
         <div class="overview-icon col-md-1">
-            <img class="img-responsive" src="./images/icons/storage.png">
+            <img class="img-responsive" src="{{ getNodeProperty(node, 'img') }}">
         </div>
         <div class="col-md-10">
             <h4 class="product-name">
                 <strong>
-                    {{ getNodeProperty(node, 'product') }}
+                    {{ getNodeProperty(node, 'Name') }}
                 </strong>
             </h4>
             <h4>
                 <small>
-                    Test
+                    Opslag
                 </small>
             </h4>
         </div>

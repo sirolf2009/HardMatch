@@ -8,6 +8,12 @@
         </tr>
     </thead>
     <tbody>
+    <tr>
+            <td class="compare-table">Prijs: </td>
+            {% for item in nodes %}
+                <td>{{ getNodePrice(item) }}</td>
+            {% endfor %}
+        </tr>
         <tr>
             <td class="compare-table">Hoogte: </td>
             {% for item in nodes %}
@@ -42,12 +48,6 @@
             <td class="compare-table">Sockets: </td>
             {% for item in nodes %}
                 <td>{{ getNodeProperty(item, 'Socket') }}</td>
-            {% endfor %}
-        </tr>
-        <tr>
-            <td class="compare-table">Merk: </td>
-            {% for item in nodes %}
-                <td>{{ getNodeProperty(item, 'Merk') }}</td>
             {% endfor %}
         </tr>
         <tr>

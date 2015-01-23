@@ -8,90 +8,78 @@
         </tr>
     </thead>
     <tbody>
+    <tr>
+            <td class="compare-table">Prijs: </td>
+            {% for item in nodes %}
+                <td>{{ getNodePrice(item) }}</td>
+            {% endfor %}
+        </tr>
         <tr>
             <td class="compare-table">Hoogte: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'Hoogte') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Breedte: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'Breedte') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Diepte: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'Diepte') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Meegeleverde Fans: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'MeegeleverdeFans') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Kleuren: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'Kleuren') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Fan Poorten: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'FanPoorten') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Behuizingtype: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'Behuizingtype') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Voeding Plaats: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'VoedingPlaats') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Grafische Kaart Maximum Lengte: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'GrafischeKaartMaximumLengte') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">CPU Koeler Maximum Hoogte: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'CPUKoelerMaximumHoogte') }}</td>
             {% endfor %}
         </tr>
-
         <tr>
             <td class="compare-table">Materialen: </td>
             {% for item in nodes %}
             <td>{{ getNodeProperty(item, 'Materialen') }}</td>
             {% endfor %}
         </tr>
-
-        <tr>
-            <td class="compare-table">Merk: </td>
-            {% for item in nodes %}
-            <td>{{ getNodeProperty(item, 'Merk') }}</td>
-            {% endfor %}
-        </tr>
-
         <tr>
             <td class="compare-table">Artikelnummer: </td>
             {% for item in nodes %}

@@ -25,6 +25,15 @@ class NodeExtension extends Twig_Extension
 				}
 			}),
 
+			new Twig_SimpleFunction("getNodePrice", function ($node, $option=null) {
+				if ($option === null){
+					$relations = $node->getRelationships(array('SOLD_AT'));					
+				} else{
+					$relations = $node[$option]->getRelationships(array('SOLD_AT'));
+				}
+				return "€".$relations[0]->getProperty('Price');
+			}),
+
 			);
 	}
 }

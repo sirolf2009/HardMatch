@@ -16,9 +16,8 @@
               <button type="button" class="btn btn-default vergelijkButton">Vergelijk</button>
             </th>
             <th>Naam</th>
-            <th>Hoogte</th>
-            <th>Breedte</th>
-            <th>Diepte</th>
+            <th>Behuizingtype</th>
+            <th>Prijs</th>
             <th style="width: 75px">Acties</th>
           </tr>
         </thead>
@@ -32,9 +31,8 @@
               <input type='checkbox' class='table-checkbox'>
             </td>
             <td>{{ getNodeProperty(item, 'Name', 'n') }}</td>
-            <td>{{ getNodeProperty(item, 'Hoogte', 'n') }}</td>
-            <td>{{ getNodeProperty(item, 'Breedte', 'n') }}</td>            
-            <td>{{ getNodeProperty(item, 'Diepte', 'n') }}</td>
+            <td>{{ getNodeProperty(item, 'Behuizingtype', 'n') }}</td>
+            <td>{{ getNodePrice(item, 'n') }}</td>
             <td>
               <button type='button' class='btn btn-warning'>
                 <span class='glyphicon glyphicon-list-alt'></span>

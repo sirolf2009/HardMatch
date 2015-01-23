@@ -15,6 +15,11 @@ var caseCompare = [];
 var storageCompare = [];
 
 $(document).ready(function() {
+    $('#alerts').hide();
+    $('#alerts').on('click', '.close', function(event) {
+        $('#alerts').slideUp();
+    });
+
     var motherboard = $('#motherboard').DataTable();
     var cpu = $('#cpu').DataTable();
     var cpufan = $('#cpufan').DataTable();
@@ -26,25 +31,8 @@ $(document).ready(function() {
     $('tbody').on('click', '.btn-warning', function() {
         var tr = $(this).closest('tr');
         var tableid = $(this).closest('table').attr('id');
+        var row = eval(tableid).row(tr);
         var id = tr.find("td:first").text();
-        var row;
-
-        if (tableid == "motherboard") {
-            row = motherboard.row(tr);
-        } else if (tableid == "cpu") {
-            row = cpu.row(tr);
-        } else if (tableid == "cpufan") {
-            row = cpufan.row(tr);
-        } else if (tableid == "graphicscard") {
-            row = graphicscard.row(tr);
-        } else if (tableid == "ram") {
-            row = ram.row(tr);
-        } else if (tableid == "case") {
-            row = cases.row(tr);
-        } else if (tableid == "storage") {
-            row = storage.row(tr);
-        };
-
         if (row.child.isShown()) {
             row.child.hide();
         } else {
@@ -52,129 +40,48 @@ $(document).ready(function() {
             tr.next('tr').addClass('more-info');
         }
     });
+});
 
-    $('.overzicht-componenten').on('click', '.delete-component', function(event) {
-        var button = ($(this).attr('id'));
+$('.overzicht-componenten').on('click', '.delete-component', function(event) {
+    var button = ($(this).attr('id'));
+    var id = button.substring(0, button.length - 6);
 
-        if (button == "motherboardButton"){
-            motherboardSelect = "";
-            $("#motherboard").find("tr").removeClass("info");
-            $('#motherboard-item').slideUp(function() {
-                $("div.overzicht-componenten").html(componentsOverview());
-            });
-        } else if(button == "cpuButton"){
-            cpuSelect = "";
-            $("#cpu").find("tr").removeClass("info");
-            $('#cpu-item').slideUp(function() {
-                $("div.overzicht-componenten").html(componentsOverview());
-            });
-        } else if(button == "cpufanButton"){
-            cpufanSelect = "";
-            $("#cpufan").find("tr").removeClass("info");
-            $('#cpufan-item').slideUp(function() {
-                $("div.overzicht-componenten").html(componentsOverview());
-            });
-        } else if(button == "graphicscardButton"){
-            graphicscardSelect = "";
-            $("#graphicscard").find("tr").removeClass("info");
-            $('#graphicscard-item').slideUp(function() {
-                $("div.overzicht-componenten").html(componentsOverview());
-            });
-        } else if(button == "ramButton"){
-            ramSelect = "";
-            $("#ram").find("tr").removeClass("info");
-            $('#ram-item').slideUp(function() {
-                $("div.overzicht-componenten").html(componentsOverview());
-            });
-        } else if(button == "caseButton"){
-            caseSelect = "";
-            $("#case").find("tr").removeClass("info");
-            $('#case-item').slideUp(function() {
-                $("div.overzicht-componenten").html(componentsOverview());
-            });
-        } else if(button == "storageButton"){
-            storageSelect = "";
-            $("#storage").find("tr").removeClass("info");
-            $('#storage-item').slideUp(function() {
-                $("div.overzicht-componenten").html(componentsOverview());
-            });
-        }
+    window[id+"Select"] = "";
+    $("#"+id).find("tr").removeClass("info");
+    $("#"+id+"-item").slideUp(function(){
+        $("div.overzicht-componenten").html(componentsOverview());
+        $("div.compatability").html(checkCompatability());
     });
 });
 
 $('.vergelijkButton').click(function() {
     var tableid = $(this).closest('table').attr('id');
+    var selectedCompare = eval(tableid+"Compare");
+    var minItemsSelected = 2;
+    var maxItemsSelected = 6;
 
-    if (motherboardCompare.length >= 2 && tableid == "motherboard") {
-        $('.modal-body').html(compareComponents(motherboardCompare, tableid));
+    if (selectedCompare.length >= minItemsSelected && selectedCompare.length <= maxItemsSelected) {
+        $('.modal-body').html(compareComponents(selectedCompare, tableid));
         $('#modal').modal('show');
-    } else if (cpuCompare.length >= 2 && tableid == "cpu") {
-        $('.modal-body').html(compareComponents(cpuCompare, tableid));
-        $('#modal').modal('show');
-    } else if (cpufanCompare.length >= 2 && tableid == "cpufan") {
-        $('.modal-body').html(compareComponents(cpufanCompare, tableid));
-        $('#modal').modal('show');
-    } else if (graphicscardCompare.length >= 2 && tableid == "graphicscard") {
-        $('.modal-body').html(compareComponents(graphicscardCompare, tableid));
-        $('#modal').modal('show');
-    } else if (ramCompare.length >= 2 && tableid == "ram") {
-        $('.modal-body').html(compareComponents(ramCompare, tableid));
-        $('#modal').modal('show');
-    } else if (caseCompare.length >= 2 && tableid == "case") {
-        $('.modal-body').html(compareComponents(caseCompare, tableid));
-        $('#modal').modal('show');
-    } else if (storageCompare.length >= 2 && tableid == "storage") {
-        $('.modal-body').html(compareComponents(storageCompare, tableid));
-        $('#modal').modal('show');
-    } else {
+    } else if (selectedCompare.length <= minItemsSelected){
         addAlert("danger", "U moet minimaal twee producten selecteren om te kunnen vergelijken.")
+    } else if (selectedCompare.length >= maxItemsSelected){
+        addAlert("danger", "U kunt maximaal 6 producten vergelijken.")
+    } else{
+        addAlert("danger", "Error.")
     }
 });
 
 $('.table-checkbox').change(function() {
     var tableid = $(this).closest('table').attr('id');
     var nodeid = $(this).closest('tr').find("td:first").text();
+    var selectedCompare = eval(tableid+"Compare");
 
     if (this.checked) {
-        if (tableid == "motherboard") {
-            motherboardCompare.push(nodeid);
-        } else if (tableid == "cpu") {
-            cpuCompare.push(nodeid);
-        } else if (tableid == "cpufan") {
-            cpufanCompare.push(nodeid);
-        } else if (tableid == "graphicscard") {
-            graphicscardCompare.push(nodeid);
-        } else if (tableid == "ram") {
-            ramCompare.push(nodeid);
-        } else if (tableid == "case") {
-            caseCompare.push(nodeid);
-        } else if (tableid == "storage") {
-            storageCompare.push(nodeid);
-        }
-
+        selectedCompare.push(nodeid);
     } else {
-        if (tableid == "motherboard") {
-            var i = motherboardCompare.indexOf(nodeid);
-            motherboardCompare.splice(i, 1);
-        } else if (tableid == "cpu") {
-            var i = cpuCompare.indexOf(nodeid);
-            cpuCompare.splice(i, 1);
-        } else if (tableid == "cpufan") {
-            var i = cpufanCompare.indexOf(nodeid);
-            cpufanCompare.splice(i, 1);
-        } else if (tableid == "graphicscard") {
-            var i = graphicscardCompare.indexOf(nodeid);
-            graphicscardCompare.splice(i, 1);
-        } else if (tableid == "ram") {
-            var i = ramCompare.indexOf(nodeid);
-            ramCompare.splice(i, 1);
-        } else if (tableid == "case") {
-            var i = caseCompare.indexOf(nodeid);
-            caseCompare.splice(i, 1);
-        } else if (tableid == "storage") {
-            var i = storageCompare.indexOf(nodeid);
-            storageCompare.splice(i, 1);
-        }
+        var i = selectedCompare.indexOf(nodeid);
+        selectedCompare.splice(i, 1);
     }
 });
 
@@ -183,32 +90,32 @@ $('tbody').on('click', '.btn-success', function() {
     var nodeid = row.find("td:first").text();
     var tableid = $(this).closest('table').attr('id');
     row.addClass('info').siblings().removeClass('info');
+    selectedComponent = nodeid;
 
-    if (tableid == "motherboard") {        
-        motherboardSelect = nodeid;
-    } else if (tableid == "cpu") {        
-        cpuSelect = nodeid;
-    } else if (tableid == "cpufan") {        
-        cpufanSelect = nodeid;
-    } else if (tableid == "graphicscard") {
-        graphicscardSelect = nodeid;
-    } else if (tableid == "ram") {
-        ramSelect = nodeid;
-    } else if (tableid == "case") {
-        caseSelect = nodeid;
-    } else if (tableid == "storage") {
-        storageSelect = nodeid;
-    }
+    eval(tableid+"Select" + " = " + nodeid);
 })
 
 $('.nexttab').click(function() {
     var id = $(this).attr('id');
     if (id == "next1") {
         $("div.overzicht-componenten").html(componentsOverview());
+        $("div.compatability").html(checkCompatability());
     } else if (id == "next2") {
-        if (motherboardSelect == "" && cpuSelect == "" && cpufanSelect == "" && graphicscardSelect == "" && ramSelect == "" && caseSelect == "" && storageSelect == "") {
+        var thriftItems = [];
+        var selectedItems = [motherboardSelect, cpuSelect, cpufanSelect, graphicscardSelect, ramSelect, caseSelect, storageSelect];
+        var count = 0;
+        for (index = 0; index < selectedItems.length; index++) {            
+            if (selectedItems[index] != ""){                
+                thriftItems.push(selectedItems[index]);
+                count++;
+            }
+        }
+        if (count == 0){
             addAlert('danger', 'U moet minimaal één component kiezen om verder te gaan.');
             return;
+        }
+        else{
+            $('.thrift').html(getThriftInfo(thriftItems));
         }
     }
     $('.nav-tabs > .active').next('li').find('a').trigger('click');
@@ -222,13 +129,6 @@ $('#myTab li a').click(function(e) {
     e.preventDefault();
     $(this).parent().nextAll('li').find('a').addClass('disabledTab');
     $(this).parent().prevAll('li').find('a').removeClass('disabledTab');
-});
-
-$(function() {
-    $('#alerts').hide();
-    $('#alerts').on('click', '.close', function(event) {
-        $('#alerts').slideUp();
-    });
 });
 
 function addAlert(type, message) {
@@ -278,6 +178,42 @@ function componentsOverview() {
         async: false,
         data: {
             action: 'componentOverview',
+            motherboardid: motherboardSelect,
+            cpuid: cpuSelect,
+            cpufanid: cpufanSelect,
+            graphicscardid: graphicscardSelect,
+            ramid: ramSelect,
+            caseid: caseSelect,
+            storageid: storageSelect
+        },
+        type: 'post'
+    }).responseText;
+
+    return info;
+}
+
+function getThriftInfo(thriftItems) {
+    var info = $.ajax({
+        url: 'ajax.php',
+        dataType: "text",
+        async: false,
+        data: {
+            action: 'thriftInfo',
+            ids: thriftItems
+        },
+        type: 'post'
+    }).responseText;
+
+    return info;
+}
+
+function checkCompatability() {
+    var info = $.ajax({
+        url: 'ajax.php',
+        dataType: "text",
+        async: false,
+        data: {
+            action: 'checkCompatability',
             motherboardid: motherboardSelect,
             cpuid: cpuSelect,
             cpufanid: cpufanSelect,

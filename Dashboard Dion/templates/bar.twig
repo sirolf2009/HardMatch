@@ -1,0 +1,18 @@
+<script>
+Morris.Bar({
+	element: 'prices-components',
+	data: [
+	{% for store in stores %}
+	{ 
+	y: '{% for label in store['LABELS(n)'] %}{% if label != "Component" %}{{label}}{% endif %}{% endfor %}', 
+	a: {{ store['MIN(r.Price)'] }}, 
+	b: {{ store['MAX(r.Price)'] }}, 
+	c: {{ store['AVG(r.Price)']|number_format(2) }}},
+	{% endfor %}
+	],
+	xkey: 'y',
+	ykeys: ['a', 'b', 'c'],
+	labels: ['Goedkoopste', 'Duurste', 'Gemiddeld'],
+});
+</script>
+

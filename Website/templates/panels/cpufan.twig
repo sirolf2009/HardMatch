@@ -17,7 +17,7 @@
             </th>
             <th>Naam</th>
             <th>Rotatiesnelheid</th>
-            <th>Hoogte</th>
+            <th>Prijs</th>
             <th style="width: 75px">Acties</th>
           </tr>
         </thead>
@@ -32,7 +32,7 @@
             </td>
             <td>{{ getNodeProperty(item, 'Name', 'n') }}</td>
             <td>{{ getNodeProperty(item, 'RotatiesnelheidMax', 'n') }}</td>
-            <td>{{ getNodeProperty(item, 'Hoogte', 'n') }}</td>
+            <td>{{ getNodePrice(item, 'n') }}</td>
             <td>
               <button type='button' class='btn btn-warning'>
                 <span class='glyphicon glyphicon-list-alt'></span>

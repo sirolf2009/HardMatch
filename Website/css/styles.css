@@ -59,6 +59,17 @@ h3.highlight {
     border-radius: 0;
     margin-bottom: 0px;
 }
+
+.navbar-header{
+    width: 100%;
+    text-align: center;
+}
+
+.navbar-brand{
+    float: none;
+    display: block;
+}
+
 .navbar-nav > li > a {
     color: #fff;
     padding-left: 20px;
@@ -257,9 +268,7 @@ li.active span.round-tabs.five {
     border-radius: 25px;
 }
 .btn.green {
-    background-color: #5cb85c;
-    /*border: 2px solid #5cb85c;*/
-    
+    background-color: #5cb85c;    
     color: #ffffff;
 }
 @media( max-width: 585px) {
@@ -341,12 +350,13 @@ li.active span.round-tabs.five {
     width:100px;
     height:100px;
     float:left;
-    background-color: #ddd;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
 }
 
 .gdk-winkel .info{
     height:75px;
-    background-color: #f4f4f4; 
+    background-color: #fff; 
     overflow:hidden; 
     padding-left: 20px;
 }
@@ -369,7 +379,7 @@ li.active span.round-tabs.five {
 }
 
 .gdk-winkel .store{
-    width:33%; 
+    width:34%; 
     float:left;
     text-align:center;
     padding-left:20px;
@@ -378,7 +388,7 @@ li.active span.round-tabs.five {
 .gdk-winkel .store .store-img{
     max-height: 40px;
     max-width: 110px;
-    padding-right: 5px;
+    padding: 0px 5px;
 }
 
 @media (min-width: 690px) {

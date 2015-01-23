@@ -16,8 +16,8 @@
               <button type="button" class="btn btn-default vergelijkButton">Vergelijk</button>
             </th>
             <th>Naam</th>
-            <th>Aantal PCI-e Slots</th>
-            <th>Socket</th>
+            <th>Moederbord chipset</th>
+            <th>Prijs</th>
             <th style="width: 75px">Acties</th>
           </tr>
         </thead>
@@ -30,9 +30,9 @@
             <td class='text-center'>
               <input type='checkbox' class='table-checkbox'>
             </td>
-            <td>{{ getNodeProperty(item, 'product', 'n') }}</td>
-            <td>{{ getNodeProperty(item, 'AantalPCI-ex16Slots', 'n') }}</td>
-            <td>{{ getNodeProperty(item, 'socket', 'n') }}</td>
+            <td>{{ getNodeProperty(item, 'Name', 'n') }}</td>
+            <td>{{ getNodeProperty(item, 'Moederbordchipset', 'n') }}</td>
+            <td>{{ getNodePrice(item, 'n') }}</td>
             <td>
               <button type='button' class='btn btn-warning'>
                 <span class='glyphicon glyphicon-list-alt'></span>

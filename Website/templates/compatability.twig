@@ -1,0 +1,5 @@
+{% if attribute(results[0], 'r.compatability') == "false" %}
+    <div class="alert alert-danger" role="alert">
+		<strong>Let op!</strong> {{ message }}!
+	</div>
+{% endif %}

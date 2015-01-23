@@ -2,7 +2,26 @@
 require('vendor/autoload.php');
 require('NodeExtension.php');
 
-$client = new Everyman\Neo4j\Client('localhost', 7474);
+require_once __DIR__.'/lib/php/lib/Thrift/ClassLoader/ThriftClassLoader.php';
+require_once 'Types.php';  
+require_once 'MatcherPHPHandler.php';
+
+use Thrift\ClassLoader\ThriftClassLoader;
+
+use Thrift\Protocol\TBinaryProtocol;
+use Thrift\Transport\TSocket;
+use Thrift\Transport\THttpClient;
+use Thrift\Transport\TBufferedTransport;
+use Thrift\Exception\TProtocol; 
+use Thrift\Exception\TTransport; 
+use Thrift\Exception\TTransportException; 
+use Thrift\Exception\TException; 
+
+$myfile = fopen("neo4JPort.txt", "r") or die("Unable to open file!");
+$port = fread($myfile,filesize("neo4JPort.txt"));
+fclose($myfile);
+
+$client = new Everyman\Neo4j\Client('149.210.188.74', $port);
 $client->getTransport()->setAuth('username', 'password');
 
 $loader = new Twig_Loader_Filesystem('./templates/');
@@ -15,6 +34,8 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'getInfo' : getInfo(); break;
 		case 'componentOverview' : componentOverview(); break;
 		case 'compareComponents' : compareComponents(); break;
+		case 'thriftInfo' : getThriftInfo(); break;
+		case 'checkCompatability' : checkCompatability(); break;
 	}
 }
 
@@ -25,21 +46,7 @@ function getInfo(){
 	$tableid = $_POST['table'];
 	$node = $client->getNode($nodeid);
 
-	if ($tableid == "motherboard"){
-		$template = $twig->loadTemplate('tableinfo/motherboard.twig');    	
-	} else if ($tableid == "cpu"){
-		$template = $twig->loadTemplate('tableinfo/cpu.twig');
-	} else if ($tableid == "cpufan"){
-		$template = $twig->loadTemplate('tableinfo/cpufan.twig');
-	} else if ($tableid == "graphicscard"){
-		$template = $twig->loadTemplate('tableinfo/graphicscard.twig');
-	} else if ($tableid == "ram"){
-		$template = $twig->loadTemplate('tableinfo/ram.twig');
-	} else if ($tableid == "case"){
-		$template = $twig->loadTemplate('tableinfo/case.twig');
-	} else if ($tableid == "storage"){
-		$template = $twig->loadTemplate('tableinfo/storage.twig');
-	}
+	$template = $twig->loadTemplate('tableinfo/'.$tableid.'.twig');
 
 	echo $template->render(array('node' => $node));
 }
@@ -50,39 +57,25 @@ function componentOverview(){
 	global $twig;
 
 	if(!empty($_POST['motherboardid'])){
-		$template = $twig->loadTemplate('/cart/motherboard.twig');
-		$motherboardnode = $client->getNode($_POST['motherboardid']);
-		echo $template->render(array('node' => $motherboardnode));
+		showComponent("motherboard", $_POST['motherboardid']);
 	}
 	if(!empty($_POST['cpuid'])){
-		$template = $twig->loadTemplate('/cart/cpu.twig');
-		$cpunode = $client->getNode($_POST['cpuid']);
-		echo $template->render(array('node' => $cpunode));
+		showComponent("cpu", $_POST['cpuid']);
 	}
 	if(!empty($_POST['cpufanid'])){
-		$template = $twig->loadTemplate('/cart/cpufan.twig');
-		$cpufannode = $client->getNode($_POST['cpufanid']);
-		echo $template->render(array('node' => $cpufannode));
+		showComponent("cpufan", $_POST['cpufanid']);
 	}
 	if(!empty($_POST['graphicscardid'])){
-		$template = $twig->loadTemplate('/cart/graphicscard.twig');
-		$graphicscardnode = $client->getNode($_POST['graphicscardid']);
-		echo $template->render(array('node' => $graphicscardnode));
+		showComponent("graphicscard", $_POST['graphicscardid']);
 	}
 	if(!empty($_POST['ramid'])){
-		$template = $twig->loadTemplate('/cart/ram.twig');
-		$ramnode = $client->getNode($_POST['ramid']);
-		echo $template->render(array('node' => $ramnode));
+		showComponent("ram", $_POST['ramid']);
 	}
 	if(!empty($_POST['caseid'])){
-		$template = $twig->loadTemplate('/cart/case.twig');
-		$casenode = $client->getNode($_POST['caseid']);
-		echo $template->render(array('node' => $casenode));
+		showComponent("case", $_POST['caseid']);
 	}
 	if(!empty($_POST['storageid'])){
-		$template = $twig->loadTemplate('/cart/storage.twig');
-		$storagenode = $client->getNode($_POST['storageid']);
-		echo $template->render(array('node' => $storagenode));
+		showComponent("storage", $_POST['storageid']);
 	}
 	if(empty($_POST['motherboardid']) && empty($_POST['cpuid']) && empty($_POST['cpufanid']) && empty($_POST['graphicscardid']) && empty($_POST['ramid']) && empty($_POST['caseid']) && empty($_POST['storageid'])){
 		echo("Geen componenten gekozen");
@@ -101,22 +94,90 @@ function compareComponents(){
 		array_push($nodes,$client->getNode($i));
 	}
 
-	if ($tableid == "motherboard"){
-		$template = $twig->loadTemplate('compare/motherboard.twig');    	
-	} else if ($tableid == "cpu"){
-		$template = $twig->loadTemplate('compare/cpu.twig');
-	} else if ($tableid == "cpufan"){
-		$template = $twig->loadTemplate('compare/cpufan.twig');
-	} else if ($tableid == "graphicscard"){
-		$template = $twig->loadTemplate('compare/graphicscard.twig');
-	} else if ($tableid == "ram"){
-		$template = $twig->loadTemplate('compare/ram.twig');
-	} else if ($tableid == "case"){
-		$template = $twig->loadTemplate('compare/case.twig');
-	} else if ($tableid == "storage"){
-		$template = $twig->loadTemplate('compare/storage.twig');
+	$template = $twig->loadTemplate('compare/'.$tableid.'.twig');
+	echo $template->render(array('nodes' => $nodes));
+}
+
+function getThriftInfo(){
+	global $client;
+	global $twig;
+	$ids = $_POST['ids'];
+	$nodes = array();
+	$components = array();
+
+	$template = $twig->loadTemplate('store.twig');
+
+	foreach($ids as $i){
+		array_push($components,$client->getNode($i)->getProperty("ModelID"));
 	}
 
-	echo $template->render(array('nodes' => $nodes));
+	$loader = new ThriftClassLoader();
+	$loader->registerNamespace('Thrift', __DIR__ . '/lib/php/lib');
+	$loader->register();
+
+	try {
+		$socket = new TSocket('149.210.188.74', 9090);
+		$transport = new TBufferedTransport($socket, 1024, 1024);
+		$protocol = new TBinaryProtocol($transport);
+		$client = new MatcherPHPHandlerClient($protocol);
+
+		$transport->open();
+
+		$thriftOutput = $client->match($components);
+
+		echo $template->render(array('components' => $thriftOutput));
+
+	} catch (TTransportException $te) {
+		print 'TTransportException: '.$te->getMessage()."\n";
+	}catch (TException $tx) {
+		print 'TException: '.$tx->getMessage()."\n";
+	}
+}
+
+function checkCompatability(){
+	global $twig;
+	global $client;
+	if(!empty($_POST['motherboardid']) && !empty($_POST['cpuid'])){
+		getCompatability($_POST['motherboardid'],$_POST['cpuid'], "Het gekozen moederbord is niet compatibel met de gekozen processor");
+	}
+
+	if(!empty($_POST['motherboardid']) && !empty($_POST['ramid'])){
+		getCompatability($_POST['motherboardid'],$_POST['ramid'], "Het gekozen moederbord is niet compatibel met het gekozen geheugen");
+	}
+
+	if(!empty($_POST['motherboardid']) && !empty($_POST['graphicscardid'])){
+		getCompatability($_POST['motherboardid'],$_POST['graphicscardid'], "Het gekozen moederbord is niet compatibel met de gekozen videokaart");
+	}
+
+	if(!empty($_POST['motherboardid']) && !empty($_POST['caseid'])){
+		getCompatability($_POST['motherboardid'],$_POST['caseid'], "Het gekozen moederbord is niet compatibel met de gekozen behuizing");
+	}
+
+	if(!empty($_POST['motherboardid']) && !empty($_POST['cpufanid'])){
+		getCompatability($_POST['motherboardid'],$_POST['cpufanid'], "Het gekozen moederbord is niet compatibel met de gekozen processor fan");
+	}
+
+	if(!empty($_POST['cpuid']) && !empty($_POST['cpufanid'])){
+		getCompatability($_POST['motherboardid'],$_POST['cpufanid'], "De gekozen processor is niet compatibel met de gekozen processor fan");
+	}
+}
+
+function showComponent($component, $nodeid){
+	global $client;
+	global $twig;
+	$template = $twig->loadTemplate('/cart/'.$component.'.twig');
+	$node = $client->getNode($nodeid);
+	echo $template->render(array('node' => $node));
+}
+
+function getCompatability($node1, $node2, $message){
+	global $client;
+	global $twig;
+	$queryString = "START n=node(".$node1."), s=node(".$node2.") MATCH (n)-[r:COMPATABILITY]-(s) RETURN r.compatability";
+	$query = new Everyman\Neo4j\Cypher\Query($client, $queryString);
+	$result = $query->getResultSet();
+
+	$template = $twig->loadTemplate('compatability.twig');
+	echo $template->render(array('results' => $result, 'message' => $message));
 }
 ?>

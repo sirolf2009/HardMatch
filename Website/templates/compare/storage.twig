@@ -3,21 +3,21 @@
         <tr>
             <th class="compare-table"></th>
             {% for item in nodes %}
-                <th>{{ getNodeProperty(item, 'product') }}</th>
+                <th>{{ getNodeProperty(item, 'Name') }}</th>
             {% endfor %}
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td class="compare-table">Opslagcapactiteit: </td>
+            <td class="compare-table">Prijs: </td>
             {% for item in nodes %}
-                <td>{{ getNodeProperty(item, 'Opslagcapactiteit') }}</td>
+                <td>{{ getNodePrice(item) }}</td>
             {% endfor %}
         </tr>
         <tr>
-            <td class="compare-table">Merk: </td>
+            <td class="compare-table">Opslagcapaciteit: </td>
             {% for item in nodes %}
-                <td>{{ getNodeProperty(item, 'brand') }}</td>
+                <td>{{ getNodeProperty(item, 'Opslagcapaciteit') }}</td>
             {% endfor %}
         </tr>
         <tr>

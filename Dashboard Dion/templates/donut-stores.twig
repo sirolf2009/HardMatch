@@ -1,0 +1,11 @@
+<script>
+Morris.Donut({
+	element: 'store-components',
+	data: [
+	{% for store in stores %}
+	{label: "{{ store['s.Name'] }}", value: {{ store['COUNT(n)'] }}},
+	{% endfor %}
+	],
+	resize: true
+});
+</script>
