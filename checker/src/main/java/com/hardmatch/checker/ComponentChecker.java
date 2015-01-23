@@ -125,14 +125,12 @@ public class ComponentChecker {
 		int lastQueue = 0;
 		do {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(1000*60);
 				System.out.println(ThreadQueue);
 				if(lastQueue == 0) {
 					lastQueue = ThreadQueue;
 				} else if(lastQueue != ThreadQueue) {
-					if(ThreadQueue % 10 == 0) {
-						Checker.log.info("Remaining threads: "+ThreadQueue);
-					}
+					Checker.log.info("Remaining threads: "+ThreadQueue);
 					lastQueue = ThreadQueue;
 				}
 			} catch (InterruptedException e) {
