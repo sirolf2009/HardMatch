@@ -444,7 +444,6 @@ def get_Case(detail_pages):
             pass
         try:
             name = soup.find('meta', {"itemprop": "name"})
-            a = name['content'].encode('utf-8')
             cpu_fan.properties['Name'] = name_parser(name)
         except AttributeError:
             pass

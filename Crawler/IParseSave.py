@@ -152,6 +152,29 @@ class CPU():
     }
 
 
+class CPUFan():
+    properties = {
+        'img': 'NULL',
+        'ModelID': 'NULL',
+        'Name': 'NULL',
+        'Merk': 'NULL',
+        'Serie': 'NULL',
+        'Socket': 'NULL'
+    }
+
+
+class Case():
+    properties = {
+        'img': 'NULL',
+        'ModelID': 'NULL',
+        'Name': 'NULL',
+        'Merk': 'NULL',
+        'Serie': 'NULL',
+        'FormFactor': 'NULL',
+        'VoedingFormFactor': 'NULL'
+    }
+
+
 class GraphicsCard():
     properties = {
         'ModelID': 'NULL',
@@ -187,7 +210,6 @@ class GraphicsCard():
         'TypeKoeling': 'NULL',  # Passieve fan
         'linkInterface': 'NULL'  # Nvidia SLi
     }
-
 
 
 class Motherboard():
@@ -233,7 +255,6 @@ class RAM():
         'LowVoltageDDR': 'NULL',  #Nee
         'GeheugenCASLatency': 'NULL',
     }
-
 
 
 class Storage():
