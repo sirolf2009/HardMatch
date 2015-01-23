@@ -126,7 +126,6 @@ public class ComponentChecker {
 		do {
 			try {
 				Thread.sleep(1000*60);
-				System.out.println(ThreadQueue);
 				if(lastQueue == 0) {
 					lastQueue = ThreadQueue;
 				} else if(lastQueue != ThreadQueue) {
