@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block jumbotron %}
+
+    <div class="jumbotron" style="color:#f60">
+    </div>
+{% endblock %}
+
+
+
+
+{% block body %}
+
+    <div class="btn-group first">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Collections <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" onclick>
+            {% for i in coll %}          		
+		  		{% if i == "system.indexes" %}
+		  		
+		  		{% else %}
+		  		<li class="test"><a href="#">{{ i }}</a></li>
+		  		{% endif %}
+		  	{% endfor %}
+        </ul>
+    </div>
+
+
+
+
+    <div class="btn-group second">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            CPU <span class="caret"></span>
+        </button>
+        
+        <ul class="dropdown-menu" role="menu" onclick>
+            {% for i in cpu %}
+		  		<li class="test"><a href="#">{{ i }}</a></li>
+		  	{% endfor %}
+        </ul>
+    </div>
+
+
+    <div class="btn-group second">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Motherboard <span class="caret"></span>
+        </button>
+        
+        <ul class="dropdown-menu" role="menu" onclick>
+            {% for i in cpu %}
+		  		<li class="test"><a href="#">{{ i }}</a></li>
+		  	{% endfor %}
+        </ul>
+    </div>
+
+
+
+    <div class="btn-group third">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Action <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" onclick>
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+        </ul>
+    </div>
+
+
+    <div class="info">eerste</div>
+
+
+
+    <script>
+    $(".test").click(function() {
+        $(".second").css("display", "inline-block");
+        $(".info").html("tweede");
+
+    });
+
+    $(".test2").click(function() {
+        $(".third").css("display", "inline-block");
+        $(".info").html("derde");
+    });
+    </script>
+
+
+
+
+
+
+
+
+    {% if pageType == 'Coolblue' %}
+        <p>Dit is ProcessoreStore</p>
+    {% elif pageType == 'Informatique' %}
+        <p>Dit is Informatique</p>
+    {% elif pageType == 'Alternate' %}
+        <p>Dit is Alternate</p>
+    {% else %}
+        <p>If you are seeing this message, something probably gone REALLY REALLY BAD! go back to index</p>
+    {% endif %}
+    
+			
+			    
+			<script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Snow depth at Vikjafjellet, Norway'
+        },
+        subtitle: {
+            text: 'Irregular time data in Highcharts JS'
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+            },
+            title: {
+                text: 'Date'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Snow depth (m)'
+            },
+            min: 0
+        },
+        tooltip: {
+            headerFormat: '<b>{series.name}</b><br>',
+            pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
+        },
+
+        series: [{
+            name: 'Winter 2007-2008',
+            // Define the data points. All series have a dummy year
+            // of 1970/71 in order to be compared on the same x axis. Note
+            // that in JavaScript, months start at 0 for January, 1 for February etc.
+            data: {{ data }}
+        }]
+    });
+});
+					</script>
+					
+		<div id="container" style="height: 400px;"></div>
+
+
+    
+
+    
+{% endblock %}
