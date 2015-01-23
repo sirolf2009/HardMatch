@@ -62,6 +62,9 @@ public class SynonymChecker {
 		if(string1.equals("NULL") || string2.equals("NULL")) {
 			return true;
 		}
+		if(string1.equalsIgnoreCase(string2)) {
+			return true;
+		}
 		for(List<String> synonymList : synonyms) {
 			if(synonymList.contains(string1) && synonymList.contains(string2)) {
 				return true;

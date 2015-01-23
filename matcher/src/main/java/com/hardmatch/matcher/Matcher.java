@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 
+import org.apache.commons.logging.impl.SimpleLog;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -15,14 +16,16 @@ import com.sirolf2009.util.neo4j.rest.RestAPI;
 public class Matcher {
 
 	private RestAPI rest;
+	private static SimpleLog log = new SimpleLog("Matcher");
 
 	public Matcher() throws URISyntaxException, NumberFormatException, IOException {
 		int port = Integer.parseInt(Files.readAllLines(new File("/usr/local/bin/HardMatch/neo4JPort.txt").toPath(), Charset.defaultCharset()).get(0));
 		rest = new RestAPI("http://149.210.188.74:"+port+"/db/data");
+		log.info("REST set to "+rest.SERVER_ROOT_URI);
 	}
 
 	public Store getCheapestStoreForComponent(String componentToBuy) {
-		String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price, relation.productUrl, component.Name, labels(component), relation.InStock ORDER BY relation.Price";
+		String cypher = "MATCH (component:Component {ModelID:'"+componentToBuy+"'})-[relation:SOLD_AT]->(store) RETURN store, relation.Price, relation.productUrl, component.Name, labels(component), relation.InStock, component.img ORDER BY relation.Price";
 		JSONObject response = rest.sendCypher(cypher);
 		JSONArray results = (JSONArray) response.get("results");
 		JSONObject rows = (JSONObject) results.get(0);
@@ -39,7 +42,8 @@ public class Matcher {
 			JSONArray labels = (JSONArray) firstRowData.get(4);
 			String category = getLabel(labels);
 			String stock = firstRowData.get(5).toString();
-			Store store = new Store(componentName, storeName, componentPrice, componentUrl, category, stock);
+			String img = firstRowData.get(6).toString();
+			Store store = new Store(componentName, storeName, componentPrice, componentUrl, category, stock, img);
 			return store;
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -7,6 +7,7 @@ struct Store {
 4: string url
 5: string category
 6: string stock
+7: string img
 }
 
 service MatcherPHPHandler {
