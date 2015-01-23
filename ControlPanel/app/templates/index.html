@@ -19,6 +19,17 @@
 
 
 
+    {% if pageType == 'about' %}
+        <p>Dit is een ABOUT pagina</p>
+     
+    {% else %}
+        <p>Dit is index</p>
+        {{ count }}
+    {% endif %}
+
+
+
+
 
     <div class="page-header">
       <h1>Intel vs AMD <small> - The Battle of the CPU's</small></h1>
@@ -32,7 +43,13 @@
                 <h3 class="panel-title">Number of Products</h3>
               </div>
               <div class="panel-body">
-<script type="text/javascript">
+              <script>
+	              	alert("{{ num }}");
+              </script>
+              
+              
+<script type="text/javascript">	
+
 $(function () {
     $('#cpuNumbers').highcharts({
         
@@ -82,10 +99,7 @@ $(function () {
             type: 'pie',
             name: 'Browser share',
             innerSize: '50%',
-            data: [
-                ['Intel',   93],
-                ['AMD',       49]
-            ]
+            data: [['Intel',   34], ['AMD',       49]]
         }]
     });
 });
@@ -96,6 +110,7 @@ $(function () {
               </div>
             </div>
         </div>
+
 
 
         <div class="col-md-6">
@@ -267,15 +282,8 @@ $(function () {
 
 
 
-    <div class="page-header">
-      <h1>Database <small> - Control The Flow and Get The Data</small></h1>
-    </div>
-
 
     <p>Crawler Average Time crawling</p>
-
-
-
 
 
     <div class="page-header">
@@ -317,12 +325,6 @@ $(function () {
           </div>
         </div>
       </div>
-    </div>
-
-
-
-    <div class="page-header">
-      <h1>Front-End Control <small> - Our Front-desk Sales</small></h1>
     </div>
 
 
@@ -374,14 +376,6 @@ $(function () {
     </div>
 
 
-
-    {% if pageType == 'about' %}
-        <p>Dit is een ABOUT pagina</p>
-     
-    {% else %}
-        <p>Dit is index</p>
-        {{ count }}
-    {% endif %}
 
 {% endblock %}
 
